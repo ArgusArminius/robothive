@@ -1,0 +1,287 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Regulation — Robot Hive</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"><style>/* ==========================================================================
+   Robot Hive — shared styles.  Palette: black / grey / white / blue.
+   ========================================================================== */
+:root{
+  --bg:#ffffff;          /* white base canvas */
+  --bg-2:#f5f7f9;
+  --card:#ffffff;
+  --ink:#0f1620;         /* near-black text */
+  --ink-2:#43505f;
+  --ink-3:#7a8898;
+  --line:#e2e7ec;
+  --line-2:#d3dae1;
+  --nav:#0d1622;         /* near-black nav/footer */
+  --nav-2:#152233;
+  --blue:#1f6feb;        /* the single accent */
+  --blue-dark:#1657c4;
+  --blue-tint:#eaf1fe;
+  --civil:#1f6feb;
+  --agri:#12a150;
+  --defense:#5b6570;     /* grey, not red — keeps palette tight */
+  --radius:10px;
+  --shadow:0 1px 2px rgba(16,24,32,.05),0 4px 14px rgba(16,24,32,.05);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.mono{font-family:'IBM Plex Mono',monospace}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;letter-spacing:-.01em;font-weight:600}
+.wrap{max-width:1240px;margin:0 auto;padding:0 22px}
+
+/* ---------- HONEYCOMB HIVE LOGO ---------- */
+.hive-logo{width:34px;height:34px;flex-shrink:0;cursor:pointer}
+.hive-logo svg{width:100%;height:100%;display:block}
+.hive-logo .hc{fill:var(--blue);stroke:var(--nav);stroke-width:1.5;transition:fill .25s,transform .3s;transform-origin:center;transform-box:fill-box}
+/* gentle ripple on hover: cells breathe outward from center */
+.hive-logo:hover .hc{animation:combpulse 1.3s ease-in-out infinite}
+.hive-logo:hover .hc.r1{animation-delay:.1s}
+.hive-logo:hover .hc.r2{animation-delay:.2s}
+@keyframes combpulse{0%,100%{transform:scale(1);fill:var(--blue)}50%{transform:scale(1.08);fill:#4d8cf2}}
+.hive-logo.active .hc{fill:#4d8cf2;animation:none}
+/* footer variant sits on dark bg — lighten the stroke */
+.foot .hive-logo .hc,.nav .hive-logo .hc{stroke:var(--nav)}
+
+/* ---------- TOP NAV ---------- */
+.nav{position:sticky;top:0;z-index:100;background:var(--nav);color:#fff}
+.nav__in{max-width:1240px;margin:0 auto;display:flex;align-items:center;gap:6px;padding:0 22px;height:62px}
+.brand{display:flex;align-items:center;gap:11px;margin-right:16px}
+.brand__name{font-family:'Space Grotesk';font-weight:700;font-size:19px;color:#fff}
+.brand__name b{color:var(--blue);font-weight:700}
+.nav__links{display:flex;align-items:center;height:100%}
+.nav__item{position:relative;display:flex;align-items:center;height:100%;padding:0 15px;font-size:14.5px;font-weight:500;color:#aeb9c6;cursor:pointer;transition:color .15s}
+.nav__item:hover{color:#fff}
+.nav__item--main{color:var(--blue)}
+.nav__item .caret{margin-left:5px;font-size:9px;opacity:.7}
+.dropdown{position:absolute;top:100%;left:0;min-width:200px;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:7px;opacity:0;visibility:hidden;transform:translateY(6px);transition:.16s;box-shadow:0 16px 40px rgba(0,0,0,.18)}
+.nav__item:hover .dropdown{opacity:1;visibility:visible;transform:none}
+.dropdown a{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:7px;font-size:13.5px;color:var(--ink-2)}
+.dropdown a:hover{background:var(--bg);color:var(--ink)}
+.dot{width:7px;height:7px;border-radius:50%}
+.dot--civil{background:var(--civil)}.dot--agri{background:var(--agri)}.dot--defense{background:var(--defense)}
+.nav__right{margin-left:auto;display:flex;align-items:center;gap:14px}
+.lang{display:flex;align-items:center;gap:5px;font-family:'IBM Plex Mono';font-size:12px;color:#8895a4}
+.lang b{color:#fff}.lang span{cursor:pointer}.lang span:hover{color:#fff}
+.nav__cta{background:var(--blue);color:#fff;font-weight:600;font-size:13.5px;padding:9px 16px;border-radius:7px}
+.nav__cta:hover{background:var(--blue-dark)}
+
+/* ---------- SECTION SCAFFOLD ---------- */
+.section{padding:34px 0}
+.sec__head{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.sec__hex{width:15px;height:17px;flex-shrink:0}
+.sec__hex svg{width:100%;height:100%}
+.sec__title{font-size:19px}
+.sec__rule{flex:1;height:1px;background:var(--line)}
+.sec__link{font-family:'IBM Plex Mono';font-size:12px;color:var(--blue)}
+.sec__link:hover{text-decoration:underline}
+
+/* page header (sub-pages) */
+.phead{background:var(--nav);color:#fff;padding:38px 0}
+.phead__in{max-width:1240px;margin:0 auto;padding:0 22px}
+.phead__crumb{font-family:'IBM Plex Mono';font-size:11.5px;color:#8895a4;margin-bottom:10px;letter-spacing:.05em}
+.phead__crumb a:hover{color:#fff}
+.phead__title{font-size:32px;color:#fff;margin-bottom:8px}
+.phead__sub{font-size:15px;color:#aeb9c6;max-width:60ch}
+
+/* ---------- BUTTONS ---------- */
+.btn{padding:11px 19px;border-radius:8px;font-weight:600;font-size:14px;display:inline-block}
+.btn--blue{background:var(--blue);color:#fff}.btn--blue:hover{background:var(--blue-dark)}
+.btn--ghost{border:1px solid var(--line-2);color:var(--ink)}.btn--ghost:hover{border-color:var(--ink-3)}
+
+/* ---------- CARDS (generic) ---------- */
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow)}
+
+/* ---------- FILTER BAR (comparison/data pages) ---------- */
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+.select{background:var(--card);border:1px solid var(--line-2);border-radius:8px;padding:10px 14px;font-size:13.5px;color:var(--ink-2);display:flex;align-items:center;gap:8px;cursor:pointer}
+.select .cap{font-family:'IBM Plex Mono';font-size:10px;color:var(--ink-3);text-transform:uppercase}
+.searchbar{flex:1;min-width:200px;background:var(--card);border:1px solid var(--line-2);border-radius:8px;padding:10px 14px;font-size:14px;color:var(--ink)}
+
+/* ---------- DATA TABLE ---------- */
+.tbl{width:100%;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:var(--shadow);border-collapse:collapse}
+.tbl th{text-align:left;font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);padding:13px 16px;border-bottom:1px solid var(--line);background:var(--bg-2)}
+.tbl td{padding:14px 16px;border-bottom:1px solid var(--line);font-size:14px}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:var(--blue-tint)}
+.tbl .name{font-weight:600}
+.tbl .link{color:var(--blue);cursor:pointer}.tbl .link:hover{text-decoration:underline}
+.pill{display:inline-block;font-family:'IBM Plex Mono';font-size:10.5px;padding:3px 9px;border-radius:20px;background:var(--bg-2);color:var(--ink-2);border:1px solid var(--line)}
+.flag{font-family:'IBM Plex Mono';font-size:11px;color:var(--ink-3)}
+
+/* ---------- FOOTER ---------- */
+.foot{background:var(--nav);color:#aeb9c6;margin-top:30px}
+.foot__in{max-width:1240px;margin:0 auto;padding:44px 22px 26px;display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:30px}
+.foot__brand .brand{margin-bottom:12px}
+.foot__tag{font-size:13px;color:#8895a4;max-width:34ch;margin-bottom:18px}
+.socials{display:flex;gap:10px}
+.soc{width:38px;height:38px;border:1px solid var(--nav-2);border-radius:9px;display:grid;place-items:center;color:#aeb9c6;transition:.15s}
+.soc:hover{border-color:var(--blue);color:#fff;background:var(--nav-2)}
+.soc svg{width:18px;height:18px}
+.foot h4{font-size:11.5px;font-family:'IBM Plex Mono';letter-spacing:.1em;text-transform:uppercase;color:#6b7a8a;margin-bottom:14px}
+.foot a{display:block;font-size:13.5px;color:#aeb9c6;padding:5px 0}
+.foot a:hover{color:#fff}
+.foot__bar{border-top:1px solid var(--nav-2);text-align:center;padding:18px;font-size:12px;color:#6b7a8a;font-family:'IBM Plex Mono'}
+
+/* ---------- NEWSLETTER STRIP ---------- */
+.nlstrip{background:var(--nav);border-radius:16px;padding:30px 34px;display:flex;align-items:center;gap:24px;flex-wrap:wrap;margin:20px 0}
+.nlstrip__t{font-family:'Space Grotesk';font-size:22px;font-weight:700;color:#fff}
+.nlstrip__s{font-size:13.5px;color:#aeb9c6;max-width:44ch}
+.nlstrip__form{margin-left:auto;display:flex;gap:9px;flex-wrap:wrap}
+.nlstrip__form input{border:1px solid var(--nav-2);background:var(--nav-2);color:#fff;border-radius:8px;padding:13px 15px;font-size:14px;min-width:230px;font-family:inherit}
+.nlstrip__form input::placeholder{color:#6b7a8a}
+.nlstrip__form button{background:var(--blue);color:#fff;font-weight:600;border-radius:8px;padding:13px 22px;font-size:14px}
+
+/* ---------- NEWSLETTER BEE-HIVE SLIDE-OUT ---------- */
+.beehive{position:fixed;right:0;top:44%;z-index:120;display:flex;align-items:center}
+.beehive__tab{width:50px;height:56px;background:var(--blue);border-radius:12px 0 0 12px;display:grid;place-items:center;cursor:pointer;box-shadow:-4px 4px 20px rgba(0,0,0,.2)}
+.beehive__tab svg{width:26px;height:28px}
+.beehive__panel{position:absolute;right:50px;top:50%;transform:translateY(-50%) translateX(20px);opacity:0;visibility:hidden;width:280px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px;transition:.22s;box-shadow:-8px 8px 30px rgba(0,0,0,.18)}
+.beehive:hover .beehive__panel,.beehive.open .beehive__panel{opacity:1;visibility:visible;transform:translateY(-50%)}
+.beehive__t{font-family:'Space Grotesk';font-weight:600;font-size:15px;margin-bottom:6px}
+.beehive__s{font-size:12.5px;color:var(--ink-2);margin-bottom:12px}
+.beehive__form{display:flex;flex-direction:column;gap:8px}
+.beehive__form input{background:var(--bg);border:1px solid var(--line-2);border-radius:7px;padding:10px 12px;color:var(--ink);font-family:inherit;font-size:13px}
+.beehive__form button{background:var(--blue);color:#fff;font-weight:600;border-radius:7px;padding:10px;font-size:13px}
+
+@media(max-width:960px){
+  .foot__in{grid-template-columns:1fr 1fr}
+  .nav__links{display:none}
+}
+@media(max-width:600px){
+  .foot__in{grid-template-columns:1fr}
+  .phead__title{font-size:26px}
+  .tbl{display:block;overflow-x:auto;white-space:nowrap}
+}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}
+
+/* ---------- HOMEPAGE LAYOUT (main + right rail) ---------- */
+.home-grid{display:grid;grid-template-columns:1fr 320px;gap:24px;align-items:start;max-width:1240px;margin:0 auto;padding:26px 22px 0}
+.home-main{min-width:0}
+.home-rail{position:sticky;top:78px;display:flex;flex-direction:column;gap:18px}
+@media(max-width:960px){.home-grid{grid-template-columns:1fr}.home-rail{position:static}}
+
+/* compact hero: intro + youtube side by side, smaller */
+.hero2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:22px}
+@media(max-width:720px){.hero2{grid-template-columns:1fr}}
+.hero2__intro{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px;box-shadow:var(--shadow)}
+.hero2__eyebrow{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--blue);margin-bottom:10px}
+.hero2__title{font-size:24px;line-height:1.12;margin-bottom:10px}
+.hero2__sub{font-size:13.5px;color:var(--ink-2);margin-bottom:14px}
+.hero2__stats{display:flex;gap:16px;flex-wrap:wrap;padding-top:12px;border-top:1px solid var(--line)}
+.hero2__stat b{font-family:'Space Grotesk';font-size:18px;color:var(--blue);display:block;line-height:1}
+.hero2__stat span{font-family:'IBM Plex Mono';font-size:9.5px;color:var(--ink-3);text-transform:uppercase}
+/* embedded youtube window */
+.ytwin{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column}
+.ytwin__frame{position:relative;aspect-ratio:16/9;background:#000}
+.ytwin__frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.ytwin__bar{padding:11px 14px;display:flex;align-items:center;justify-content:space-between}
+.ytwin__bar b{font-size:13px}
+.ytwin__bar a{font-family:'IBM Plex Mono';font-size:11px;color:var(--blue)}
+
+/* NEWS RAIL (right) */
+.railbox{background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);overflow:hidden}
+.railbox__head{display:flex;align-items:center;gap:8px;padding:12px 15px;border-bottom:1px solid var(--line);font-family:'Space Grotesk';font-weight:600;font-size:13.5px}
+.railbox__head .live{width:7px;height:7px;border-radius:50%;background:var(--agri);box-shadow:0 0 0 0 rgba(18,161,80,.5);animation:pl 2s infinite}
+@keyframes pl{70%{box-shadow:0 0 0 6px rgba(18,161,80,0)}100%{box-shadow:0 0 0 0 rgba(18,161,80,0)}}
+.railitem{display:block;padding:11px 15px;border-bottom:1px solid var(--line)}
+.railitem:last-child{border-bottom:none}
+.railitem:hover{background:var(--bg-2)}
+.railitem__meta{font-family:'IBM Plex Mono';font-size:10px;color:var(--ink-3);margin-bottom:4px;display:flex;gap:7px}
+.railitem__t{font-size:12.5px;font-weight:500;line-height:1.3}
+.railitem:hover .railitem__t{color:var(--blue)}
+.railbox__foot{padding:10px 15px;text-align:center}
+.railbox__foot a{font-family:'IBM Plex Mono';font-size:11px;color:var(--blue)}
+
+/* latest-5 panel next to data */
+.data-row{display:grid;grid-template-columns:1fr 300px;gap:22px;align-items:start}
+@media(max-width:960px){.data-row{grid-template-columns:1fr}}
+
+/* bigger industry cards with latest-5 link line */
+.bigind{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:900px){.bigind{grid-template-columns:1fr}}
+.bigind__card{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;min-height:300px}
+.bigind__banner{padding:22px;color:#fff;position:relative}
+.bigind__banner--civil{background:linear-gradient(135deg,#2a3440,#171e27)}
+.bigind__banner--agri{background:linear-gradient(135deg,#2a3440,#171e27)}
+.bigind__banner--defense{background:linear-gradient(135deg,#2a3440,#171e27)}
+.bigind__label{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.1em;text-transform:uppercase;opacity:.85;margin-bottom:6px}
+.bigind__name{font-size:22px;font-weight:600;margin-bottom:4px}
+.bigind__desc{font-size:13px;opacity:.9}
+.bigind__latest{padding:14px 18px;flex:1}
+.bigind__latest h5{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:8px}
+.bigind__latest a{display:flex;gap:8px;padding:6px 0;font-size:12.5px;color:var(--ink-2);border-bottom:1px solid var(--line);line-height:1.3}
+.bigind__latest a:last-child{border-bottom:none}
+.bigind__latest a:hover{color:var(--blue)}
+.bigind__latest .n{font-family:'IBM Plex Mono';font-size:10px;color:var(--blue);flex-shrink:0}
+.bigind__cta{padding:12px 18px;border-top:1px solid var(--line)}
+.bigind__cta a{font-family:'IBM Plex Mono';font-size:11.5px;color:var(--blue);font-weight:500}
+
+/* mini dedicated-page hub blocks */
+.hub-grid{display:grid;grid-template-columns:1fr 320px;gap:24px;align-items:start}
+@media(max-width:960px){.hub-grid{grid-template-columns:1fr}}
+
+/* ---------- MOBILE COLLAPSIBLE NAV ---------- */
+.burger{display:none;background:none;border:none;cursor:pointer;padding:8px;margin-left:auto}
+.burger span{display:block;width:22px;height:2px;background:#fff;margin:4px 0;transition:.2s}
+.mobile-panel{position:fixed;top:0;right:0;width:82%;max-width:320px;height:100vh;background:var(--nav);z-index:300;transform:translateX(100%);transition:transform .25s ease;overflow-y:auto;box-shadow:-8px 0 30px rgba(0,0,0,.3)}
+.mobile-panel.open{transform:none}
+.mobile-panel__head{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid var(--nav-2)}
+.mobile-panel__head .brand__name{color:#fff}
+.mobile-close{background:none;border:none;color:#fff;font-size:26px;cursor:pointer;line-height:1}
+.mobile-panel a{display:block;color:#cdd6e0;padding:14px 20px;font-size:16px;border-bottom:1px solid var(--nav-2)}
+.mobile-panel a:hover{background:var(--nav-2);color:#fff}
+.mobile-panel .mgroup{font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#6b7a8a;padding:16px 20px 6px}
+.mobile-panel a.sub{padding-left:34px;font-size:14.5px;color:#aeb9c6}
+.mobile-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:290;opacity:0;visibility:hidden;transition:.25s}
+.mobile-overlay.open{opacity:1;visibility:visible}
+@media(max-width:960px){.burger{display:block}}
+</style></head><body><div class="mobile-overlay" id="moverlay" onclick="document.getElementById('mpanel').classList.remove('open');this.classList.remove('open')"></div><div class="mobile-panel" id="mpanel">
+  <div class="mobile-panel__head"><span class="brand__name">Robot<b style="color:var(--blue)">Hive</b></span><button class="mobile-close" onclick="document.getElementById('mpanel').classList.remove('open');document.getElementById('moverlay').classList.remove('open')">×</button></div>
+  <a href="index.html">Main</a>
+  <a href="news.html">News</a>
+  <div class="mgroup">Industries</div>
+  <a class="sub" href="industries.html">Civil</a>
+  <a class="sub" href="industries.html">Agriculture</a>
+  <a class="sub" href="industries.html">Defense</a>
+  <div class="mgroup">Data</div>
+  <a class="sub" href="companies.html">Companies</a>
+  <a class="sub" href="robots.html">Robot Comparison</a>
+  <a class="sub" href="investment.html">Investment</a>
+  <a class="sub" href="suppliers.html">Suppliers</a>
+  <a class="sub" href="technology.html">Technology</a>
+  <a class="sub" href="regulation.html">Regulation</a>
+  <a href="drones.html">Drones</a>
+  <a href="subscribe.html" style="color:var(--blue)">Subscribe</a>
+</div>
+<nav class="nav"><div class="nav__in"><a class="brand" href="index.html"><span class="hive-logo" onclick="this.classList.toggle('active')"><svg viewBox="0 0 100 100">
+  <polygon class="hc" points="50,26 61,32.5 61,45.5 50,52 39,45.5 39,32.5"/>
+  <polygon class="hc r1" points="50,4 61,10.5 61,23.5 50,30 39,23.5 39,10.5"/>
+  <polygon class="hc r1" points="69,15 80,21.5 80,34.5 69,41 58,34.5 58,21.5"/>
+  <polygon class="hc r2" points="69,37 80,43.5 80,56.5 69,63 58,56.5 58,43.5"/>
+  <polygon class="hc r1" points="50,48 61,54.5 61,67.5 50,74 39,67.5 39,54.5"/>
+  <polygon class="hc r2" points="31,37 42,43.5 42,56.5 31,63 20,56.5 20,43.5"/>
+  <polygon class="hc r1" points="31,15 42,21.5 42,34.5 31,41 20,34.5 20,21.5"/>
+</svg></span><span class="brand__name">Robot<b>Hive</b></span></a><div class="nav__links"><a class="nav__item nav__item--main" href="index.html">Main</a><a class="nav__item" href="news.html">News</a><div class="nav__item">Industries<span class="caret">▾</span><div class="dropdown"><a href="industries.html"><span class="dot dot--civil"></span>Civil</a><a href="industries.html"><span class="dot dot--agri"></span>Agriculture</a><a href="industries.html"><span class="dot dot--defense"></span>Defense</a></div></div><div class="nav__item">Data<span class="caret">▾</span><div class="dropdown"><a href="companies.html">Companies</a><a href="robots.html">Robot Comparison</a><a href="investment.html">Investment</a><a href="suppliers.html">Suppliers</a><a href="technology.html">Technology</a><a href="regulation.html">Regulation</a></div></div><a class="nav__item" href="drones.html">Drones</a></div><div class="nav__right"><div class="lang"><span><b>EN</b></span>/<span>DE</span></div><a class="nav__cta" href="subscribe.html">Subscribe</a><button class="burger" onclick="document.getElementById('mpanel').classList.add('open');document.getElementById('moverlay').classList.add('open')" aria-label="Menu"><span></span><span></span><span></span></button></div></div></nav><header class="phead"><div class="phead__in">
+      <div class="phead__crumb"><a href="#" onclick="showPage('index.html');return false">Main</a> / Data / Regulation</div>
+      <h1 class="phead__title">Regulation</h1>
+      <p class="phead__sub">Robotics and autonomy rules by region. Subscribers can open or download the original source documents.</p></div></header>
+<section class="section wrap">
+  <div class="filters"><div class="select"><span class="cap">Region</span> All ▾</div><div class="select"><span class="cap">Topic</span> All ▾</div><input class="searchbar" placeholder="Search regulation…"></div>
+  <table class="tbl"><thead><tr><th>Region</th><th>Topic</th><th>Status</th><th>Document</th></tr></thead><tbody>
+    <tr><td class="flag">🇪🇺 EU</td><td class="name">AI Act — high-risk robotics</td><td><span class="pill">In force</span></td><td><span class="link">🔒 Source doc</span></td></tr>
+    <tr><td class="flag">🇺🇸 USA</td><td class="name">FAA drone BVLOS rules</td><td><span class="pill">Proposed</span></td><td><span class="link">🔒 Source doc</span></td></tr>
+    <tr><td class="flag">🇨🇳 China</td><td class="name">Humanoid robot standards</td><td><span class="pill">Draft</span></td><td><span class="link">🔒 Source doc</span></td></tr>
+    <tr><td class="flag">🇪🇺 EU</td><td class="name">Machinery Regulation 2023</td><td><span class="pill">In force</span></td><td><span class="link">🔒 Source doc</span></td></tr>
+  </tbody></table>
+  <p class="mono" style="font-size:11.5px;color:var(--ink-3);margin-top:14px">🔒 Source documents are available to subscribers. <a class="sec__link" href="#" onclick="showPage('subscribe.html');return false">Subscribe to unlock →</a></p>
+</section><footer class="foot"><div class="foot__in"><div class="foot__brand"><a class="brand" href="index.html"><span class="hive-logo" onclick="this.classList.toggle('active')"><svg viewBox="0 0 100 100">
+  <polygon class="hc" points="50,26 61,32.5 61,45.5 50,52 39,45.5 39,32.5"/>
+  <polygon class="hc r1" points="50,4 61,10.5 61,23.5 50,30 39,23.5 39,10.5"/>
+  <polygon class="hc r1" points="69,15 80,21.5 80,34.5 69,41 58,34.5 58,21.5"/>
+  <polygon class="hc r2" points="69,37 80,43.5 80,56.5 69,63 58,56.5 58,43.5"/>
+  <polygon class="hc r1" points="50,48 61,54.5 61,67.5 50,74 39,67.5 39,54.5"/>
+  <polygon class="hc r2" points="31,37 42,43.5 42,56.5 31,63 20,56.5 20,43.5"/>
+  <polygon class="hc r1" points="31,15 42,21.5 42,34.5 31,41 20,34.5 20,21.5"/>
+</svg></span><span class="brand__name">Robot<b>Hive</b></span></a><p class="foot__tag">The robotics industry, mapped — companies, robots, capital, regulation and our own editorial cut.</p><div class="socials"><a class="soc" href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.8-.5-5.6c-.3-1-1-1.8-2-2C18.7 4 12 4 12 4s-6.7 0-8.5.4c-1 .2-1.7 1-2 2C1 8.2 1 12 1 12s0 3.8.5 5.6c.3 1 1 1.8 2 2C5.3 20 12 20 12 20s6.7 0 8.5-.4c1-.2 1.7-1 2-2C23 15.8 23 12 23 12zM10 15.5v-7l6 3.5-6 3.5z"/></svg></a><a class="soc" href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14zM8.3 18V10H5.7v8h2.6zM7 8.8a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM18.3 18v-4.4c0-2.3-1.2-3.4-2.9-3.4-1.3 0-1.9.7-2.3 1.2V10h-2.6v8h2.6v-4.3c0-1.1.7-1.6 1.4-1.6.7 0 1.2.5 1.2 1.6V18h2.6z"/></svg></a><a class="soc" href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h3l-7 8 8 12h-6l-5-7-6 7H2l8-9L2 2h7l4 6 5-6zm-1 18h1.5L8 4H6l11 16z"/></svg></a><a class="soc" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a></div></div><div><h4>Data</h4><a href="companies.html">Companies</a><a href="robots.html">Robot Comparison</a><a href="investment.html">Investment</a><a href="suppliers.html">Suppliers</a><a href="regulation.html">Regulation</a></div><div><h4>Industries</h4><a href="industries.html">Civil</a><a href="industries.html">Agriculture</a><a href="industries.html">Defense</a><a href="drones.html">Drones</a></div><div><h4>More</h4><a href="news.html">News</a><a href="subscribe.html">Subscribe</a><a href="contact.html">Contact us</a></div></div><div class="foot__bar">™ 2026 Robot Hive · All rights reserved</div></footer><div class="beehive" id="beehive"><div class="beehive__tab" onclick="document.getElementById('beehive').classList.toggle('open')"><svg viewBox="0 0 26 28" fill="#fff"><ellipse cx="13" cy="8" rx="8" ry="3"/><ellipse cx="13" cy="13" rx="10" ry="3.3"/><ellipse cx="13" cy="18" rx="9" ry="3.1"/><ellipse cx="13" cy="23" rx="6.5" ry="2.7"/></svg></div><div class="beehive__panel"><div class="beehive__t">Newsletter signup</div><div class="beehive__s">Get the weekly Hive briefing straight to your inbox.</div><form class="beehive__form" onsubmit="return false"><input type="email" placeholder="Your email address"><button>Subscribe</button></form></div></div></body></html>
