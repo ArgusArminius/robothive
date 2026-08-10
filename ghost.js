@@ -133,6 +133,10 @@
         if (d.posts && d.posts.length) {
           block.innerHTML = '<h5>Latest 5 entries</h5>' +
             d.posts.map(latestLine).join('');
+        } else {
+          // no posts for this tag yet — show a clean empty state, not fake entries
+          block.innerHTML = '<h5>Latest 5 entries</h5>' +
+            '<a href="news.html" style="color:var(--ink-3)"><span class="n">—</span>No posts tagged "' + tag + '" yet</a>';
         }
       }).catch(function () {});
     });
