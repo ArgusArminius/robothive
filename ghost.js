@@ -120,10 +120,29 @@
     }
   }
 
+  // ---- populate homepage industry cards' "Latest 5 entries" lists ---------
+  function latestLine(post, i) {
+    return '<a href="' + post.url + '"><span class="n">' +
+      (i + 1 < 10 ? '0' + (i + 1) : (i + 1)) + '</span>' + post.title + '</a>';
+  }
+  function fillIndustryLatest() {
+    var blocks = document.querySelectorAll('[data-ghost-latest]');
+    blocks.forEach(function (block) {
+      var tag = block.getAttribute('data-ghost-latest');
+      get(api({ limit: 5, filter: 'tag:' + tag })).then(function (d) {
+        if (d.posts && d.posts.length) {
+          block.innerHTML = '<h5>Latest 5 entries</h5>' +
+            d.posts.map(latestLine).join('');
+        }
+      }).catch(function () {});
+    });
+  }
+
   // run whichever hooks exist on this page
   document.addEventListener('DOMContentLoaded', function () {
     fillHome();
     fillNews();
     fillIndustry();
+    fillIndustryLatest();
   });
 })();
