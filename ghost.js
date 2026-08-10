@@ -9,7 +9,7 @@
    ========================================================================== */
 (function () {
   var GHOST_URL = 'https://robothive.ghost.io';
-  var GHOST_KEY = 'b2360bf0d2fb7511a405c35a7ab';
+  var GHOST_KEY = 'b2360bf0d2fb751a405c35a7ab';
   var API = GHOST_URL + '/ghost/api/content/posts/';
 
   // Build a Ghost Content API request URL.
