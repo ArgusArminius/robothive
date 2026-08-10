@@ -1,0 +1,129 @@
+/* ==========================================================================
+   Robot Hive — Ghost content integration (Option 1: live JavaScript fetch)
+   Pulls published posts from Ghost and places them by TAG:
+     - homepage news cards + "Latest posts" rail  (latest, any tag)
+     - news page full listing                     (all posts)
+     - industry pages                             (filtered by that page's tag)
+   Falls back silently to the existing placeholder HTML if Ghost is unreachable,
+   so the site never looks broken.
+   ========================================================================== */
+(function () {
+  var GHOST_URL = 'https://robothive.ghost.io';
+  var GHOST_KEY = 'b2360bf0d2fb7511a405c35a7ab';
+  var API = GHOST_URL + '/ghost/api/content/posts/';
+
+  // Build a Ghost Content API request URL.
+  function api(params) {
+    var q = 'key=' + GHOST_KEY + '&include=tags&limit=' + (params.limit || 10);
+    if (params.filter) q += '&filter=' + encodeURIComponent(params.filter);
+    q += '&fields=title,url,excerpt,published_at,feature_image,primary_tag';
+    q += '&include=tags,authors';
+    return API + '?' + q;
+  }
+
+  function fmtDate(iso) {
+    try {
+      return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }).toUpperCase();
+    } catch (e) { return ''; }
+  }
+  function timeAgo(iso) {
+    var s = (Date.now() - new Date(iso).getTime()) / 1000;
+    if (s < 3600) return Math.floor(s / 60) + 'm ago';
+    if (s < 86400) return Math.floor(s / 3600) + 'h ago';
+    return Math.floor(s / 86400) + 'd ago';
+  }
+  function catOf(post) {
+    return (post.primary_tag && post.primary_tag.name) ||
+           (post.tags && post.tags[0] && post.tags[0].name) || 'News';
+  }
+  function authorOf(post) {
+    return (post.authors && post.authors[0] && post.authors[0].name) || 'Robot Hive';
+  }
+
+  function get(url) {
+    return fetch(url).then(function (r) {
+      if (!r.ok) throw new Error('Ghost ' + r.status);
+      return r.json();
+    });
+  }
+
+  // ---- renderers ----------------------------------------------------------
+  function newsCard(post) {
+    var cat = catOf(post);
+    return '<a class="card" href="' + post.url + '" style="overflow:hidden;display:block;transition:transform .16s" ' +
+      'onmouseover="this.style.transform=\'translateY(-3px)\'" onmouseout="this.style.transform=\'none\'">' +
+      '<div style="aspect-ratio:16/9;background:' +
+        (post.feature_image ? 'url(' + post.feature_image + ') center/cover' : 'linear-gradient(135deg,#dbe3ec,#c7d2de)') +
+        ';position:relative">' +
+        '<span class="mono" style="position:absolute;top:10px;left:10px;font-size:10px;text-transform:uppercase;padding:4px 9px;border-radius:5px;color:#fff;background:var(--nav)">' + cat + '</span></div>' +
+      '<div style="padding:14px 15px 16px">' +
+        '<div class="mono" style="font-size:10.5px;color:var(--ink-3);margin-bottom:7px">BY ' + authorOf(post).toUpperCase() + ' · ' + fmtDate(post.published_at) + '</div>' +
+        '<div style="font-size:15px;font-weight:600;line-height:1.28;margin-bottom:7px;font-family:\'Space Grotesk\'">' + post.title + '</div>' +
+        '<div style="font-size:12.5px;color:var(--ink-2);line-height:1.5">' + (post.excerpt || '').slice(0, 120) + '</div>' +
+      '</div></a>';
+  }
+
+  function railItem(post) {
+    return '<a class="railitem" href="' + post.url + '">' +
+      '<div class="railitem__meta"><span>' + catOf(post) + '</span><span>' + timeAgo(post.published_at) + '</span></div>' +
+      '<div class="railitem__t">' + post.title + '</div></a>';
+  }
+
+  // ---- populate homepage --------------------------------------------------
+  function fillHome() {
+    // news cards: the grid right under "Latest from the Hive"
+    var cardGrid = document.querySelector('[data-ghost="home-cards"]');
+    var rail = document.querySelector('[data-ghost="latest-rail"]');
+    if (cardGrid) {
+      get(api({ limit: 2 })).then(function (d) {
+        if (d.posts && d.posts.length) cardGrid.innerHTML = d.posts.map(newsCard).join('');
+      }).catch(function () {});
+    }
+    if (rail) {
+      get(api({ limit: 7 })).then(function (d) {
+        if (d.posts && d.posts.length) {
+          rail.innerHTML = d.posts.map(railItem).join('') +
+            '<div class="railbox__foot"><a href="news.html">All posts →</a></div>';
+        }
+      }).catch(function () {});
+    }
+  }
+
+  // ---- populate news page -------------------------------------------------
+  function fillNews() {
+    var grid = document.querySelector('[data-ghost="news-list"]');
+    if (!grid) return;
+    get(api({ limit: 12 })).then(function (d) {
+      if (d.posts && d.posts.length) grid.innerHTML = d.posts.map(newsCard).join('');
+    }).catch(function () {});
+  }
+
+  // ---- populate an industry page (filtered by tag) ------------------------
+  function fillIndustry() {
+    var el = document.querySelector('[data-ghost-industry]');
+    if (!el) return;
+    var tag = el.getAttribute('data-ghost-industry'); // e.g. "defense"
+    var cards = el.querySelector('[data-ghost="industry-cards"]');
+    var rail = el.querySelector('[data-ghost="industry-rail"]');
+    if (cards) {
+      get(api({ limit: 4, filter: 'tag:' + tag })).then(function (d) {
+        if (d.posts && d.posts.length) cards.innerHTML = d.posts.map(newsCard).join('');
+      }).catch(function () {});
+    }
+    if (rail) {
+      get(api({ limit: 6, filter: 'tag:' + tag })).then(function (d) {
+        if (d.posts && d.posts.length) {
+          rail.innerHTML = d.posts.map(railItem).join('') +
+            '<div class="railbox__foot"><a href="news.html">All posts →</a></div>';
+        }
+      }).catch(function () {});
+    }
+  }
+
+  // run whichever hooks exist on this page
+  document.addEventListener('DOMContentLoaded', function () {
+    fillHome();
+    fillNews();
+    fillIndustry();
+  });
+})();
