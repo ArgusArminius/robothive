@@ -16,7 +16,7 @@
   function api(params) {
     var q = 'key=' + GHOST_KEY + '&include=tags&limit=' + (params.limit || 10);
     if (params.filter) q += '&filter=' + encodeURIComponent(params.filter);
-    q += '&fields=title,url,excerpt,published_at,feature_image,primary_tag';
+    q += '&fields=title,url,slug,excerpt,published_at,feature_image,primary_tag';
     q += '&include=tags,authors';
     return API + '?' + q;
   }
@@ -28,9 +28,10 @@
   }
   function timeAgo(iso) {
     var s = (Date.now() - new Date(iso).getTime()) / 1000;
-    if (s < 3600) return Math.floor(s / 60) + 'm ago';
+    if (s < 3600) return Math.max(1, Math.floor(s / 60)) + 'm ago';
     if (s < 86400) return Math.floor(s / 3600) + 'h ago';
-    return Math.floor(s / 86400) + 'd ago';
+    // older than a day: show the same calendar date the cards use, so they never contradict
+    return fmtDate(iso);
   }
   function catOf(post) {
     return (post.primary_tag && post.primary_tag.name) ||
@@ -50,7 +51,7 @@
   // ---- renderers ----------------------------------------------------------
   function newsCard(post) {
     var cat = catOf(post);
-    return '<a class="card" href="' + post.url + '" style="overflow:hidden;display:block;transition:transform .16s" ' +
+    return '<a class="card" href="article.html?slug=' + post.slug + '" style="overflow:hidden;display:block;transition:transform .16s" ' +
       'onmouseover="this.style.transform=\'translateY(-3px)\'" onmouseout="this.style.transform=\'none\'">' +
       '<div style="aspect-ratio:16/9;background:' +
         (post.feature_image ? 'url(' + post.feature_image + ') center/cover' : 'linear-gradient(135deg,#dbe3ec,#c7d2de)') +
@@ -64,7 +65,7 @@
   }
 
   function railItem(post) {
-    return '<a class="railitem" href="' + post.url + '">' +
+    return '<a class="railitem" href="article.html?slug=' + post.slug + '">' +
       '<div class="railitem__meta"><span>' + catOf(post) + '</span><span>' + timeAgo(post.published_at) + '</span></div>' +
       '<div class="railitem__t">' + post.title + '</div></a>';
   }
@@ -75,7 +76,7 @@
     var cardGrid = document.querySelector('[data-ghost="home-cards"]');
     var rail = document.querySelector('[data-ghost="latest-rail"]');
     if (cardGrid) {
-      get(api({ limit: 2 })).then(function (d) {
+      get(api({ limit: 5 })).then(function (d) {
         if (d.posts && d.posts.length) cardGrid.innerHTML = d.posts.map(newsCard).join('');
       }).catch(function () {});
     }
@@ -122,7 +123,7 @@
 
   // ---- populate homepage industry cards' "Latest 5 entries" lists ---------
   function latestLine(post, i) {
-    return '<a href="' + post.url + '"><span class="n">' +
+    return '<a href="article.html?slug=' + post.slug + '"><span class="n">' +
       (i + 1 < 10 ? '0' + (i + 1) : (i + 1)) + '</span>' + post.title + '</a>';
   }
   function fillIndustryLatest() {
@@ -142,11 +143,96 @@
     });
   }
 
+
+  // ---- full ARTICLE page (article.html?slug=...) --------------------------
+  function fillArticle() {
+    var mount = document.querySelector('[data-ghost="article"]');
+    if (!mount) return;
+    var params = new URLSearchParams(window.location.search);
+    var slug = params.get('slug');
+    if (!slug) { mount.innerHTML = '<div class="article__loading">Article not found.</div>'; return; }
+    // fetch this single post by slug, including full html
+    var url = API + '?key=' + GHOST_KEY + '&filter=' + encodeURIComponent('slug:' + slug) +
+      '&include=tags,authors&formats=html&limit=1';
+    get(url).then(function (d) {
+      if (!d.posts || !d.posts.length) {
+        mount.innerHTML = '<div class="article__loading">Article not found.</div>'; return;
+      }
+      var p = d.posts[0];
+      document.title = p.title + ' — Robot Hive';
+      var cat = catOf(p);
+      var reading = p.reading_time ? (p.reading_time + ' min read') : '';
+      mount.innerHTML =
+        '<div class="article-hero">' +
+          '<div class="article__crumb"><a href="index.html">Main</a> / <a href="news.html">News</a> / ' + cat + '</div>' +
+          '<span class="article__cat">' + cat + '</span>' +
+          '<h1 class="article__title">' + p.title + '</h1>' +
+          '<div class="article__meta">By ' + authorOf(p) + ' · ' + fmtDate(p.published_at) +
+            (reading ? ' · ' + reading : '') + '</div>' +
+        '</div>' +
+        '<div class="article-wrap">' +
+          (p.feature_image ? '<img class="article__feature" src="' + p.feature_image + '" alt="">' : '') +
+          '<div class="article__body">' + (p.html || '') + '</div>' +
+          '<a class="article__back" href="news.html">← Back to all news</a>' +
+        '</div>';
+      // re-run any embedded scripts (interactive widgets) that came in via html
+      mount.querySelectorAll('script').forEach(function (old) {
+        var s = document.createElement('script');
+        if (old.src) s.src = old.src; else s.textContent = old.textContent;
+        old.parentNode.replaceChild(s, old);
+      });
+    }).catch(function () {
+      mount.innerHTML = '<div class="article__loading">Could not load this article. <a href="news.html">Back to news</a></div>';
+    });
+  }
+
+
+  // ---- NEWSLETTER SIGNUP → Ghost members ---------------------------------
+  function wireNewsletter() {
+    var forms = document.querySelectorAll('form[data-ghost-signup], .beehive__form, .nlstrip__form');
+    forms.forEach(function (form) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var input = form.querySelector('input[type="email"], input[type="text"]');
+        var btn = form.querySelector('button');
+        if (!input || !input.value) return;
+        var email = input.value.trim();
+        var original = btn ? btn.textContent : '';
+        if (btn) { btn.textContent = '…'; btn.disabled = true; }
+        fetch(GHOST_URL + '/members/api/send-magic-link/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: email,
+            emailType: 'subscribe',
+            labels: [],
+            requestSrc: 'robothive-custom-site'
+          })
+        }).then(function (r) {
+          if (r.ok) {
+            if (btn) btn.textContent = '✓ Check your inbox';
+            input.value = '';
+          } else {
+            if (btn) btn.textContent = 'Try again';
+          }
+        }).catch(function () {
+          if (btn) btn.textContent = 'Try again';
+        }).finally(function () {
+          setTimeout(function () {
+            if (btn) { btn.textContent = original || 'Subscribe'; btn.disabled = false; }
+          }, 4000);
+        });
+      });
+    });
+  }
+
   // run whichever hooks exist on this page
   document.addEventListener('DOMContentLoaded', function () {
     fillHome();
     fillNews();
     fillIndustry();
     fillIndustryLatest();
+    fillArticle();
+    wireNewsletter();
   });
 })();
