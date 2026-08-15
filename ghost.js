@@ -76,8 +76,8 @@
     var cardGrid = document.querySelector('[data-ghost="home-cards"]');
     var rail = document.querySelector('[data-ghost="latest-rail"]');
     if (cardGrid) {
-      get(api({ limit: 5 })).then(function (d) {
-        if (d.posts && d.posts.length) cardGrid.innerHTML = d.posts.map(newsCard).join('');
+      get(api({ limit: 8 })).then(function (d) {
+        if (d.posts && d.posts.length) renderHeroList(cardGrid, d.posts);
       }).catch(function () {});
     }
     if (rail) {

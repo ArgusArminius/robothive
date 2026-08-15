@@ -288,18 +288,120 @@
       var verticals = SECTOR_MAP[sector] || [sector];
       var cos = D.companies.filter(function (c) { return verticals.indexOf(c.vertical) !== -1; });
       if (!cos.length) { el.innerHTML = ''; return; }
-      var chips = cos.slice(0, 6).map(function (c) {
-        return '<a class="bigind__chip" href="company-profile.html?id=' + c.id + '">' + c.name.replace(/\s*\(.*\)/, '') + '</a>';
+      var rows = cos.slice(0, 4).map(function (c, i) {
+        var n = ('0' + (i + 1)).slice(-2);
+        return '<a class="sector-co" href="company-profile.html?id=' + c.id + '">' +
+          '<span class="n">' + n + '</span>' + c.name.replace(/\s*\(.*\)/, '') +
+          '<span class="sector-co__c">' + c.flag + '</span></a>';
       }).join('');
-      var more = cos.length > 6 ? '<a class="more" href="companies.html">+' + (cos.length - 6) + ' more tracked →</a>' : '<a class="more" href="companies.html">Browse all →</a>';
-      el.innerHTML = '<h6>' + cos.length + ' companies tracked</h6>' + chips + '<div style="margin-top:4px">' + more + '</div>';
+      el.innerHTML = '<h6>Companies tracked · ' + cos.length + '</h6>' + rows +
+        '<a class="more" href="companies.html">Browse all →</a>';
     });
+  }
+
+
+  // -------- INVESTMENT ----------------------------------------------------
+  function renderInvestment() {
+    var mount = document.querySelector('[data-rh="investment"]');
+    if (!mount) return;
+    // companies with a funding or valuation figure
+    var funded = D.companies.filter(function (c) {
+      return (c.funding && c.funding !== 'Public' && c.funding !== 'Private' && c.funding !== '—') ||
+             (c.valuation && c.valuation !== 'Undisclosed' && c.valuation !== 'Public');
+    });
+    var body = mount.querySelector('[data-rows]');
+    makeFilter(mount, funded,
+      [{ key: 'vertical', label: 'Segment' }, { key: 'country', label: 'Country' }, { key: 'status', label: 'Status' }],
+      function (rows) {
+        body.innerHTML = rows.map(function (c) {
+          return '<tr>' +
+            '<td class="name"><a class="link" href="company-profile.html?id=' + c.id + '">' + c.name + '</a></td>' +
+            '<td>' + pill(c.vertical || c.sector) + '</td>' +
+            '<td>' + esc(c.funding) + '</td>' +
+            '<td>' + esc(c.valuation) + '</td>' +
+            '<td class="flag">' + esc(c.flag) + ' ' + esc(c.country) + '</td>' +
+            '<td><a class="link" href="company-profile.html?id=' + c.id + '">Profile →</a></td>' +
+            '</tr>';
+        }).join('') || '<tr><td colspan="6" style="color:var(--ink-3)">No matches.</td></tr>';
+      });
+  }
+
+  // -------- DRONE MAKERS & ARCHIVE ----------------------------------------
+  function renderDroneMakers() {
+    var mount = document.querySelector('[data-rh="drone-makers"]');
+    if (!mount) return;
+    var makers = D.companies.filter(function (c) { return c.vertical === 'Drones'; });
+    var body = mount.querySelector('[data-rows]');
+    makeFilter(mount, makers,
+      [{ key: 'country', label: 'Country' }, { key: 'sector', label: 'Focus' }],
+      function (rows) {
+        body.innerHTML = rows.map(function (c) {
+          return '<tr>' +
+            '<td class="name"><a class="link" href="company-profile.html?id=' + c.id + '">' + c.name + '</a></td>' +
+            '<td class="flag">' + esc(c.flag) + ' ' + esc(c.country) + '</td>' +
+            '<td>' + esc(c.founded) + '</td>' +
+            '<td>' + pill(c.sector) + '</td>' +
+            '<td><a class="link" href="company-profile.html?id=' + c.id + '">Profile →</a></td>' +
+            '</tr>';
+        }).join('') || '<tr><td colspan="5" style="color:var(--ink-3)">No matches.</td></tr>';
+      });
+  }
+  function renderDroneArchive() {
+    var mount = document.querySelector('[data-rh="drone-archive"]');
+    if (!mount) return;
+    var drones = D.robots.filter(function (r) { return r.vertical === 'Drones'; });
+    var body = mount.querySelector('[data-rows]');
+    makeFilter(mount, drones,
+      [{ key: 'type', label: 'Type' }, { key: 'country', label: 'Origin' }, { key: 'status', label: 'Status' }],
+      function (rows) {
+        body.innerHTML = rows.map(function (r) {
+          return '<tr>' +
+            '<td class="name">' + r.name + '</td>' +
+            '<td>' + coLink(r.maker) + '</td>' +
+            '<td>' + pill(r.type) + '</td>' +
+            '<td class="flag">' + esc(r.flag) + ' ' + esc(r.country) + '</td>' +
+            '<td>' + esc(r.year) + '</td>' +
+            '<td>' + esc(r.status) + '</td>' +
+            '</tr>';
+        }).join('') || '<tr><td colspan="6" style="color:var(--ink-3)">No matches.</td></tr>';
+      });
+  }
+
+  // -------- MARKETS -------------------------------------------------------
+  function renderMarkets() {
+    var mount = document.querySelector('[data-rh="markets"]');
+    if (!mount) return;
+    // public companies with a ticker, plus the ticker-band names
+    var pub = D.companies.filter(function (c) { return c.ticker && c.ticker !== '' && !/pending/i.test(c.ticker); });
+    // de-dup by ticker
+    var seen = {}, rows = [];
+    pub.forEach(function (c) { var t = c.ticker.split(' ')[0]; if (!seen[t]) { seen[t] = 1; rows.push(c); } });
+    rows.sort(function (a, b) { return a.name.localeCompare(b.name); });
+    mount.innerHTML =
+      '<div class="filters" data-filters></div>' +
+      '<table class="tbl"><thead><tr>' +
+      '<th data-sort="name">Company</th><th>Ticker</th><th data-sort="vertical">Segment</th>' +
+      '<th data-sort="country">Country</th><th>Price</th><th>What they do</th></tr></thead>' +
+      '<tbody>' + rows.map(function (c) {
+        var t = c.ticker.split(' ')[0];
+        var usListed = /^[A-Z]{1,5}$/.test(t); // crude: plain US symbol
+        return '<tr>' +
+          '<td class="name"><a class="link" href="company-profile.html?id=' + c.id + '">' + c.name + '</a></td>' +
+          '<td class="mono">' + c.ticker + '</td>' +
+          '<td>' + pill(c.vertical || c.sector) + '</td>' +
+          '<td class="flag">' + esc(c.flag) + ' ' + esc(c.country) + '</td>' +
+          '<td>' + (usListed ? '<span data-stock="' + t + '"></span>' : '<span class="mono" style="color:var(--ink-3)">intl</span>') + '</td>' +
+          '<td style="font-size:12.5px;color:var(--ink-2)">' + esc(c.summary).slice(0, 90) + '…</td>' +
+          '</tr>';
+      }).join('') + '</tbody></table>';
+    // trigger finnhub widgets for the newly-inserted data-stock spans
+    if (window.RH_FINNHUB_REFRESH) window.RH_FINNHUB_REFRESH();
   }
 
   function run() {
     renderCompanies(); renderProfile(); renderRobots();
     renderSuppliers(); renderComponents(); renderSupplyContext(); renderCounts();
-    renderSectorStrips();
+    renderSectorStrips(); renderMarkets(); renderDroneMakers(); renderDroneArchive(); renderInvestment();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
 })();

@@ -58,10 +58,9 @@
       var items = rows.map(function (r) {
         var nm = nameOf(r.s);
         if (!r.d || !r.d.c) return '<span class="tick" title="' + nm + '"><b>' + r.s + '</b> —</span>';
-        return '<span class="tick" title="' + nm + '" data-name="' + nm + '" onclick="this.classList.toggle(\'show-name\')">' +
+        return '<span class="tick" title="' + nm + '">' +
           '<b>' + r.s + '</b> $' + fmt(r.d.c) +
-          ' <span style="color:' + color(r.d.c, r.d.pc) + '">' + pct(r.d.c, r.d.pc) + '</span>' +
-          '<span class="tick-name">' + nm + '</span></span>';
+          ' <span style="color:' + color(r.d.c, r.d.pc) + '">' + pct(r.d.c, r.d.pc) + '</span></span>';
       }).join('');
       // duplicate for seamless scroll
       bar.querySelector('.tick-track').innerHTML = items + items;
@@ -69,6 +68,7 @@
   }
 
   function run() { renderWidgets(); renderTicker(); }
+  window.RH_FINNHUB_REFRESH = renderWidgets;
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run);
   else run();
   // refresh quotes every 60s (well under 60 calls/min free limit for a small ticker)
