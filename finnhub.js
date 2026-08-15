@@ -4,6 +4,13 @@
 (function () {
   var FINNHUB_KEY = 'd9uen7pr01qs9cmcfntgd9uen7pr01qs9cmcfnu0';
   var Q = 'https://finnhub.io/api/v1/quote?symbol=';
+  var NAMES = {
+    NVDA:'NVIDIA Corporation', TSLA:'Tesla, Inc.', ISRG:'Intuitive Surgical',
+    SYM:'Symbotic Inc.', SERV:'Serve Robotics', PATH:'UiPath Inc.',
+    ROK:'Rockwell Automation', TER:'Teradyne Inc.', ZBRA:'Zebra Technologies',
+    ABB:'ABB Ltd', GOOGL:'Alphabet Inc.', AMZN:'Amazon.com', MSFT:'Microsoft'
+  };
+  function nameOf(s){ return NAMES[s] || s; }
 
   function fmt(n) { return (n == null || isNaN(n)) ? '—' : n.toFixed(2); }
   function pct(c, pc) { if (!pc) return ''; var p = ((c - pc) / pc) * 100; return (p >= 0 ? '+' : '') + p.toFixed(2) + '%'; }
@@ -24,9 +31,10 @@
       quote(sym).then(function (d) {
         if (d && d.c) {
           el.innerHTML =
-            '<span style="display:inline-flex;align-items:center;gap:8px;font-family:IBM Plex Mono,monospace;font-size:14px;' +
-            'border:1px solid #e2e7ec;border-radius:8px;padding:6px 11px;background:#fff">' +
+            '<span title="' + nameOf(sym) + '" style="display:inline-flex;align-items:center;gap:8px;font-family:IBM Plex Mono,monospace;font-size:14px;' +
+            'border:1px solid #e2e7ec;border-radius:8px;padding:6px 11px;background:#fff;cursor:help">' +
             '<b>' + sym + '</b>' +
+            '<span style="color:#748393">' + nameOf(sym) + '</span>' +
             '<span>$' + fmt(d.c) + '</span>' +
             '<span style="color:' + color(d.c, d.pc) + '">' + pct(d.c, d.pc) + '</span></span>';
         } else {
@@ -48,9 +56,12 @@
       return quote(s).then(function (d) { return { s: s, d: d }; }).catch(function () { return { s: s, d: null }; });
     })).then(function (rows) {
       var items = rows.map(function (r) {
-        if (!r.d || !r.d.c) return '<span class="tick"><b>' + r.s + '</b> —</span>';
-        return '<span class="tick"><b>' + r.s + '</b> $' + fmt(r.d.c) +
-          ' <span style="color:' + color(r.d.c, r.d.pc) + '">' + pct(r.d.c, r.d.pc) + '</span></span>';
+        var nm = nameOf(r.s);
+        if (!r.d || !r.d.c) return '<span class="tick" title="' + nm + '"><b>' + r.s + '</b> —</span>';
+        return '<span class="tick" title="' + nm + '" data-name="' + nm + '" onclick="this.classList.toggle(\'show-name\')">' +
+          '<b>' + r.s + '</b> $' + fmt(r.d.c) +
+          ' <span style="color:' + color(r.d.c, r.d.pc) + '">' + pct(r.d.c, r.d.pc) + '</span>' +
+          '<span class="tick-name">' + nm + '</span></span>';
       }).join('');
       // duplicate for seamless scroll
       bar.querySelector('.tick-track').innerHTML = items + items;

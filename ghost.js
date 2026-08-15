@@ -90,12 +90,31 @@
     }
   }
 
+
+  function listRow(post) {
+    var cat = catOf(post);
+    return '<a class="news-list-row" href="article.html?slug=' + post.slug + '">' +
+      '<div class="news-list-row__img"' + (post.feature_image ? ' style="background-image:url(' + post.feature_image + ')"' : '') + '></div>' +
+      '<div><div class="news-list-row__meta">' + cat + ' · ' + fmtDate(post.published_at) + '</div>' +
+      '<div class="news-list-row__title">' + post.title + '</div>' +
+      '<div class="news-list-row__ex">' + (post.excerpt || '').slice(0, 140) + '</div></div></a>';
+  }
+  // Render into a container: first 2 = hero cards, rest = stacked list rows
+  function renderHeroList(container, posts) {
+    if (!posts || !posts.length) return;
+    var heroes = posts.slice(0, 2).map(newsCard).join('');
+    var rest = posts.slice(2).map(listRow).join('');
+    container.innerHTML =
+      '<div class="listing-heroes">' + heroes + '</div>' +
+      (rest ? '<div class="news-list">' + rest + '</div>' : '');
+  }
+
   // ---- populate news page -------------------------------------------------
   function fillNews() {
     var grid = document.querySelector('[data-ghost="news-list"]');
     if (!grid) return;
-    get(api({ limit: 12 })).then(function (d) {
-      if (d.posts && d.posts.length) grid.innerHTML = d.posts.map(newsCard).join('');
+    get(api({ limit: 20 })).then(function (d) {
+      if (d.posts && d.posts.length) renderHeroList(grid, d.posts);
     }).catch(function () {});
   }
 
@@ -107,8 +126,8 @@
     var cards = el.querySelector('[data-ghost="industry-cards"]');
     var rail = el.querySelector('[data-ghost="industry-rail"]');
     if (cards) {
-      get(api({ limit: 4, filter: 'tag:' + tag })).then(function (d) {
-        if (d.posts && d.posts.length) cards.innerHTML = d.posts.map(newsCard).join('');
+      get(api({ limit: 12, filter: 'tag:' + tag })).then(function (d) {
+        if (d.posts && d.posts.length) renderHeroList(cards, d.posts);
       }).catch(function () {});
     }
     if (rail) {
