@@ -77,7 +77,7 @@
     var rail = document.querySelector('[data-ghost="latest-rail"]');
     if (cardGrid) {
       get(api({ limit: 6 })).then(function (d) {
-        if (d.posts && d.posts.length) renderHomeFeed(cardGrid, d.posts);
+        if (d.posts && d.posts.length) renderHeroList(cardGrid, d.posts);
       }).catch(function () {});
     }
     if (rail) {
@@ -198,10 +198,12 @@
       }).catch(function () {});
     }
     if (rail) {
-      get(api({ limit: 6, filter: 'tag:' + tag })).then(function (d) {
+      get(api({ limit: 6, filter: 'featured:true' })).then(function (d) {
         if (d.posts && d.posts.length) {
           rail.innerHTML = d.posts.map(railItem).join('') +
             '<div class="railbox__foot"><a href="news.html">All posts →</a></div>';
+        } else {
+          rail.innerHTML = '<div class="railitem" style="color:var(--ink-3)">No featured stories yet. Toggle "Feature this post" in Ghost to surface a story here.</div>';
         }
       }).catch(function () {});
     }
