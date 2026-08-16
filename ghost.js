@@ -77,7 +77,7 @@
     var rail = document.querySelector('[data-ghost="latest-rail"]');
     if (cardGrid) {
       get(api({ limit: 6 })).then(function (d) {
-        if (d.posts && d.posts.length) renderHeroList(cardGrid, d.posts);
+        if (d.posts && d.posts.length) renderHomeFeed(cardGrid, d.posts);
       }).catch(function () {});
     }
     if (rail) {
@@ -112,6 +112,24 @@
   }
   // Homepage variant: ONE wide hero + small headline rows below
   function renderHomeFeed(container, posts) {
+    if (!posts || !posts.length) return;
+    function row(post, isLead) {
+      var cat = catOf(post);
+      var exLen = isLead ? 220 : 110;
+      return '<a class="feed-row' + (isLead ? ' feed-row--lead' : '') + '" href="article.html?slug=' + post.slug + '">' +
+        '<div class="feed-row__img"' + (post.feature_image ? ' style="background-image:url(' + post.feature_image + ')"' : '') + '>' +
+          '<span class="feed-row__cat">' + cat + '</span></div>' +
+        '<div>' +
+          '<div class="feed-row__meta">' + cat + ' · ' + fmtDate(post.published_at) + '</div>' +
+          '<div class="feed-row__title">' + post.title + '</div>' +
+          '<div class="feed-row__ex">' + (post.excerpt || '').slice(0, exLen) + '</div>' +
+        '</div></a>';
+    }
+    container.innerHTML = '<div class="feed">' +
+      posts.map(function (p, i) { return row(p, i === 0); }).join('') +
+      '</div>';
+  }
+  function renderHomeFeedOld(container, posts) {
     if (!posts || !posts.length) return;
     var top = posts[0];
     var cat = catOf(top);

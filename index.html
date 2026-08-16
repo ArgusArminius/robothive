@@ -425,6 +425,29 @@ a#rh-ticker{display:flex;align-items:center;text-decoration:none;cursor:pointer}
 .hub-preview__row{display:block;padding:6px 0;font-size:14px;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line)}
 .hub-preview__row:hover{color:var(--blue)}
 .hub-preview__more{display:inline-block;margin-top:10px;font-family:'IBM Plex Mono';font-size:10.5px;color:var(--blue)}
+
+/* HOME FEED SINGLE COLUMN */
+.feed{display:flex;flex-direction:column}
+.feed-row{display:grid;grid-template-columns:150px 1fr;gap:18px;padding:20px 0;border-bottom:1px solid var(--line);text-decoration:none;color:inherit;align-items:start}
+.feed-row:hover .feed-row__title{color:var(--blue)}
+.feed-row__img{aspect-ratio:4/3;border-radius:10px;background:linear-gradient(135deg,#dbe3ec,#c7d2de) center/cover;position:relative;overflow:hidden}
+.feed-row__cat{position:absolute;top:8px;left:8px;font-family:'IBM Plex Mono',monospace;font-size:8.5px;text-transform:uppercase;letter-spacing:.06em;background:rgba(13,22,34,.85);color:#fff;padding:3px 7px;border-radius:4px}
+.feed-row__meta{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:7px}
+.feed-row__title{font-family:'Space Grotesk',Inter,sans-serif;font-size:17px;font-weight:600;line-height:1.3;margin-bottom:7px}
+.feed-row__ex{font-size:13px;color:var(--ink-2);line-height:1.5}
+.feed-row--lead{grid-template-columns:300px 1fr;gap:22px;padding:8px 0 26px}
+.feed-row--lead .feed-row__img{aspect-ratio:16/11;border-radius:12px}
+.feed-row--lead .feed-row__cat{font-size:9.5px;padding:4px 9px}
+.feed-row--lead .feed-row__title{font-size:24px;line-height:1.18;margin-bottom:10px}
+.feed-row--lead .feed-row__ex{font-size:15px;line-height:1.6}
+@media(max-width:600px){
+  .feed-row{grid-template-columns:96px 1fr;gap:12px}
+  .feed-row__title{font-size:15px}
+  .feed-row__ex{display:none}
+  .feed-row--lead{grid-template-columns:1fr}
+  .feed-row--lead .feed-row__img{aspect-ratio:16/9;margin-bottom:12px}
+  .feed-row--lead .feed-row__ex{display:block;font-size:14px}
+}
 </style></head><body><div class="mobile-overlay" id="moverlay" onclick="document.getElementById('mpanel').classList.remove('open');this.classList.remove('open')"></div><div class="mobile-panel" id="mpanel">
   <div class="mobile-panel__head"><span class="brand__name">Robot<b style="color:var(--blue)">Hive</b></span><button class="mobile-close" onclick="document.getElementById('mpanel').classList.remove('open');document.getElementById('moverlay').classList.remove('open')">×</button></div>
   <a href="index.html">Main</a>
@@ -477,7 +500,7 @@ a#rh-ticker{display:flex;align-items:center;text-decoration:none;cursor:pointer}
     <!-- latest news cards -->
     <section class="section" style="padding-top:8px">
       <div class="sec__head"><span class="sec__hex"><svg viewBox="0 0 15 17"><polygon points="7.5,1 14,5 14,12 7.5,16 1,12 1,5" fill="none" stroke="#1f6feb" stroke-width="2"/></svg></span><h2 class="sec__title">Latest from the Hive</h2><span class="sec__rule"></span><a class="sec__link" href="news.html">ALL NEWS →</a></div>
-      <div data-ghost="home-cards" style="display:grid;grid-template-columns:1fr 1fr;gap:18px">
+      <div data-ghost="home-cards">
         <a class="card" href="news.html" style="overflow:hidden;display:block;transition:transform .16s" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='none'">
       <div style="aspect-ratio:16/9;background:linear-gradient(135deg,#dbe3ec,#c7d2de);position:relative">
         <span class="mono cat--news" style="position:absolute;top:10px;left:10px;font-size:10px;text-transform:uppercase;padding:4px 9px;border-radius:5px;color:#fff">Editorial</span></div>
