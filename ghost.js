@@ -76,15 +76,17 @@
     var cardGrid = document.querySelector('[data-ghost="home-cards"]');
     var rail = document.querySelector('[data-ghost="latest-rail"]');
     if (cardGrid) {
-      get(api({ limit: 8 })).then(function (d) {
-        if (d.posts && d.posts.length) renderHeroList(cardGrid, d.posts);
+      get(api({ limit: 6 })).then(function (d) {
+        if (d.posts && d.posts.length) renderHomeFeed(cardGrid, d.posts);
       }).catch(function () {});
     }
     if (rail) {
-      get(api({ limit: 7 })).then(function (d) {
+      get(api({ limit: 7, filter: 'featured:true' })).then(function (d) {
         if (d.posts && d.posts.length) {
           rail.innerHTML = d.posts.map(railItem).join('') +
             '<div class="railbox__foot"><a href="news.html">All posts →</a></div>';
+        } else {
+          rail.innerHTML = '<div class="railitem" style="color:var(--ink-3)">No featured stories yet. Toggle "Feature this post" in Ghost to surface a story here.</div>';
         }
       }).catch(function () {});
     }
@@ -108,14 +110,79 @@
       '<div class="listing-heroes">' + heroes + '</div>' +
       (rest ? '<div class="news-list">' + rest + '</div>' : '');
   }
+  // Homepage variant: ONE wide hero + small headline rows below
+  function renderHomeFeed(container, posts) {
+    if (!posts || !posts.length) return;
+    var top = posts[0];
+    var cat = catOf(top);
+    var hero = '<a class="home-hero" href="article.html?slug=' + top.slug + '">' +
+      '<div class="home-hero__img"' + (top.feature_image ? ' style="background-image:url(' + top.feature_image + ')"' : '') + '>' +
+        '<span class="home-hero__cat">' + cat + '</span></div>' +
+      '<div class="home-hero__body">' +
+        '<div class="home-hero__meta">' + cat + ' · ' + fmtDate(top.published_at) + '</div>' +
+        '<div class="home-hero__title">' + top.title + '</div>' +
+        '<div class="home-hero__ex">' + (top.excerpt || '').slice(0, 180) + '</div>' +
+      '</div></a>';
+    var rows = posts.slice(1).map(listRow).join('');
+    container.innerHTML = hero + (rows ? '<div class="news-list">' + rows + '</div>' : '');
+  }
 
   // ---- populate news page -------------------------------------------------
   function fillNews() {
     var grid = document.querySelector('[data-ghost="news-list"]');
     if (!grid) return;
-    get(api({ limit: 20 })).then(function (d) {
-      if (d.posts && d.posts.length) renderHeroList(grid, d.posts);
+    get(api({ limit: 30 })).then(function (d) {
+      if (!d.posts || !d.posts.length) return;
+      var all = d.posts;
+      var state = { cat: '', industry: '', q: '' };
+
+      // wire the existing filter bar (replace placeholder selects with real ones)
+      var bar = document.querySelector('.filters');
+      if (bar) {
+        // collect available categories + industries from the posts' tags
+        var cats = {}, inds = {};
+        var INDUSTRY = ['civil', 'agriculture', 'defense', 'drones'];
+        all.forEach(function (p) {
+          (p.tags || []).forEach(function (t) {
+            var s = (t.slug || '').toLowerCase();
+            if (INDUSTRY.indexOf(s) !== -1) inds[s] = t.name; else cats[s] = t.name;
+          });
+        });
+        bar.innerHTML =
+          selectHTML('news-cat', 'Category', cats) +
+          selectHTML('news-ind', 'Industry', inds) +
+          '<input class="searchbar" id="news-q" placeholder="Search articles…">';
+        var catSel = bar.querySelector('#news-cat');
+        var indSel = bar.querySelector('#news-ind');
+        var q = bar.querySelector('#news-q');
+        catSel.onchange = function () { state.cat = catSel.value; render(); };
+        indSel.onchange = function () { state.industry = indSel.value; render(); };
+        q.oninput = function () { state.q = q.value.toLowerCase(); render(); };
+      }
+
+      function render() {
+        var out = all.filter(function (p) {
+          var slugs = (p.tags || []).map(function (t) { return (t.slug || '').toLowerCase(); });
+          if (state.cat && slugs.indexOf(state.cat) === -1) return false;
+          if (state.industry && slugs.indexOf(state.industry) === -1) return false;
+          if (state.q) {
+            var hay = (p.title + ' ' + (p.excerpt || '')).toLowerCase();
+            if (hay.indexOf(state.q) === -1) return false;
+          }
+          return true;
+        });
+        if (out.length) renderHeroList(grid, out);
+        else grid.innerHTML = '<div style="padding:40px 0;color:var(--ink-3);font-family:IBM Plex Mono,monospace">No articles match those filters.</div>';
+      }
+      render();
     }).catch(function () {});
+  }
+  function selectHTML(id, label, map) {
+    var opts = '<option value="">' + label + ': All</option>';
+    Object.keys(map).sort().forEach(function (slug) {
+      opts += '<option value="' + slug + '">' + map[slug] + '</option>';
+    });
+    return '<select class="select" id="' + id + '">' + opts + '</select>';
   }
 
   // ---- populate an industry page (filtered by tag) ------------------------

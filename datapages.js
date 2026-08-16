@@ -97,7 +97,18 @@
     var mount = document.querySelector('[data-rh="companies"]');
     if (!mount) return;
     var body = mount.querySelector('[data-rows]');
-    makeFilter(mount, D.companies,
+    var vert = qs('vertical');
+    var source = vert ? D.companies.filter(function (c) {
+      // match the hub list (companies can belong to multiple hubs); fall back to vertical
+      return (c.hubs && c.hubs.indexOf(vert) !== -1) || c.vertical === vert;
+    }) : D.companies;
+    if (vert) {
+      var t = mount.querySelector('.phead__title');
+      if (t) t.textContent = vert + ' companies';
+      var s = mount.querySelector('.phead__sub');
+      if (s) s.innerHTML = 'Companies tracked in the ' + vert + ' vertical. <a class="link" href="companies.html">See all companies →</a>';
+    }
+    makeFilter(mount, source,
       [{ key: 'country', label: 'Country' }, { key: 'type', label: 'Type' }, { key: 'sector', label: 'Sector' }],
       function (rows) {
         body.innerHTML = rows.map(function (c) {
@@ -188,7 +199,15 @@
     var mount = document.querySelector('[data-rh="robots"]');
     if (!mount) return;
     var body = mount.querySelector('[data-rows]');
-    makeFilter(mount, D.robots,
+    var vert = qs('vertical');
+    var source = vert ? D.robots.filter(function (r) { return r.vertical === vert; }) : D.robots;
+    if (vert) {
+      var t = mount.querySelector('.phead__title');
+      if (t) t.textContent = vert + ' robots';
+      var s = mount.querySelector('.phead__sub');
+      if (s) s.innerHTML = 'Platforms tracked in the ' + vert + ' vertical. <a class="link" href="robots.html">See all robots →</a>';
+    }
+    makeFilter(mount, source,
       [{ key: 'type', label: 'Type' }, { key: 'country', label: 'Country' }, { key: 'status', label: 'Status' }],
       function (rows) {
         body.innerHTML = rows.map(function (r) {
@@ -285,8 +304,9 @@
   function renderSectorStrips() {
     document.querySelectorAll('[data-rh-sector]').forEach(function (el) {
       var sector = el.getAttribute('data-rh-sector');
-      var verticals = SECTOR_MAP[sector] || [sector];
-      var cos = D.companies.filter(function (c) { return verticals.indexOf(c.vertical) !== -1; });
+      var cos = D.companies.filter(function (c) {
+        return (c.hubs && c.hubs.indexOf(sector) !== -1) || c.vertical === sector;
+      });
       if (!cos.length) { el.innerHTML = ''; return; }
       var rows = cos.slice(0, 4).map(function (c, i) {
         var n = ('0' + (i + 1)).slice(-2);
@@ -295,7 +315,7 @@
           '<span class="sector-co__c">' + c.flag + '</span></a>';
       }).join('');
       el.innerHTML = '<h6>Companies tracked · ' + cos.length + '</h6>' + rows +
-        '<a class="more" href="companies.html">Browse all →</a>';
+        '<a class="more" href="companies.html?vertical=' + sector + '">Browse all →</a>';
     });
   }
 
@@ -398,10 +418,36 @@
     if (window.RH_FINNHUB_REFRESH) window.RH_FINNHUB_REFRESH();
   }
 
+  // -------- HUB PREVIEW (inline filtered records on industry hubs) --------
+  function renderHubPreview() {
+    document.querySelectorAll('[data-rh-hubpreview]').forEach(function (el) {
+      var vert = el.getAttribute('data-rh-hubpreview');
+      var cos = D.companies.filter(function (c) { return (c.hubs && c.hubs.indexOf(vert) !== -1) || c.vertical === vert; }).slice(0, 5);
+      var bots = D.robots.filter(function (r) { return r.vertical === vert; }).slice(0, 5);
+      if (!cos.length && !bots.length) { el.innerHTML = ''; return; }
+      function colist(items, kind) {
+        if (!items.length) return '';
+        return '<div class="hub-preview__col"><h6>' + kind + ' · ' + items.length + ' tracked</h6>' +
+          items.map(function (x) {
+            var href = kind === 'Companies'
+              ? 'company-profile.html?id=' + x.id
+              : 'robots.html?vertical=' + vert + '#' + x.id;
+            return '<a class="hub-preview__row" href="' + href + '">' + x.flag + ' ' +
+              x.name.replace(/\s*\(.*\)/, '') + '</a>';
+          }).join('') +
+          '<a class="hub-preview__more" href="' +
+            (kind === 'Companies' ? 'companies.html?vertical=' + vert : 'robots.html?vertical=' + vert) +
+            '">See all ' + kind.toLowerCase() + ' →</a></div>';
+      }
+      el.innerHTML = '<div class="hub-preview__grid">' + colist(cos, 'Companies') + colist(bots, 'Robots') + '</div>';
+    });
+  }
+
   function run() {
     renderCompanies(); renderProfile(); renderRobots();
     renderSuppliers(); renderComponents(); renderSupplyContext(); renderCounts();
     renderSectorStrips(); renderMarkets(); renderDroneMakers(); renderDroneArchive(); renderInvestment();
+    renderHubPreview();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
 })();

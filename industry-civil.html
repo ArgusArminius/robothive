@@ -390,6 +390,39 @@ a#rh-ticker{display:flex;align-items:center;text-decoration:none;cursor:pointer}
 [data-ghost-industry] .listing-heroes .card [class*="title"],
 [data-ghost-industry] .listing-heroes .card h3{font-size:18px}
 [data-ghost-industry] .listing-heroes{gap:18px;margin-bottom:24px}
+
+/* HOME FEED HERO — one wide hero + small rows */
+.home-hero{display:grid;grid-template-columns:300px 1fr;gap:18px;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);text-decoration:none;color:inherit;margin-bottom:18px}
+.home-hero__img{aspect-ratio:auto;min-height:180px;background:linear-gradient(135deg,#dbe3ec,#c7d2de) center/cover;position:relative}
+.home-hero__cat{position:absolute;top:12px;left:12px;font-family:'IBM Plex Mono';font-size:10px;text-transform:uppercase;letter-spacing:.06em;background:var(--nav);color:#fff;padding:4px 9px;border-radius:5px}
+.home-hero__body{padding:18px 20px 18px 0;display:flex;flex-direction:column;justify-content:center}
+.home-hero__meta{font-family:'IBM Plex Mono';font-size:10.5px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.home-hero__title{font-family:'Space Grotesk';font-size:22px;font-weight:600;line-height:1.2;margin-bottom:10px}
+.home-hero:hover .home-hero__title{color:var(--blue)}
+.home-hero__ex{font-size:14px;color:var(--ink-2);line-height:1.5}
+@media(max-width:640px){.home-hero{grid-template-columns:1fr}.home-hero__img{min-height:170px}.home-hero__body{padding:16px 18px}}
+
+.upd-tag{display:inline-block;margin-left:8px;font-family:'IBM Plex Mono';font-size:8.5px;letter-spacing:.06em;padding:2px 6px;border-radius:4px;background:var(--blue-tint);color:var(--blue);vertical-align:middle}
+
+/* STICKY RAIL — scrolls with reader, collapsible */
+.home-rail{position:sticky;top:88px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;transition:transform .25s,opacity .2s;scrollbar-width:thin}
+.home-rail::-webkit-scrollbar{width:6px}
+.home-rail::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px}
+.rail-collapsed .home-rail{transform:translateX(120%);opacity:0;pointer-events:none;position:absolute}
+/* toggle tab */
+#rail-toggle{position:fixed;top:140px;right:0;z-index:60;background:var(--nav);color:#fff;border:0;border-radius:8px 0 0 8px;padding:10px 8px;cursor:pointer;font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.08em;writing-mode:vertical-rl;text-orientation:mixed;box-shadow:-2px 2px 10px rgba(0,0,0,.15)}
+#rail-toggle:hover{background:var(--blue)}
+@media(max-width:900px){.home-rail{position:static;max-height:none}#rail-toggle{display:none}.rail-collapsed .home-rail{transform:none;opacity:1;position:static;pointer-events:auto}}
+
+/* HUB PREVIEW — inline filtered records on industry hubs */
+.hub-preview{margin:6px 0 24px}
+.hub-preview__grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:640px){.hub-preview__grid{grid-template-columns:1fr}}
+.hub-preview__col{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.hub-preview__col h6{font-family:'IBM Plex Mono';font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin-bottom:10px}
+.hub-preview__row{display:block;padding:6px 0;font-size:14px;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line)}
+.hub-preview__row:hover{color:var(--blue)}
+.hub-preview__more{display:inline-block;margin-top:10px;font-family:'IBM Plex Mono';font-size:10.5px;color:var(--blue)}
 </style></head><body><div class="mobile-overlay" id="moverlay" onclick="document.getElementById('mpanel').classList.remove('open');this.classList.remove('open')"></div><div class="mobile-panel" id="mpanel">
   <div class="mobile-panel__head"><span class="brand__name">Robot<b style="color:var(--blue)">Hive</b></span><button class="mobile-close" onclick="document.getElementById('mpanel').classList.remove('open');document.getElementById('moverlay').classList.remove('open')">×</button></div>
   <a href="index.html">Main</a>
@@ -423,11 +456,7 @@ a#rh-ticker{display:flex;align-items:center;text-decoration:none;cursor:pointer}
 <div class="wrap" style="padding-top:26px">
   <div class="hub-grid" data-ghost-industry="civil">
     <div>
-      <!-- YouTube for this industry -->
-      <div class="ytwin" style="margin-bottom:24px">
-        <div class="ytwin__frame"><iframe src="https://www.youtube-nocookie.com/embed/videoseries?list=UUsomething" title="Robot Hive channel" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe></div>
-        <div class="ytwin__bar"><b>Civil on Robot Hive TV</b><a href="#">More videos →</a></div>
-      </div>
+      
       <!-- news -->
       <div class="sec__head"><span class="sec__hex"><svg viewBox="0 0 15 17"><polygon points="7.5,1 14,5 14,12 7.5,16 1,12 1,5" fill="none" stroke="#1f6feb" stroke-width="2"/></svg></span><h2 class="sec__title">Civil — latest news</h2><span class="sec__rule"></span><a class="sec__link" href="news.html">ALL →</a></div>
       <div data-ghost="industry-cards" style="margin-bottom:30px"><a class="card" href="news.html" style="overflow:hidden;display:block;transition:transform .16s" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='none'">
@@ -444,12 +473,12 @@ a#rh-ticker{display:flex;align-items:center;text-decoration:none;cursor:pointer}
         <div style="font-size:15px;font-weight:600;line-height:1.28;margin-bottom:7px;font-family:'Space Grotesk'">Layout robots cut framing time 30%</div>
         <div style="font-size:12.5px;color:var(--ink-2);line-height:1.5">Automating site layout on a Texas high-rise.</div></div></a></div>
       <!-- data -->
-      <div class="sec__head"><span class="sec__hex"><svg viewBox="0 0 15 17"><polygon points="7.5,1 14,5 14,12 7.5,16 1,12 1,5" fill="none" stroke="#1f6feb" stroke-width="2"/></svg></span><h2 class="sec__title">Civil — data</h2><span class="sec__rule"></span></div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px"><a class="card" href="companies.html" style="padding:20px;position:relative;overflow:hidden;display:block;transition:transform .16s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+      <div class="sec__head"><span class="sec__hex"><svg viewBox="0 0 15 17"><polygon points="7.5,1 14,5 14,12 7.5,16 1,12 1,5" fill="none" stroke="#1f6feb" stroke-width="2"/></svg></span><h2 class="sec__title">Civil — data</h2><span class="sec__rule"></span></div><div class="hub-preview" data-rh-hubpreview="Civil"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px"><a class="card" href="companies.html?vertical=Civil" style="padding:20px;position:relative;overflow:hidden;display:block;transition:transform .16s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
       <div style="position:absolute;right:-18px;bottom:-22px;width:80px;height:88px;opacity:.05"><svg viewBox="0 0 90 100"><polygon points="45,4 86,27 86,73 45,96 4,73 4,27" fill="none" stroke="#0f1620" stroke-width="4"/></svg></div>
       <div style="font-size:16px;font-weight:600;margin-bottom:5px;font-family:'Space Grotesk'">Civil companies</div>
       <div style="font-size:12.5px;color:var(--ink-2);line-height:1.45;margin-bottom:12px;max-width:34ch">Makers focused on infrastructure robotics.</div>
-      <div class="mono" style="font-size:11.5px;color:var(--blue)">View →</div></a><a class="card" href="robots.html" style="padding:20px;position:relative;overflow:hidden;display:block;transition:transform .16s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+      <div class="mono" style="font-size:11.5px;color:var(--blue)">View →</div></a><a class="card" href="robots.html?vertical=Civil" style="padding:20px;position:relative;overflow:hidden;display:block;transition:transform .16s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
       <div style="position:absolute;right:-18px;bottom:-22px;width:80px;height:88px;opacity:.05"><svg viewBox="0 0 90 100"><polygon points="45,4 86,27 86,73 45,96 4,73 4,27" fill="none" stroke="#0f1620" stroke-width="4"/></svg></div>
       <div style="font-size:16px;font-weight:600;margin-bottom:5px;font-family:'Space Grotesk'">Inspection robots</div>
       <div style="font-size:12.5px;color:var(--ink-2);line-height:1.45;margin-bottom:12px;max-width:34ch">Compare inspection platforms.</div>
@@ -467,4 +496,4 @@ a#rh-ticker{display:flex;align-items:center;text-decoration:none;cursor:pointer}
   <polygon class="hc r1" points="50,48 61,54.5 61,67.5 50,74 39,67.5 39,54.5"/>
   <polygon class="hc r2" points="31,37 42,43.5 42,56.5 31,63 20,56.5 20,43.5"/>
   <polygon class="hc r1" points="31,15 42,21.5 42,34.5 31,41 20,34.5 20,21.5"/>
-</svg></span><span class="brand__name">Robot<b>Hive</b></span></a><p class="foot__tag">The robotics industry, mapped — companies, robots, capital, regulation and our own editorial cut.</p><div class="socials"><a class="soc" href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.8-.5-5.6c-.3-1-1-1.8-2-2C18.7 4 12 4 12 4s-6.7 0-8.5.4c-1 .2-1.7 1-2 2C1 8.2 1 12 1 12s0 3.8.5 5.6c.3 1 1 1.8 2 2C5.3 20 12 20 12 20s6.7 0 8.5-.4c1-.2 1.7-1 2-2C23 15.8 23 12 23 12zM10 15.5v-7l6 3.5-6 3.5z"/></svg></a><a class="soc" href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14zM8.3 18V10H5.7v8h2.6zM7 8.8a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM18.3 18v-4.4c0-2.3-1.2-3.4-2.9-3.4-1.3 0-1.9.7-2.3 1.2V10h-2.6v8h2.6v-4.3c0-1.1.7-1.6 1.4-1.6.7 0 1.2.5 1.2 1.6V18h2.6z"/></svg></a><a class="soc" href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h3l-7 8 8 12h-6l-5-7-6 7H2l8-9L2 2h7l4 6 5-6zm-1 18h1.5L8 4H6l11 16z"/></svg></a><a class="soc" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a></div></div><div><h4>Data</h4><a href="companies.html">Companies</a><a href="robots.html">Robot Comparison</a><a href="investment.html">Investment</a><a href="suppliers.html">Suppliers</a><a href="components.html">Components</a><a href="markets.html">Markets</a><a href="regulation.html">Regulation</a></div><div><h4>Industries</h4><a href="industry-civil.html">Civil</a><a href="industry-agriculture.html">Agriculture</a><a href="industry-defense.html">Defense</a><a href="drones.html">Drones</a></div><div><h4>More</h4><a href="news.html">News</a><a href="subscribe.html">Subscribe</a><a href="contact.html">Contact us</a></div></div><div class="foot__bar">™ 2026 Robot Hive · All rights reserved</div></footer><div class="beehive" id="beehive"><div class="beehive__tab" onclick="document.getElementById('beehive').classList.toggle('open')"><svg viewBox="0 0 26 28" fill="#fff"><ellipse cx="13" cy="8" rx="8" ry="3"/><ellipse cx="13" cy="13" rx="10" ry="3.3"/><ellipse cx="13" cy="18" rx="9" ry="3.1"/><ellipse cx="13" cy="23" rx="6.5" ry="2.7"/></svg></div><div class="beehive__panel"><div class="beehive__t">Newsletter signup</div><div class="beehive__s">Get the weekly Hive briefing straight to your inbox.</div><form class="beehive__form"><input type="email" placeholder="Your email address"><button>Subscribe</button></form></div></div><script src="ghost.js"></script><script src="finnhub.js"></script><script src="data.js"></script><script src="datapages.js"></script></body></html>
+</svg></span><span class="brand__name">Robot<b>Hive</b></span></a><p class="foot__tag">The robotics industry, mapped — companies, robots, capital, regulation and our own editorial cut.</p><div class="socials"><a class="soc" href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.8-.5-5.6c-.3-1-1-1.8-2-2C18.7 4 12 4 12 4s-6.7 0-8.5.4c-1 .2-1.7 1-2 2C1 8.2 1 12 1 12s0 3.8.5 5.6c.3 1 1 1.8 2 2C5.3 20 12 20 12 20s6.7 0 8.5-.4c1-.2 1.7-1 2-2C23 15.8 23 12 23 12zM10 15.5v-7l6 3.5-6 3.5z"/></svg></a><a class="soc" href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14zM8.3 18V10H5.7v8h2.6zM7 8.8a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM18.3 18v-4.4c0-2.3-1.2-3.4-2.9-3.4-1.3 0-1.9.7-2.3 1.2V10h-2.6v8h2.6v-4.3c0-1.1.7-1.6 1.4-1.6.7 0 1.2.5 1.2 1.6V18h2.6z"/></svg></a><a class="soc" href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h3l-7 8 8 12h-6l-5-7-6 7H2l8-9L2 2h7l4 6 5-6zm-1 18h1.5L8 4H6l11 16z"/></svg></a><a class="soc" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a></div></div><div><h4>Data</h4><a href="companies.html">Companies</a><a href="robots.html">Robot Comparison</a><a href="investment.html">Investment</a><a href="suppliers.html">Suppliers</a><a href="components.html">Components</a><a href="markets.html">Markets</a><a href="regulation.html">Regulation</a></div><div><h4>Industries</h4><a href="industry-civil.html">Civil</a><a href="industry-agriculture.html">Agriculture</a><a href="industry-defense.html">Defense</a><a href="drones.html">Drones</a></div><div><h4>More</h4><a href="news.html">News</a><a href="subscribe.html">Subscribe</a><a href="contact.html">Contact us</a></div></div><div class="foot__bar">™ 2026 Robot Hive · All rights reserved</div></footer><div class="beehive" id="beehive"><div class="beehive__tab" onclick="document.getElementById('beehive').classList.toggle('open')"><svg viewBox="0 0 26 28" fill="#fff"><ellipse cx="13" cy="8" rx="8" ry="3"/><ellipse cx="13" cy="13" rx="10" ry="3.3"/><ellipse cx="13" cy="18" rx="9" ry="3.1"/><ellipse cx="13" cy="23" rx="6.5" ry="2.7"/></svg></div><div class="beehive__panel"><div class="beehive__t">Newsletter signup</div><div class="beehive__s">Get the weekly Hive briefing straight to your inbox.</div><form class="beehive__form"><input type="email" placeholder="Your email address"><button>Subscribe</button></form></div></div><script src="ghost.js"></script><script src="finnhub.js"></script><script src="data.js"></script><script src="datapages.js"></script><button id="rail-toggle" onclick="document.body.classList.toggle('rail-collapsed');this.textContent=document.body.classList.contains('rail-collapsed')?'SHOW PANEL':'HIDE PANEL'">HIDE PANEL</button></body></html>
