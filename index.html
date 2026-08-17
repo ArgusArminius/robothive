@@ -448,6 +448,25 @@ a#rh-ticker{display:flex;align-items:center;text-decoration:none;cursor:pointer}
   .feed-row--lead .feed-row__img{aspect-ratio:16/9;margin-bottom:12px}
   .feed-row--lead .feed-row__ex{display:block;font-size:14px}
 }
+
+/* HIVE WIRE — compact signal strip */
+.wire-box{background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);overflow:hidden;margin-bottom:22px}
+.wire-head{display:flex;align-items:center;gap:9px;padding:11px 16px;background:var(--nav);color:#fff}
+.wire-head .wire-hex{width:15px;height:17px;display:inline-flex}
+.wire-head .wire-hex svg{width:15px;height:17px}
+.wire-head b{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em}
+.wire-head .wire-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;color:#8895a4;letter-spacing:.06em;text-transform:uppercase}
+.wire-head .live{width:7px;height:7px;border-radius:50%;background:#12a150;margin-left:auto;box-shadow:0 0 0 0 rgba(18,161,80,.5);animation:wirepulse 2s infinite}
+@keyframes wirepulse{0%{box-shadow:0 0 0 0 rgba(18,161,80,.5)}70%{box-shadow:0 0 0 6px rgba(18,161,80,0)}100%{box-shadow:0 0 0 0 rgba(18,161,80,0)}}
+.wire-row{display:grid;grid-template-columns:64px 1fr auto;gap:12px;align-items:baseline;padding:9px 16px;border-bottom:1px solid var(--line);text-decoration:none;color:inherit;font-size:13px}
+.wire-row:last-child{border-bottom:0}
+.wire-row:hover{background:var(--blue-tint)}
+.wire-time{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--ink-3);white-space:nowrap}
+.wire-text{font-family:'Space Grotesk',Inter,sans-serif;font-weight:500;line-height:1.35;color:var(--ink)}
+.wire-row:hover .wire-text{color:var(--blue)}
+.wire-src{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--blue);white-space:nowrap}
+.wire-empty{padding:16px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--ink-3)}
+@media(max-width:600px){.wire-row{grid-template-columns:52px 1fr;gap:8px}.wire-src{display:none}}
 </style></head><body><div class="mobile-overlay" id="moverlay" onclick="document.getElementById('mpanel').classList.remove('open');this.classList.remove('open')"></div><div class="mobile-panel" id="mpanel">
   <div class="mobile-panel__head"><span class="brand__name">Robot<b style="color:var(--blue)">Hive</b></span><button class="mobile-close" onclick="document.getElementById('mpanel').classList.remove('open');document.getElementById('moverlay').classList.remove('open')">×</button></div>
   <a href="index.html">Main</a>
@@ -499,7 +518,7 @@ a#rh-ticker{display:flex;align-items:center;text-decoration:none;cursor:pointer}
 
     <!-- latest news cards -->
     <section class="section" style="padding-top:8px">
-      <div class="sec__head"><span class="sec__hex"><svg viewBox="0 0 15 17"><polygon points="7.5,1 14,5 14,12 7.5,16 1,12 1,5" fill="none" stroke="#1f6feb" stroke-width="2"/></svg></span><h2 class="sec__title">Latest from the Hive</h2><span class="sec__rule"></span><a class="sec__link" href="news.html">ALL NEWS →</a></div>
+      <div class="wire-box"><div class="wire-head"><span class="wire-hex"><svg viewBox="0 0 15 17"><polygon points="7.5,1 14,5 14,12 7.5,16 1,12 1,5" fill="#ffd23f"/></svg></span><b>HIVE WIRE</b><span class="wire-sub">alert signals</span><span class="live"></span></div><div data-ghost="wire"><div class="wire-empty">Loading wire…</div></div></div><div class="sec__head"><span class="sec__hex"><svg viewBox="0 0 15 17"><polygon points="7.5,1 14,5 14,12 7.5,16 1,12 1,5" fill="none" stroke="#1f6feb" stroke-width="2"/></svg></span><h2 class="sec__title">Latest from the Hive</h2><span class="sec__rule"></span><a class="sec__link" href="news.html">ALL NEWS →</a></div>
       <div data-ghost="home-cards">
         <a class="card" href="news.html" style="overflow:hidden;display:block;transition:transform .16s" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='none'">
       <div style="aspect-ratio:16/9;background:linear-gradient(135deg,#dbe3ec,#c7d2de);position:relative">

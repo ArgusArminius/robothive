@@ -333,12 +333,33 @@
   }
 
   // run whichever hooks exist on this page
+  // ---- THE WIRE (short signal items tagged 'wire') -----------------------
+  function fillWire() {
+    var mount = document.querySelector('[data-ghost="wire"]');
+    if (!mount) return;
+    get(api({ limit: 8, filter: 'tag:wire' })).then(function (d) {
+      if (d.posts && d.posts.length) {
+        mount.innerHTML = d.posts.map(function (p) {
+          return '<a class="wire-row" href="article.html?slug=' + p.slug + '">' +
+            '<span class="wire-time">' + timeAgo(p.published_at) + '</span>' +
+            '<span class="wire-text">' + p.title + '</span>' +
+            '<span class="wire-src">source →</span></a>';
+        }).join('');
+      } else {
+        mount.innerHTML = '<div class="wire-empty">No wire items yet — tag a short post "wire" in Ghost to surface it here.</div>';
+      }
+    }).catch(function () {
+      mount.innerHTML = '<div class="wire-empty">Wire unavailable.</div>';
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     fillHome();
     fillNews();
     fillIndustry();
     fillIndustryLatest();
     fillArticle();
+    fillWire();
     wireNewsletter();
   });
 })();

@@ -155,9 +155,9 @@ window.RH_DATA.companies.push(
   summary:'Hivemind is an autonomy stack that flies aircraft without GPS or human input. V-BAT is its flagship VTOL UAS.',
   notable:'Selected for the US Air Force Collaborative Combat Aircraft prototype programme in February 2026. Where Anduril builds the battlefield brain, Shield AI builds the pilot.', robots:['v-bat'], suppliers:[] },
 
-{ id:'helsing', hubs:['Defense'], name:'Helsing', country:'Germany', flag:'🇩🇪', founded:2021, type:'builder', sector:'Defense AI', vertical:'Defense', status:'private', hq:'Munich', founders:'Torsten Reil, Gundbert Scherf, Niklas Köhler', ceo:'Torsten Reil, Gundbert Scherf (co-CEOs)', funding:'€1.4B+', valuation:'~$18B', employees:'~800', website:'https://helsing.ai',
-  summary:'Europe\'s most valuable defense-tech company. AI software for military aircraft, ground vehicles and data fusion; Centaur AI pilot; HX-2 strike drone.',
-  notable:'Counts the German Bundeswehr and UK Ministry of Defence among clients. Co-founder Torsten Reil previously founded games-AI company NaturalMotion.', robots:['hx-2'], suppliers:[] },
+{ id:'helsing', hubs:['Defense'], name:'Helsing', country:'Germany', flag:'🇩🇪', founded:2021, type:'builder', sector:'Defense AI', vertical:'Defense', status:'private', hq:'Munich', founders:'Torsten Reil, Gundbert Scherf, Niklas Köhler', ceo:'Torsten Reil, Gundbert Scherf (co-CEOs)', funding:'~$3.4B total', valuation:'~$18B', employees:'~900', website:'https://helsing.ai',
+  summary:'Europe\'s highest-valued defense-tech company, building AI software for sensor fusion and battlefield decision-making plus autonomous effectors across air, land, sea and undersea. Core products include the Altra combat-cloud AI, the HX-2 loitering munition and the CA-1 Europa autonomous-combat-aircraft concept.',
+  notable:'Reached a ~$18B valuation with a $1.8B Series E in July 2026 (Dragoneer, Lightspeed), after a EUR 600M Series D in 2025. Chaired by Spotify Daniel Ek (via Prima Materia) and ex-Airbus CEO Tom Enders; co-founder Torsten Reil previously founded games-AI firm NaturalMotion, and Gundbert Scherf is a former German MoD official. Building Resilience Factory drone plants (>1,000 drones/month) and shares a Bundeswehr loitering-munition framework with Stark.', robots:['hx-2'], suppliers:[] },
 
 { id:'skydio', hubs:['Defense'], name:'Skydio', country:'United States', flag:'🇺🇸', founded:2014, type:'builder', sector:'Autonomous drones', vertical:'Defense', status:'private', hq:'San Mateo, California', founders:'Adam Bry, Abraham Bachrach, Matt Donahoe', ceo:'Adam Bry', funding:'$850M+', valuation:'~$4.4B', employees:'~800', website:'https://skydio.com',
   summary:'The leading US-made autonomous drone maker. Onboard AI navigates GPS-denied environments; serves defense and public safety.',
@@ -171,9 +171,9 @@ window.RH_DATA.companies.push(
   summary:'Autonomous surface vessels (Spyglass, Cutlass, Corsair, Marauder) for maritime ISR and strike.',
   notable:'Founder Dino Mavrookas is a former Navy SEAL. Building Port Alpha, a large-scale autonomous shipyard.', robots:['corsair'], suppliers:[] },
 
-{ id:'stark', hubs:['Defense'], name:'Stark', country:'Germany', flag:'🇩🇪', founded:2024, type:'builder', sector:'Loitering munitions', vertical:'Defense', status:'private', hq:'Munich', founders:'Florian Seibel', ceo:'Florian Seibel', funding:'€500M', valuation:'Undisclosed', employees:'~200', website:'https://stark-defence.com',
-  summary:'European loitering-munition maker; OWE-V one-way effector.',
-  notable:'June 2026 round led by Sequoia Capital and Founders Fund — a signal of US VC appetite for European defense.', robots:[], suppliers:[] },
+{ id:'stark', hubs:['Defense'], name:'Stark (SKD SE)', country:'Germany', flag:'🇩🇪', founded:2024, type:'builder', sector:'Loitering munitions / unmanned systems', vertical:'Defense', status:'private', hq:'Berlin', founders:'Florian Seibel, Johannes Schaback', ceo:'Uwe Horstmann', funding:'~$670M total', valuation:'~€3.2-3.5B', employees:'~300-450', website:'https://stark-defence.com',
+  summary:'Software-defined, mass-producible unmanned strike systems for NATO allies, spanning loitering munitions, uncrewed surface vessels and multi-domain command software. Flagship is the Virtus eVTOL one-way effector (>130 km range, up to 90 min endurance), alongside Cascade, Gambit, the Vanta USV family and the Minerva swarm-control software.',
+  notable:'Went from founding to frontline relevance in roughly 13 months. Raised a €500M Series C in June 2026 co-led by Sequoia Capital and Founders Fund at a ~€3.2-3.5B valuation. Co-founded by Quantum Systems founder Florian Seibel; CEO Uwe Horstmann joined from Project A. Holds a ~€269M share of a ~€540M Bundeswehr loitering-munition package split with Helsing.', robots:['stark-virtus'], suppliers:[] },
 
 { id:'dji', hubs:['Civil'], name:'DJI', country:'China', flag:'🇨🇳', founded:2006, type:'builder', sector:'Commercial drones', vertical:'Drones', status:'private', hq:'Shenzhen', founders:'Frank Wang (汪滔)', ceo:'Frank Wang', funding:'Private', valuation:'Est. $15B+', employees:'~14,000', website:'https://dji.com',
   summary:'The dominant global commercial drone maker by volume, with an estimated majority share of the consumer and prosumer market.',
@@ -618,9 +618,10 @@ window.RH_DATA.companies.push(
   summary:'Embodied-intelligence startup that raised roughly ¥2B across five rounds in six months — a record fundraising pace for the sector.',
   notable:'Founding team came from EV maker Li Auto; backers include Sequoia China and Legend Capital.', robots:[], suppliers:[] },
 
-{ id:'humanoid-uk', hubs:['Civil'], name:'Humanoid', country:'United Kingdom', flag:'🇬🇧', founded:2024, type:'builder', sector:'Humanoid', vertical:'Humanoid', status:'private', hq:'London', founders:'Artem Sokolov', ceo:'Artem Sokolov', funding:'Early-stage', valuation:'Undisclosed', employees:'~60', website:'https://thehumanoid.ai',
-  summary:'UK humanoid startup developing the HMND series, positioning Britain in a field dominated by the US and China.',
-  notable:'One of the few UK-headquartered general-purpose humanoid developers.', robots:[], suppliers:[] }
+{ id:'humanoid-uk', hubs:['Civil'], name:'Humanoid', country:'United Kingdom', flag:'🇬🇧', founded:2024, type:'builder', sector:'Humanoid', vertical:'Humanoid', status:'private', hq:'London', founders:'Artem Sokolov', ceo:'Artem Sokolov', funding:'Early-stage (seed)', valuation:'Undisclosed', employees:'~60', website:'https://thehumanoid.ai',
+  summary:'London-based developer of the HMND 01 general-purpose humanoid, built around an in-house control stack (KinetIQ) and NVIDIA Jetson Thor compute with Isaac Sim/Lab for training. Targets a ~15 kg payload for logistics and manufacturing work, and positions Britain in a field otherwise dominated by the US and China.',
+  notable:'Founder Artem Sokolov is a Russian-born entrepreneur who grew the family firm Sokolov Jewelry into a major business before founding SKL.vc and, in 2024, Humanoid (as SKL Robotics Ltd); named EY Entrepreneur of the Year 2021. Early proof-of-concept deployments have been discussed with Siemens (Erlangen) and Schaeffler.',
+  robots:['hmnd-01'], suppliers:['nvidia','bosch-sensortec'] }
 );
 
 window.RH_DATA.robots.push(
@@ -681,4 +682,59 @@ window.RH_DATA.robots.push(
 { id:'harop', name:'IAI Harop', maker:'iai', type:'Loitering munition', vertical:'Drones', country:'Israel', flag:'🇮🇱', year:2009, price:'Undisclosed', status:'In service', height:'3 m', payload:'23 kg warhead', summary:'Anti-radiation loitering munition that dives onto emitting targets.', components:[] },
 { id:'anafi-usa', name:'Parrot ANAFI USA', maker:'parrot', type:'Micro ISR UAS', vertical:'Drones', country:'France', flag:'🇫🇷', year:2020, price:'~$7,000', status:'Shipping', height:'Foldable', payload:'32x zoom EO/IR', summary:'Secure micro-drone built for defense and public-safety users needing non-Chinese hardware.', components:[] },
 { id:'evo-max-4t', name:'Autel EVO Max 4T', maker:'autel', type:'Enterprise UAS', vertical:'Drones', country:'China', flag:'🇨🇳', year:2023, price:'~$8,000', status:'Shipping', height:'Foldable', payload:'Thermal + zoom', summary:'Enterprise inspection drone competing directly with DJI\'s Matrice line.', components:[] }
+);
+
+/* ---- ADDITIONS: Humanoid HMND 01 robot + agriculture companies (from RH research) ---- */
+window.RH_DATA.robots.push(
+{ id:'hmnd-01', name:'HMND 01', maker:'humanoid-uk', type:'Humanoid', vertical:'Humanoid', country:'United Kingdom', flag:'🇬🇧', year:2025, price:'Not disclosed', status:'Development', height:'~1.75 m', payload:'~15 kg', summary:'General-purpose humanoid running the in-house KinetIQ control stack on NVIDIA Jetson Thor, aimed at logistics and light manufacturing tasks.', components:['jetson-thor'] }
+);
+
+window.RH_DATA.companies.push(
+{ id:'agxeed', hubs:['Agriculture'], name:'AgXeed', country:'Netherlands', flag:'🇳🇱', founded:2018, type:'builder', sector:'Autonomous tractors', vertical:'Agriculture', status:'private', hq:'Oploo', founders:'Joris Hiddema, Lars Schmitz', ceo:'Joris Hiddema', funding:'Private', valuation:'Undisclosed', employees:'~100', website:'https://agxeed.com',
+  summary:'Maker of the AgBot autonomous tractor range, controlled through a cloud portal that plans and monitors field work. The AgBot T2 offers roughly 2.5 cm path precision; featured in Clarkson\'s Farm Season 5.',
+  notable:'The AgBot T2 is priced around €295,000. AgXeed sells autonomy as a planning-and-execution system, not just a driverless vehicle.', robots:['agxeed-agbot-t2'], suppliers:[] },
+
+{ id:'farmdroid', hubs:['Agriculture'], name:'FarmDroid', country:'Denmark', flag:'🇩🇰', founded:2018, type:'builder', sector:'Seeding / weeding robots', vertical:'Agriculture', status:'private', hq:'Vejle', founders:'Jens Warming, Kristian Warming', ceo:'—', funding:'Private', valuation:'Undisclosed', employees:'~60', website:'https://farmdroid.com',
+  summary:'Danish maker of the solar-powered FD20, a field robot that both seeds and weeds using centimetre-level GPS to remember each seed\'s position. Seen at LAMMA 2025 and featured in Clarkson\'s Farm Season 5.',
+  notable:'Fully solar-powered and chemical-free; the seed-position memory lets it weed between and within rows without vision.', robots:['farmdroid-fd20'], suppliers:[] },
+
+{ id:'farm-ng', hubs:['Agriculture'], name:'farm-ng', country:'United States', flag:'🇺🇸', founded:2019, type:'builder', sector:'Modular ag robots', vertical:'Agriculture', status:'private', hq:'Watsonville, California', founders:'Ethan Rublee', ceo:'Ethan Rublee', funding:'Private', valuation:'Undisclosed', employees:'~40', website:'https://farm-ng.com',
+  summary:'Maker of the Amiga, a compact modular electric robot platform for small and specialty farms, with a developer-friendly open approach.',
+  notable:'Founder Ethan Rublee previously co-founded computer-vision company Industrial Perception (acquired by Google).', robots:['amiga'], suppliers:[] }
+);
+
+window.RH_DATA.robots.push(
+{ id:'agxeed-agbot-t2', name:'AgBot T2', maker:'agxeed', type:'Autonomous tractor', vertical:'Agriculture', country:'Netherlands', flag:'🇳🇱', year:2023, price:'~€295,000', status:'Shipping', height:'—', payload:'3-wheel tracked', summary:'Autonomous tracked field robot with ~2.5 cm path precision, planned and monitored via the AgXeed cloud portal.', components:[] },
+{ id:'farmdroid-fd20', name:'FarmDroid FD20', maker:'farmdroid', type:'Seeding/weeding robot', vertical:'Agriculture', country:'Denmark', flag:'🇩🇰', year:2020, price:'~€75,000', status:'Shipping', height:'—', payload:'Solar-powered', summary:'Solar-powered robot that seeds and weeds chemical-free, using GPS seed-position memory for precise in-row weeding.', components:[] },
+{ id:'amiga', name:'Amiga', maker:'farm-ng', type:'Modular ag robot', vertical:'Agriculture', country:'United States', flag:'🇺🇸', year:2021, price:'~$20,000+', status:'Shipping', height:'—', payload:'Modular tooling', summary:'Compact modular electric platform for specialty crops, built to be extended by developers.', components:[] }
+);
+
+/* EU agriculture-robotics regulation / subsidy context (from RH research) */
+window.RH_DATA.agRegulation = {
+  headline:'Policy and demographics behind Europe\'s ag-robot push',
+  points:[
+    { title:'CAP eco-schemes', body:'The EU Common Agricultural Policy\'s eco-schemes (a large multi-year budget) can reimburse a meaningful share of precision-equipment investment; some member states such as France and Denmark have offered subsidies covering up to roughly 40% of qualifying precision-agriculture kit.' },
+    { title:'Germany driverless law (2024)', body:'Germany moved to allow driverless machine operation on private agricultural land, removing a key legal barrier to fielding autonomous tractors.' },
+    { title:'Green Deal chemical targets', body:'EU Green Deal and Farm-to-Fork targets to cut chemical pesticide use create direct demand for laser and mechanical weeding robots that reduce or eliminate herbicide.' },
+    { title:'Ageing farmers', body:'A structural labour driver: only about 6% of EU farmers are under 35 while roughly 31% are over 65, pushing interest in autonomy as succession and labour gaps widen.' },
+    { title:'Cost barrier', body:'Adoption is gated by price — conventional self-propelled sprayers can run into the millions, and around 40% of farmers cite upfront cost as the main barrier, which is why sub-€100k robots and subsidies matter.' }
+  ]
+};
+
+/* ---- ADDITIONS: German defense startups (from RH research, facts in own words) ---- */
+window.RH_DATA.companies.push(
+{ id:'tytan', hubs:['Defense'], name:'Tytan Technologies', country:'Germany', flag:'🇩🇪', founded:2023, type:'builder', sector:'Counter-UAS interceptors', vertical:'Defense', status:'private', hq:'Munich', founders:'Balázs Nagy, Batuhan Yumurtacı', ceo:'Balázs Nagy', funding:'~€46M+', valuation:'~€150M', employees:'51-200', website:'https://tytan-technologies.com',
+  summary:'Builds AI-guided kinetic interceptor drones for counter-UAS and air defense, aimed at cheaply countering mass low-cost drone threats such as Shahed-class attacks. Products span the EOS short-range multicopter interceptor and the faster fixed-wing METIS/TI series, wrapped in a sensor-plus-effector "Drone Defender" ecosystem.',
+  notable:'Raised a €30M Series A in February 2026 co-led by Armira and the NATO Innovation Fund. A new German factory targets up to 3,000 interceptors per month from late 2026; systems are already reported in Ukrainian use, with Bundeswehr contracts for installation protection and partnerships including Mercedes-Benz (G-Class mounting) and HENSOLDT sensors. CTO Batuhan Yumurtacı is a Forbes 30 Under 30 honoree.', robots:['tytan-metis','tytan-eos'], suppliers:[] },
+
+{ id:'reactive-dynamics', hubs:['Defense'], name:'Reactive Dynamics', country:'Germany', flag:'🇩🇪', founded:2025, type:'builder', sector:'Uncrewed ground vehicles', vertical:'Defense', status:'private', hq:'Eichstätt, Bavaria', founders:'Julius Mahler, Maximilian Wunderlich, Joris Bauer-Ludwigs', ceo:'—', funding:'Early-stage', valuation:'Undisclosed', employees:'~dozens', website:'https://reactive-dynamics.com',
+  summary:'Full-stack developer of autonomous uncrewed ground vehicles for squad-level land operations, positioning ground autonomy as the missing piece of battlefield robotics. Its RDX 1 is a modular electric tracked platform (~80 km/h, ~150 km range, up to 1,200 kg payload) coordinated in groups via its React OS under a single operator.',
+  notable:'Founded September 2025; very early-stage relative to peers, focused on the land-domain autonomy gap. Partners with Quantum Systems (linked to Stark\'s Florian Seibel) and has appeared at NATO/Bundeswehr events such as Steadfast Dart and Eurosatory.', robots:['rdx-1'], suppliers:[] }
+);
+
+window.RH_DATA.robots.push(
+{ id:'stark-virtus', name:'Virtus (OWE-V)', maker:'stark', type:'Loitering munition (eVTOL)', vertical:'Defense', country:'Germany', flag:'🇩🇪', year:2025, price:'Undisclosed', status:'In service', height:'>130 km range', payload:'German warhead', summary:'eVTOL one-way effector with over 130 km range and up to 90 minutes endurance; reusable in a training mode, cruising ~120 km/h and diving up to ~250 km/h.', components:[] },
+{ id:'tytan-metis', name:'METIS / TI', maker:'tytan', type:'Kinetic interceptor', vertical:'Defense', country:'Germany', flag:'🇩🇪', year:2025, price:'Low-cost', status:'In service', height:'~0.9 m', payload:'Kinetic / fragmentation', summary:'Fixed-wing AI-guided interceptor for NATO Class II drones, high-speed and able to operate in GPS-denied conditions; thousands reported in Ukrainian use.', components:[] },
+{ id:'tytan-eos', name:'EOS', maker:'tytan', type:'Interceptor multicopter', vertical:'Defense', country:'Germany', flag:'🇩🇪', year:2025, price:'Low-cost', status:'Development', height:'Multicopter', payload:'Kinetic', summary:'Short-range multicopter interceptor aimed at NATO Class I drone threats.', components:[] },
+{ id:'rdx-1', name:'RDX 1', maker:'reactive-dynamics', type:'Uncrewed ground vehicle', vertical:'Defense', country:'Germany', flag:'🇩🇪', year:2025, price:'Undisclosed', status:'Development', height:'Tracked UGV', payload:'up to 1,200 kg', summary:'Modular electric tracked UGV: ~80 km/h top speed, ~150 km range, 60% gradient, low signature; multiple units coordinated via React OS under one operator.', components:[] }
 );
