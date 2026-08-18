@@ -443,9 +443,43 @@
     });
   }
 
+  // -------- LATEST DATA UPDATES (live from newest records) ----------------
+  function renderLatestUpdates() {
+    document.querySelectorAll('[data-rh-updates]').forEach(function (el) {
+      var scope = el.getAttribute('data-rh-updates'); // 'all' or a hub name
+      var nCo = D.companies.length, nRo = D.robots.length;
+      var items = [];
+      // recency proxy: position from the END of each array, normalised 0..1 (0 = newest).
+      D.companies.forEach(function (c, i) {
+        if (scope !== 'all' && !(c.hubs && c.hubs.indexOf(scope) !== -1)) return;
+        items.push({ recency: (nCo - 1 - i) / nCo, kind: 'company',
+          tag: (c.vertical || 'Company').toUpperCase(),
+          title: c.name.replace(/\s*\(.*\)/, '') + ' — profile added',
+          href: 'company-profile.html?id=' + c.id });
+      });
+      D.robots.forEach(function (r, i) {
+        if (scope !== 'all' && r.vertical !== scope) return;
+        items.push({ recency: (nRo - 1 - i) / nRo, kind: 'robot', tag: 'ROBOT',
+          title: r.name + ' added', href: 'robots.html' });
+      });
+      // smallest recency = newest
+      items.sort(function (a, b) { return a.recency - b.recency; });
+      var top = items.slice(0, 5);
+      if (!top.length) { el.innerHTML = '<div class="railitem" style="color:var(--ink-3)">No records yet.</div>'; return; }
+      el.innerHTML = top.map(function (it, i) {
+        var n = ('0' + (i + 1)).slice(-2);
+        return '<a class="railitem" href="' + it.href + '">' +
+          '<div class="railitem__meta"><span class="mono" style="color:var(--blue)">' + n + '</span>' +
+          '<span class="upd-tag">' + esc(it.tag) + '</span></div>' +
+          '<div class="railitem__t">' + esc(it.title) + '</div></a>';
+      }).join('');
+    });
+  }
+
   function run() {
     renderCompanies(); renderProfile(); renderRobots();
     renderSuppliers(); renderComponents(); renderSupplyContext(); renderCounts();
+    renderLatestUpdates();
     renderSectorStrips(); renderMarkets(); renderDroneMakers(); renderDroneArchive(); renderInvestment();
     renderHubPreview();
   }

@@ -337,7 +337,7 @@
   function fillWire() {
     var mount = document.querySelector('[data-ghost="wire"]');
     if (!mount) return;
-    get(api({ limit: 8, filter: 'tag:wire' })).then(function (d) {
+    get(api({ limit: 5, filter: 'tag:wire' })).then(function (d) {
       if (d.posts && d.posts.length) {
         mount.innerHTML = d.posts.map(function (p) {
           return '<a class="wire-row" href="article.html?slug=' + p.slug + '">' +
@@ -353,6 +353,32 @@
     });
   }
 
+  // ---- WIRE ARCHIVE (full list + search on wire.html) --------------------
+  function fillWireArchive() {
+    var mount = document.querySelector('[data-ghost="wire-archive"]');
+    if (!mount) return;
+    get(api({ limit: 100, filter: 'tag:wire' })).then(function (d) {
+      var all = (d.posts || []);
+      function render(list) {
+        if (!list.length) { mount.innerHTML = '<div class="wire-empty">No wire items found.</div>'; return; }
+        mount.innerHTML = list.map(function (p) {
+          return '<a class="wire-row" href="article.html?slug=' + p.slug + '">' +
+            '<span class="wire-time">' + fmtDate(p.published_at) + '</span>' +
+            '<span class="wire-text">' + p.title + '</span>' +
+            '<span class="wire-src">source →</span></a>';
+        }).join('');
+      }
+      render(all);
+      var q = document.getElementById('wire-q');
+      if (q) q.oninput = function () {
+        var s = q.value.toLowerCase();
+        render(all.filter(function (p) { return (p.title + ' ' + (p.excerpt || '')).toLowerCase().indexOf(s) !== -1; }));
+      };
+    }).catch(function () {
+      mount.innerHTML = '<div class="wire-empty">Wire unavailable.</div>';
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     fillHome();
     fillNews();
@@ -360,6 +386,7 @@
     fillIndustryLatest();
     fillArticle();
     fillWire();
+    fillWireArchive();
     wireNewsletter();
   });
 })();
