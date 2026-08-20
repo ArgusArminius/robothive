@@ -76,7 +76,7 @@
     var cardGrid = document.querySelector('[data-ghost="home-cards"]');
     var rail = document.querySelector('[data-ghost="latest-rail"]');
     if (cardGrid) {
-      get(api({ limit: 6 })).then(function (d) {
+      get(api({ limit: 6, filter: 'tag:-wire' })).then(function (d) {
         if (d.posts && d.posts.length) renderHomeFeed(cardGrid, d.posts);
       }).catch(function () {});
     }
@@ -149,7 +149,7 @@
   function fillNews() {
     var grid = document.querySelector('[data-ghost="news-list"]');
     if (!grid) return;
-    get(api({ limit: 30 })).then(function (d) {
+    get(api({ limit: 30, filter: 'tag:-wire' })).then(function (d) {
       if (!d.posts || !d.posts.length) return;
       var all = d.posts;
       var state = { cat: '', industry: '', q: '' };
@@ -211,7 +211,7 @@
     var cards = el.querySelector('[data-ghost="industry-cards"]');
     var rail = el.querySelector('[data-ghost="industry-rail"]');
     if (cards) {
-      get(api({ limit: 12, filter: 'tag:' + tag })).then(function (d) {
+      get(api({ limit: 12, filter: 'tag:' + tag + '+tag:-wire' })).then(function (d) {
         if (d.posts && d.posts.length) renderHeroList(cards, d.posts);
       }).catch(function () {});
     }
@@ -236,7 +236,7 @@
     var blocks = document.querySelectorAll('[data-ghost-latest]');
     blocks.forEach(function (block) {
       var tag = block.getAttribute('data-ghost-latest');
-      get(api({ limit: 5, filter: 'tag:' + tag })).then(function (d) {
+      get(api({ limit: 5, filter: 'tag:' + tag + '+tag:-wire' })).then(function (d) {
         if (d.posts && d.posts.length) {
           block.innerHTML = '<h5>Latest 5 entries</h5>' +
             d.posts.map(latestLine).join('');
@@ -299,30 +299,32 @@
     forms.forEach(function (form) {
       form.addEventListener('submit', function (e) {
         e.preventDefault();
-        var input = form.querySelector('input[type="email"], input[type="text"]');
+        var input = form.querySelector('input[type="email"]') || form.querySelector('input[type="text"]');
+        var nameInput = form.querySelector('input[data-name], input[name="name"]');
         var btn = form.querySelector('button');
         if (!input || !input.value) return;
         var email = input.value.trim();
+        var name = nameInput && nameInput.value ? nameInput.value.trim() : undefined;
         var original = btn ? btn.textContent : '';
         if (btn) { btn.textContent = '…'; btn.disabled = true; }
+        var payload = { email: email, emailType: 'subscribe', labels: [], requestSrc: 'robothive-custom-site' };
+        if (name) payload.name = name;
         fetch(GHOST_URL + '/members/api/send-magic-link/', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            email: email,
-            emailType: 'subscribe',
-            labels: [],
-            requestSrc: 'robothive-custom-site'
-          })
+          body: JSON.stringify(payload)
         }).then(function (r) {
           if (r.ok) {
             if (btn) btn.textContent = '✓ Check your inbox';
             input.value = '';
+            if (nameInput) nameInput.value = '';
           } else {
             if (btn) btn.textContent = 'Try again';
+            console.error('Newsletter signup failed:', r.status, '— if 4xx, Ghost may be in Private mode or membership is off.');
           }
-        }).catch(function () {
+        }).catch(function (err) {
           if (btn) btn.textContent = 'Try again';
+          console.error('Newsletter signup error (network/CORS):', err);
         }).finally(function () {
           setTimeout(function () {
             if (btn) { btn.textContent = original || 'Subscribe'; btn.disabled = false; }
@@ -379,6 +381,78 @@
     });
   }
 
+  // ---- YOUTUBE SLIDESHOW (auto-pulled from Ghost article embeds) ---------
+  function fillVideoSlideshow() {
+    var box = document.querySelector('[data-ghost="video-slideshow"]');
+    if (!box) return;
+    var frame = box.querySelector('.ytwin__frame');
+    var titleEl = box.querySelector('.ytwin__bar b');
+    var countEl = box.querySelector('.ytwin__count');
+    // fetch posts WITH html so we can scan for embeds
+    var url = API + '?key=' + GHOST_KEY + '&limit=20&fields=title,slug,html&formats=html';
+    fetch(url).then(function (r) { return r.json(); }).then(function (d) {
+      var vids = [];
+      (d.posts || []).forEach(function (p) {
+        if (!p.html) return;
+        // match youtube embed / links: youtube.com/embed/ID, youtu.be/ID, watch?v=ID
+        var re = /(?:youtube(?:-nocookie)?\.com\/(?:embed\/|watch\?v=)|youtu\.be\/)([A-Za-z0-9_-]{11})/g;
+        var m, seen = {};
+        while ((m = re.exec(p.html)) !== null) {
+          var id = m[1];
+          if (id === 'videoseries' || seen[id]) continue;
+          seen[id] = 1;
+          vids.push({ id: id, title: p.title });
+        }
+      });
+      // dedupe globally
+      var uniq = [], ids = {};
+      vids.forEach(function (v) { if (!ids[v.id]) { ids[v.id] = 1; uniq.push(v); } });
+
+      if (!uniq.length) {
+        frame.innerHTML = '<div class="ytwin__placeholder">No videos yet — embed a YouTube video in a Ghost article and it appears here.</div>';
+        if (countEl) countEl.textContent = '';
+        return;
+      }
+
+      var i = 0;
+      function show(n) {
+        i = (n + uniq.length) % uniq.length;
+        var v = uniq[i];
+        frame.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + v.id +
+          '" title="' + v.title + '" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>' +
+          '<button class="ytwin__expand" aria-label="Enlarge">⤢</button>';
+        if (titleEl) titleEl.textContent = v.title.length > 42 ? v.title.slice(0, 42) + '…' : v.title;
+        if (countEl) countEl.textContent = (i + 1) + ' / ' + uniq.length;
+        frame.querySelector('.ytwin__expand').onclick = function (e) {
+          e.stopPropagation(); openLightbox(v);
+        };
+      }
+      var prev = box.querySelector('.ytwin__prev');
+      var next = box.querySelector('.ytwin__next');
+      if (prev) prev.onclick = function () { show(i - 1); };
+      if (next) next.onclick = function () { show(i + 1); };
+      show(0);
+
+      function openLightbox(v) {
+        var lb = document.createElement('div');
+        lb.className = 'yt-lightbox';
+        lb.innerHTML = '<div class="yt-lightbox__inner"><button class="yt-lightbox__close" aria-label="Close">×</button>' +
+          '<div class="yt-lightbox__frame"><iframe src="https://www.youtube-nocookie.com/embed/' + v.id +
+          '?autoplay=1" title="' + v.title + '" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe></div>' +
+          '<div class="yt-lightbox__title">' + v.title + '</div></div>';
+        document.body.appendChild(lb);
+        function close() { lb.remove(); }
+        lb.onclick = function (e) { if (e.target === lb) close(); };
+        lb.querySelector('.yt-lightbox__close').onclick = close;
+        document.addEventListener('keydown', function esc(ev) {
+          if (ev.key === 'Escape') { close(); document.removeEventListener('keydown', esc); }
+        });
+      }
+    }).catch(function () {
+      frame.innerHTML = '<div class="ytwin__placeholder">Video unavailable.</div>';
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     fillHome();
     fillNews();
@@ -387,6 +461,7 @@
     fillArticle();
     fillWire();
     fillWireArchive();
+    fillVideoSlideshow();
     wireNewsletter();
   });
 })();

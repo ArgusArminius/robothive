@@ -116,7 +116,7 @@ h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;letter-spacing:-.01em;font-we
 .tbl tr:hover td{background:var(--blue-tint)}
 .tbl .name{font-weight:600}
 .tbl .link{color:var(--blue);cursor:pointer}.tbl .link:hover{text-decoration:underline}
-.pill{display:inline-block;font-family:'IBM Plex Mono';font-size:10.5px;padding:3px 9px;border-radius:20px;background:var(--bg-2);color:var(--ink-2);border:1px solid var(--line)}
+.pill{display:inline-block;font-family:'IBM Plex Mono';font-size:10.5px;padding:2px 7px;border-radius:4px;background:transparent;color:var(--ink-2);border:1px solid var(--line)}
 .flag{font-family:'IBM Plex Mono';font-size:11px;color:var(--ink-3)}
 
 /* ---------- FOOTER ---------- */
@@ -376,7 +376,7 @@ a#rh-ticker{display:flex;align-items:center;text-decoration:none;cursor:pointer}
 .filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
 .filters .select,.filters .searchbar{font-size:12.5px;padding:7px 11px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink)}
 .filters .searchbar{flex:1;min-width:160px}
-.pill{display:inline-block;font-size:11px;padding:2px 8px;border-radius:20px;background:var(--blue-tint);color:var(--blue)}
+.pill{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-2);text-transform:uppercase;letter-spacing:.02em}
 /* tighten latest-entries lists too */
 .bigind__latest h5{margin-bottom:6px}
 .bigind__l,.bigind__latest a{font-size:13px;padding:3px 0}
@@ -470,6 +470,24 @@ a#rh-ticker{display:flex;align-items:center;text-decoration:none;cursor:pointer}
 
 .wire-head .wire-all{margin-left:14px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:#9db4d8;text-decoration:none;letter-spacing:.04em}
 .wire-head .wire-all:hover{color:#fff}
+
+/* YT SLIDESHOW */
+.ytwin__placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#8895a4;font-family:'IBM Plex Mono',monospace;font-size:12px;text-align:center;padding:20px}
+.ytwin__frame{position:relative}
+.ytwin__expand{position:absolute;top:10px;right:10px;z-index:3;background:rgba(13,22,34,.8);color:#fff;border:0;border-radius:6px;width:32px;height:32px;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.ytwin__expand:hover{background:var(--blue)}
+.ytwin__nav{display:flex;align-items:center;gap:8px}
+.ytwin__nav button{background:none;border:1px solid var(--line);border-radius:6px;width:26px;height:26px;cursor:pointer;color:var(--ink-2);font-size:16px;line-height:1;display:flex;align-items:center;justify-content:center}
+.ytwin__nav button:hover{border-color:var(--blue);color:var(--blue)}
+.ytwin__count{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--ink-3);min-width:38px;text-align:center}
+/* lightbox */
+.yt-lightbox{position:fixed;inset:0;z-index:9999;background:rgba(6,10,16,.88);display:flex;align-items:center;justify-content:center;padding:24px;animation:ytfade .15s ease}
+@keyframes ytfade{from{opacity:0}to{opacity:1}}
+.yt-lightbox__inner{width:min(960px,92vw);position:relative}
+.yt-lightbox__frame{position:relative;aspect-ratio:16/9;background:#000;border-radius:12px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.yt-lightbox__frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.yt-lightbox__close{position:absolute;top:-42px;right:0;background:none;border:0;color:#fff;font-size:30px;cursor:pointer;line-height:1}
+.yt-lightbox__title{color:#fff;font-family:'Space Grotesk',Inter,sans-serif;font-size:15px;margin-top:14px;text-align:center}
 </style></head><body><div class="mobile-overlay" id="moverlay" onclick="document.getElementById('mpanel').classList.remove('open');this.classList.remove('open')"></div><div class="mobile-panel" id="mpanel">
   <div class="mobile-panel__head"><span class="brand__name">Robot<b style="color:var(--blue)">Hive</b></span><button class="mobile-close" onclick="document.getElementById('mpanel').classList.remove('open');document.getElementById('moverlay').classList.remove('open')">×</button></div>
   <a href="index.html">Main</a>

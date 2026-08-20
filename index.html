@@ -116,7 +116,7 @@ h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;letter-spacing:-.01em;font-we
 .tbl tr:hover td{background:var(--blue-tint)}
 .tbl .name{font-weight:600}
 .tbl .link{color:var(--blue);cursor:pointer}.tbl .link:hover{text-decoration:underline}
-.pill{display:inline-block;font-family:'IBM Plex Mono';font-size:10.5px;padding:3px 9px;border-radius:20px;background:var(--bg-2);color:var(--ink-2);border:1px solid var(--line)}
+.pill{display:inline-block;font-family:'IBM Plex Mono';font-size:10.5px;padding:2px 7px;border-radius:4px;background:transparent;color:var(--ink-2);border:1px solid var(--line)}
 .flag{font-family:'IBM Plex Mono';font-size:11px;color:var(--ink-3)}
 
 /* ---------- FOOTER ---------- */
@@ -376,7 +376,7 @@ a#rh-ticker{display:flex;align-items:center;text-decoration:none;cursor:pointer}
 .filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
 .filters .select,.filters .searchbar{font-size:12.5px;padding:7px 11px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink)}
 .filters .searchbar{flex:1;min-width:160px}
-.pill{display:inline-block;font-size:11px;padding:2px 8px;border-radius:20px;background:var(--blue-tint);color:var(--blue)}
+.pill{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-2);text-transform:uppercase;letter-spacing:.02em}
 /* tighten latest-entries lists too */
 .bigind__latest h5{margin-bottom:6px}
 .bigind__l,.bigind__latest a{font-size:13px;padding:3px 0}
@@ -470,6 +470,24 @@ a#rh-ticker{display:flex;align-items:center;text-decoration:none;cursor:pointer}
 
 .wire-head .wire-all{margin-left:14px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:#9db4d8;text-decoration:none;letter-spacing:.04em}
 .wire-head .wire-all:hover{color:#fff}
+
+/* YT SLIDESHOW */
+.ytwin__placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#8895a4;font-family:'IBM Plex Mono',monospace;font-size:12px;text-align:center;padding:20px}
+.ytwin__frame{position:relative}
+.ytwin__expand{position:absolute;top:10px;right:10px;z-index:3;background:rgba(13,22,34,.8);color:#fff;border:0;border-radius:6px;width:32px;height:32px;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.ytwin__expand:hover{background:var(--blue)}
+.ytwin__nav{display:flex;align-items:center;gap:8px}
+.ytwin__nav button{background:none;border:1px solid var(--line);border-radius:6px;width:26px;height:26px;cursor:pointer;color:var(--ink-2);font-size:16px;line-height:1;display:flex;align-items:center;justify-content:center}
+.ytwin__nav button:hover{border-color:var(--blue);color:var(--blue)}
+.ytwin__count{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--ink-3);min-width:38px;text-align:center}
+/* lightbox */
+.yt-lightbox{position:fixed;inset:0;z-index:9999;background:rgba(6,10,16,.88);display:flex;align-items:center;justify-content:center;padding:24px;animation:ytfade .15s ease}
+@keyframes ytfade{from{opacity:0}to{opacity:1}}
+.yt-lightbox__inner{width:min(960px,92vw);position:relative}
+.yt-lightbox__frame{position:relative;aspect-ratio:16/9;background:#000;border-radius:12px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.yt-lightbox__frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.yt-lightbox__close{position:absolute;top:-42px;right:0;background:none;border:0;color:#fff;font-size:30px;cursor:pointer;line-height:1}
+.yt-lightbox__title{color:#fff;font-family:'Space Grotesk',Inter,sans-serif;font-size:15px;margin-top:14px;text-align:center}
 </style></head><body><div class="mobile-overlay" id="moverlay" onclick="document.getElementById('mpanel').classList.remove('open');this.classList.remove('open')"></div><div class="mobile-panel" id="mpanel">
   <div class="mobile-panel__head"><span class="brand__name">Robot<b style="color:var(--blue)">Hive</b></span><button class="mobile-close" onclick="document.getElementById('mpanel').classList.remove('open');document.getElementById('moverlay').classList.remove('open')">×</button></div>
   <a href="index.html">Main</a>
@@ -507,15 +525,15 @@ a#rh-ticker{display:flex;align-items:center;text-decoration:none;cursor:pointer}
         <h1 class="hero2__title">Who builds it, who funds it, who supplies it.</h1>
         <p class="hero2__sub">Companies, robots, capital and regulation across robotics, drones and embodied AI — with our own editorial cut.</p>
         <div class="hero2__stats">
-          <div class="hero2__stat"><b>540+</b><span>Companies</span></div>
-          <div class="hero2__stat"><b>312</b><span>Robots</span></div>
-          <div class="hero2__stat"><b>180</b><span>Suppliers</span></div>
-          <div class="hero2__stat"><b>$1.4B</b><span>Funding</span></div>
+          <div class="hero2__stat"><b data-rh-count="companies">0</b><span>Companies</span></div>
+          <div class="hero2__stat"><b data-rh-count="robots">0</b><span>Robots</span></div>
+          <div class="hero2__stat"><b data-rh-count="suppliers">0</b><span>Suppliers</span></div>
+          <div class="hero2__stat"><b data-rh-count="components">0</b><span>Components</span></div>
         </div>
       </div>
-      <div class="ytwin">
-        <div class="ytwin__frame"><iframe src="https://www.youtube-nocookie.com/embed/videoseries?list=UUsomething" title="Robot Hive channel" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe></div>
-        <div class="ytwin__bar"><b>Robot Hive on YouTube</b><a href="#">Visit channel →</a></div>
+      <div class="ytwin" data-ghost="video-slideshow">
+        <div class="ytwin__frame"><div class="ytwin__placeholder">Loading videos from the Hive…</div></div>
+        <div class="ytwin__bar"><b>Robot Hive · Video</b><span class="ytwin__nav"><button class="ytwin__prev" aria-label="Previous">‹</button><span class="ytwin__count"></span><button class="ytwin__next" aria-label="Next">›</button></span></div>
       </div>
     </div>
 
@@ -549,12 +567,12 @@ a#rh-ticker{display:flex;align-items:center;text-decoration:none;cursor:pointer}
       <div style="position:absolute;right:-18px;bottom:-22px;width:80px;height:88px;opacity:.05"><svg viewBox="0 0 90 100"><polygon points="45,4 86,27 86,73 45,96 4,73 4,27" fill="none" stroke="#0f1620" stroke-width="4"/></svg></div>
       <div style="font-size:16px;font-weight:600;margin-bottom:5px;font-family:'Space Grotesk'">Companies</div>
       <div style="font-size:12.5px;color:var(--ink-2);line-height:1.45;margin-bottom:12px;max-width:34ch">Robot makers by country — funding, specialty, product.</div>
-      <div class="mono" style="font-size:11.5px;color:var(--blue)">540 profiles →</div></a>
+      <div class="mono" style="font-size:11.5px;color:var(--blue)"><span data-rh-count="companies">0</span> profiles →</div></a>
           <a class="card" href="robots.html" style="padding:20px;position:relative;overflow:hidden;display:block;transition:transform .16s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
       <div style="position:absolute;right:-18px;bottom:-22px;width:80px;height:88px;opacity:.05"><svg viewBox="0 0 90 100"><polygon points="45,4 86,27 86,73 45,96 4,73 4,27" fill="none" stroke="#0f1620" stroke-width="4"/></svg></div>
       <div style="font-size:16px;font-weight:600;margin-bottom:5px;font-family:'Space Grotesk'">Robot comparison</div>
       <div style="font-size:12.5px;color:var(--ink-2);line-height:1.45;margin-bottom:12px;max-width:34ch">Filter by company, type, price or origin.</div>
-      <div class="mono" style="font-size:11.5px;color:var(--blue)">312 robots →</div></a>
+      <div class="mono" style="font-size:11.5px;color:var(--blue)"><span data-rh-count="robots">0</span> robots →</div></a>
           <a class="card" href="investment.html" style="padding:20px;position:relative;overflow:hidden;display:block;transition:transform .16s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
       <div style="position:absolute;right:-18px;bottom:-22px;width:80px;height:88px;opacity:.05"><svg viewBox="0 0 90 100"><polygon points="45,4 86,27 86,73 45,96 4,73 4,27" fill="none" stroke="#0f1620" stroke-width="4"/></svg></div>
       <div style="font-size:16px;font-weight:600;margin-bottom:5px;font-family:'Space Grotesk'">Investment</div>
@@ -564,7 +582,7 @@ a#rh-ticker{display:flex;align-items:center;text-decoration:none;cursor:pointer}
       <div style="position:absolute;right:-18px;bottom:-22px;width:80px;height:88px;opacity:.05"><svg viewBox="0 0 90 100"><polygon points="45,4 86,27 86,73 45,96 4,73 4,27" fill="none" stroke="#0f1620" stroke-width="4"/></svg></div>
       <div style="font-size:16px;font-weight:600;margin-bottom:5px;font-family:'Space Grotesk'">Suppliers</div>
       <div style="font-size:12.5px;color:var(--ink-2);line-height:1.45;margin-bottom:12px;max-width:34ch">The actuator, sensor and compute supply chain.</div>
-      <div class="mono" style="font-size:11.5px;color:var(--blue)">180 suppliers →</div></a>
+      <div class="mono" style="font-size:11.5px;color:var(--blue)"><span data-rh-count="suppliers">0</span> suppliers →</div></a>
         </div>
         <div class="railbox"><div class="railbox__head">Latest data updates</div><div data-rh-updates="all"></div></div>
       </div>
@@ -590,8 +608,8 @@ a#rh-ticker{display:flex;align-items:center;text-decoration:none;cursor:pointer}
     </section>
 
     <section style="padding:8px 0 20px"><div class="nlstrip">
-      <div><div class="nlstrip__t">Join the Hive</div><div class="nlstrip__s">The week's robotics signal — every Thursday.</div></div>
-      <form class="nlstrip__form"><input type="email" placeholder="you@email.com"><button>Subscribe</button></form>
+      <div><div class="nlstrip__t">Join the Hive</div><div class="nlstrip__s">News, editorials, data and more. The latest signals & curated newsletter — every Thursday.</div></div>
+      <form class="nlstrip__form"><input type="text" data-name placeholder="Name (optional)"><input type="email" placeholder="you@email.com"><button>Subscribe</button></form>
     </div></section>
   </div>
 
@@ -614,4 +632,4 @@ a#rh-ticker{display:flex;align-items:center;text-decoration:none;cursor:pointer}
   <polygon class="hc r1" points="50,48 61,54.5 61,67.5 50,74 39,67.5 39,54.5"/>
   <polygon class="hc r2" points="31,37 42,43.5 42,56.5 31,63 20,56.5 20,43.5"/>
   <polygon class="hc r1" points="31,15 42,21.5 42,34.5 31,41 20,34.5 20,21.5"/>
-</svg></span><span class="brand__name">Robot<b>Hive</b></span></a><p class="foot__tag">The robotics industry, mapped — companies, robots, capital, regulation and our own editorial cut.</p><div class="socials"><a class="soc" href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.8-.5-5.6c-.3-1-1-1.8-2-2C18.7 4 12 4 12 4s-6.7 0-8.5.4c-1 .2-1.7 1-2 2C1 8.2 1 12 1 12s0 3.8.5 5.6c.3 1 1 1.8 2 2C5.3 20 12 20 12 20s6.7 0 8.5-.4c1-.2 1.7-1 2-2C23 15.8 23 12 23 12zM10 15.5v-7l6 3.5-6 3.5z"/></svg></a><a class="soc" href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14zM8.3 18V10H5.7v8h2.6zM7 8.8a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM18.3 18v-4.4c0-2.3-1.2-3.4-2.9-3.4-1.3 0-1.9.7-2.3 1.2V10h-2.6v8h2.6v-4.3c0-1.1.7-1.6 1.4-1.6.7 0 1.2.5 1.2 1.6V18h2.6z"/></svg></a><a class="soc" href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h3l-7 8 8 12h-6l-5-7-6 7H2l8-9L2 2h7l4 6 5-6zm-1 18h1.5L8 4H6l11 16z"/></svg></a><a class="soc" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a></div></div><div><h4>Data</h4><a href="companies.html">Companies</a><a href="robots.html">Robot Comparison</a><a href="investment.html">Investment</a><a href="suppliers.html">Suppliers</a><a href="components.html">Components</a><a href="markets.html">Markets</a><a href="regulation.html">Regulation</a></div><div><h4>Industries</h4><a href="industry-civil.html">Civil</a><a href="industry-agriculture.html">Agriculture</a><a href="industry-defense.html">Defense</a><a href="drones.html">Drones</a></div><div><h4>More</h4><a href="news.html">News</a><a href="subscribe.html">Subscribe</a><a href="contact.html">Contact us</a></div></div><div class="foot__bar">™ 2026 Robot Hive · All rights reserved</div></footer><div class="beehive" id="beehive"><div class="beehive__tab" onclick="document.getElementById('beehive').classList.toggle('open')"><svg viewBox="0 0 26 28" fill="#fff"><ellipse cx="13" cy="8" rx="8" ry="3"/><ellipse cx="13" cy="13" rx="10" ry="3.3"/><ellipse cx="13" cy="18" rx="9" ry="3.1"/><ellipse cx="13" cy="23" rx="6.5" ry="2.7"/></svg></div><div class="beehive__panel"><div class="beehive__t">Newsletter signup</div><div class="beehive__s">Get the weekly Hive briefing straight to your inbox.</div><form class="beehive__form"><input type="email" placeholder="Your email address"><button>Subscribe</button></form></div></div><script src="ghost.js"></script><script src="finnhub.js"></script><script src="data.js"></script><script src="datapages.js"></script><button id="rail-toggle" onclick="document.body.classList.toggle('rail-collapsed');this.textContent=document.body.classList.contains('rail-collapsed')?'SHOW PANEL':'HIDE PANEL'">HIDE PANEL</button></body></html>
+</svg></span><span class="brand__name">Robot<b>Hive</b></span></a><p class="foot__tag">The robotics industry, mapped — companies, robots, capital, regulation and our own editorial cut.</p><div class="socials"><a class="soc" href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.8-.5-5.6c-.3-1-1-1.8-2-2C18.7 4 12 4 12 4s-6.7 0-8.5.4c-1 .2-1.7 1-2 2C1 8.2 1 12 1 12s0 3.8.5 5.6c.3 1 1 1.8 2 2C5.3 20 12 20 12 20s6.7 0 8.5-.4c1-.2 1.7-1 2-2C23 15.8 23 12 23 12zM10 15.5v-7l6 3.5-6 3.5z"/></svg></a><a class="soc" href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14zM8.3 18V10H5.7v8h2.6zM7 8.8a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM18.3 18v-4.4c0-2.3-1.2-3.4-2.9-3.4-1.3 0-1.9.7-2.3 1.2V10h-2.6v8h2.6v-4.3c0-1.1.7-1.6 1.4-1.6.7 0 1.2.5 1.2 1.6V18h2.6z"/></svg></a><a class="soc" href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h3l-7 8 8 12h-6l-5-7-6 7H2l8-9L2 2h7l4 6 5-6zm-1 18h1.5L8 4H6l11 16z"/></svg></a><a class="soc" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a></div></div><div><h4>Data</h4><a href="companies.html">Companies</a><a href="robots.html">Robot Comparison</a><a href="investment.html">Investment</a><a href="suppliers.html">Suppliers</a><a href="components.html">Components</a><a href="markets.html">Markets</a><a href="regulation.html">Regulation</a></div><div><h4>Industries</h4><a href="industry-civil.html">Civil</a><a href="industry-agriculture.html">Agriculture</a><a href="industry-defense.html">Defense</a><a href="drones.html">Drones</a></div><div><h4>More</h4><a href="news.html">News</a><a href="subscribe.html">Subscribe</a><a href="contact.html">Contact us</a></div></div><div class="foot__bar">™ 2026 Robot Hive · All rights reserved</div></footer><div class="beehive" id="beehive"><div class="beehive__tab" onclick="document.getElementById('beehive').classList.toggle('open')"><svg viewBox="0 0 26 28" fill="#fff"><ellipse cx="13" cy="8" rx="8" ry="3"/><ellipse cx="13" cy="13" rx="10" ry="3.3"/><ellipse cx="13" cy="18" rx="9" ry="3.1"/><ellipse cx="13" cy="23" rx="6.5" ry="2.7"/></svg></div><div class="beehive__panel"><div class="beehive__t">Newsletter signup</div><div class="beehive__s">News, editorials, data and more. The latest signals & curated newsletter — every Thursday.</div><form class="beehive__form"><input type="text" data-name placeholder="Name (optional)"><input type="email" placeholder="Your email address"><button>Subscribe</button></form></div></div><script src="ghost.js"></script><script src="finnhub.js"></script><script src="data.js"></script><script src="datapages.js"></script><button id="rail-toggle" onclick="document.body.classList.toggle('rail-collapsed');this.textContent=document.body.classList.contains('rail-collapsed')?'SHOW PANEL':'HIDE PANEL'">HIDE PANEL</button></body></html>
