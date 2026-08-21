@@ -42,9 +42,33 @@
   }
 
   function get(url) {
+    // Cache Ghost content for 15 min to stay well under the API rate limit (HTTP 429).
+    // On a 429 or network error, fall back to the last cached copy (even if stale) so
+    // visitors never see a broken page.
+    var CACHE_MS = 15 * 60 * 1000;
+    var key = 'rhg:' + url;
+    var stale = null;
+    try {
+      var cached = sessionStorage.getItem(key);
+      if (cached) {
+        var obj = JSON.parse(cached);
+        if (obj) {
+          stale = obj.d;
+          if ((Date.now() - obj.t) < CACHE_MS) return Promise.resolve(obj.d);
+        }
+      }
+    } catch (e) {}
     return fetch(url).then(function (r) {
+      if (r.status === 429) throw new Error('429');
       if (!r.ok) throw new Error('Ghost ' + r.status);
       return r.json();
+    }).then(function (data) {
+      try { sessionStorage.setItem(key, JSON.stringify({ t: Date.now(), d: data })); } catch (e) {}
+      return data;
+    }).catch(function (err) {
+      // rate-limited or offline → serve stale cache if we have it, else re-throw
+      if (stale) return stale;
+      throw err;
     });
   }
 
@@ -307,20 +331,36 @@
         var name = nameInput && nameInput.value ? nameInput.value.trim() : undefined;
         var original = btn ? btn.textContent : '';
         if (btn) { btn.textContent = '…'; btn.disabled = true; }
-        var payload = { email: email, emailType: 'subscribe', labels: [], requestSrc: 'robothive-custom-site' };
-        if (name) payload.name = name;
-        fetch(GHOST_URL + '/members/api/send-magic-link/', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
+
+        // Ghost's send-magic-link endpoint requires an integrity token (added late 2024).
+        // Step 1: fetch a token. Step 2: submit signup with it.
+        fetch(GHOST_URL + '/members/api/integrity-token/', {
+          method: 'GET',
+          headers: { 'app-pragma': 'no-cache', 'Content-Type': 'text/plain;charset=UTF-8' }
+        }).then(function (tr) {
+          return tr.ok ? tr.text() : null;
+        }).then(function (token) {
+          var payload = {
+            email: email,
+            emailType: 'subscribe',
+            labels: [],
+            requestSrc: 'behindrobotics-custom-site'
+          };
+          if (name) payload.name = name;
+          if (token) payload.integrityToken = token;
+          return fetch(GHOST_URL + '/members/api/send-magic-link/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
         }).then(function (r) {
-          if (r.ok) {
+          if (r && r.ok) {
             if (btn) btn.textContent = '✓ Check your inbox';
             input.value = '';
             if (nameInput) nameInput.value = '';
           } else {
             if (btn) btn.textContent = 'Try again';
-            console.error('Newsletter signup failed:', r.status, '— if 4xx, Ghost may be in Private mode or membership is off.');
+            console.error('Newsletter signup failed:', r && r.status);
           }
         }).catch(function (err) {
           if (btn) btn.textContent = 'Try again';
@@ -388,9 +428,9 @@
     var frame = box.querySelector('.ytwin__frame');
     var titleEl = box.querySelector('.ytwin__bar b');
     var countEl = box.querySelector('.ytwin__count');
-    // fetch posts WITH html so we can scan for embeds
-    var url = API + '?key=' + GHOST_KEY + '&limit=20&fields=title,slug,html&formats=html';
-    fetch(url).then(function (r) { return r.json(); }).then(function (d) {
+    // fetch posts WITH html so we can scan for embeds (limit 10 to keep the call light)
+    var url = API + '?key=' + GHOST_KEY + '&limit=10&fields=title,slug,html&formats=html';
+    get(url).then(function (d) {
       var vids = [];
       (d.posts || []).forEach(function (p) {
         if (!p.html) return;
