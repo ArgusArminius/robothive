@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Robot Hive — data page renderer
+   behindrobotics.com — data page renderer
    Reads window.RH_DATA and renders: companies, company profiles, robots,
    suppliers, components. Every name is a link into the relevant profile.
    ========================================================================== */
@@ -131,7 +131,7 @@
     if (!mount) return;
     var c = company(qs('id') || 'figure-ai');
     if (!c) { mount.innerHTML = '<div class="wrap section">Company not found. <a class="link" href="companies.html">All companies →</a></div>'; return; }
-    document.title = c.name + ' — Robot Hive';
+    document.title = c.name + ' — behindrobotics.com';
 
     // robots made by this company
     var madeRobots = D.robots.filter(function (r) { return r.maker === c.id; });
@@ -148,18 +148,37 @@
         '<h1 class="phead__title">' + c.flag + ' ' + c.name + '</h1>' +
         '<p class="phead__sub">' + esc(c.sector) + ' · ' + esc(c.hq) + ' · Founded ' + esc(c.founded) + '</p>' +
       '</div></header>' +
-      '<section class="section wrap"><div style="display:grid;grid-template-columns:1fr 320px;gap:22px;align-items:start" class="profile-grid">' +
-        '<div>' +
-          '<div class="card" style="padding:26px;margin-bottom:18px">' +
-            '<h2 style="font-size:18px;margin-bottom:10px">Overview</h2>' +
-            '<p style="color:var(--ink-2);margin-bottom:14px">' + esc(c.summary) + '</p>' +
-            (c.notable ? '<div style="background:var(--blue-tint);border-left:3px solid var(--blue);padding:12px 14px;border-radius:0 8px 8px 0;font-size:14px">' + esc(c.notable) + '</div>' : '') +
-          '</div>' +
+      '<section class="section wrap"><div class="rp" style="margin-bottom:22px">' +
+        '<div class="rp__body">' +
+          (c.status ? '<span class="rp__status">' + esc(c.status) + (c.ticker ? ' · ' + esc(c.ticker) : '') + '</span>' : '') +
+          '<p class="rp__summary">' + esc(c.summary) + '</p>' +
+          (c.notable ? '<div style="background:var(--blue-tint);border-left:3px solid var(--blue);padding:12px 14px;border-radius:0 8px 8px 0;font-size:14px;margin-top:14px">' + esc(c.notable) + '</div>' : '') +
+        '</div>' +
+        '<div class="rp__specs">' +
+          [['Country', c.flag + ' ' + c.country], ['Founded', c.founded], ['Type', c.type],
+           ['Funding', c.funding], ['Valuation', c.valuation], ['Employees', c.employees],
+           ['Sector', c.sector], ['HQ', c.hq]]
+            .filter(function (s) { return s[1] && String(s[1]).trim() !== '' && s[1] !== '—' && s[1] !== 'Undisclosed'; })
+            .map(function (s) { return '<div class="rp__spec"><div class="k">' + s[0] + '</div><div class="v" style="font-size:15px">' + esc(String(s[1])) + '</div></div>'; })
+            .join('') +
+        '</div>' +
+        // people + supply chain as readable sections (not grid — text is long)
+        (((c.founders && c.founders !== '—') || (c.ceo && c.ceo !== '—')) ?
+          '<div class="rp__section"><h3>Leadership</h3><div class="rp__use">' +
+          ((c.founders && c.founders !== '—') ? '<b>Founders:</b> ' + esc(c.founders) + '<br>' : '') +
+          ((c.ceo && c.ceo !== '—') ? '<b>CEO:</b> ' + esc(c.ceo) : '') + '</div></div>' : '') +
+        ((supplies.length || suppliedBy.length) ?
+          '<div class="rp__section"' + (c.website ? '' : ' style="border-bottom:0"') + '><h3>Supply chain</h3><div class="rp__use">' +
+          (supplies.length ? '<b>Supplies:</b> ' + supplies.join(', ') + '<br>' : '') +
+          (suppliedBy.length ? '<b>Key suppliers:</b> ' + suppliedBy.map(function (s) { return coLink(s.id); }).join(', ') : '') + '</div></div>' : '') +
+        (c.website ? '<div class="rp__section" style="border-bottom:0"><a class="btn btn--blue" href="' + c.website + '" target="_blank" rel="noopener" style="text-align:center">Visit website →</a></div>' : '') +
+      '</div>' +
+      '<div>' +
           (madeRobots.length ? '<div class="card" style="padding:26px;margin-bottom:18px">' +
             '<h2 style="font-size:18px;margin-bottom:14px">Robots &amp; products</h2>' +
             '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px">' +
             madeRobots.map(function (r) {
-              return '<a class="card" href="robots.html#' + r.id + '" style="padding:14px;display:block">' +
+              return '<a class="card" href="robot-profile.html?id=' + r.id + '" style="padding:14px;display:block">' +
                 '<div style="font-weight:600;margin-bottom:4px;font-family:Space Grotesk">' + r.name + '</div>' +
                 '<div class="mono" style="font-size:11px;color:var(--ink-3);margin-bottom:6px">' + esc(r.type) + ' · ' + esc(r.year) + '</div>' +
                 '<div style="font-size:12.5px;color:var(--ink-2)">' + esc(r.price) + '</div></a>';
@@ -168,30 +187,13 @@
             '<h2 style="font-size:18px;margin-bottom:14px">Components supplied</h2>' +
             '<div style="display:grid;gap:10px">' +
             madeComponents.map(function (k) {
-              return '<div style="padding:12px;border:1px solid var(--line);border-radius:8px">' +
+              return '<a class="card" href="component-profile.html?id=' + k.id + '" style="padding:12px;display:block">' +
                 '<div style="font-weight:600">' + k.name + '</div>' +
-                '<div class="mono" style="font-size:11px;color:var(--ink-3)">' + esc(k.category) + ' · ' + esc(k.spec) + '</div></div>';
+                '<div class="mono" style="font-size:11px;color:var(--ink-3)">' + esc(k.category) + ' · ' + esc(k.spec) + '</div></a>';
             }).join('') + '</div></div>' : '') +
-        '</div>' +
-        '<aside class="card" style="padding:22px">' +
-          kv('Country', c.flag + ' ' + c.country) +
-          kv('Founded', c.founded) +
-          ((c.founders && c.founders !== '—') ? kv('Founders', c.founders) : '') +
-          ((c.ceo && c.ceo !== '—') ? kv('CEO', c.ceo) : '') +
-          kv('Type', c.type) +
-          kv('Sector', c.sector) +
-          kv('Status', c.status + (c.ticker ? ' · ' + c.ticker : '')) +
-          kv('Funding', c.funding) +
-          kv('Valuation', c.valuation) +
-          kv('Employees', c.employees) +
-          (supplies.length ? kvHtml('Supplies', supplies.join(', ')) : '') +
-          (suppliedBy.length ? kvHtml('Key suppliers', suppliedBy.map(function (s) { return coLink(s.id); }).join(', ')) : '') +
-          (c.website ? '<a class="btn btn--blue" href="' + c.website + '" target="_blank" rel="noopener" style="width:100%;text-align:center;margin-top:8px">Visit website →</a>' : '') +
-        '</aside>' +
-      '</div></section>';
-
-    function kv(k, v) { return v ? '<div class="mono" style="font-size:10.5px;color:var(--ink-3);text-transform:uppercase;margin-bottom:3px">' + k + '</div><div style="margin-bottom:14px">' + esc(v) + '</div>' : ''; }
-    function kvHtml(k, v) { return '<div class="mono" style="font-size:10.5px;color:var(--ink-3);text-transform:uppercase;margin-bottom:3px">' + k + '</div><div style="margin-bottom:14px">' + v + '</div>'; }
+      '</div>' +
+      '</section>';
+    return;
   }
 
   // -------- ROBOTS ---------------------------------------------------------
@@ -212,7 +214,7 @@
       function (rows) {
         body.innerHTML = rows.map(function (r) {
           return '<tr id="' + r.id + '">' +
-            '<td class="name">' + r.name + '</td>' +
+            '<td class="name"><a class="link" href="robot-profile.html?id=' + r.id + '">' + r.name + '</a></td>' +
             '<td>' + coLink(r.maker) + '</td>' +
             '<td>' + pill(r.type) + '</td>' +
             '<td>' + esc(r.price) + '</td>' +
@@ -258,7 +260,7 @@
         body.innerHTML = rows.map(function (k) {
           var usedIn = (k.used_in || []).map(function (rid) { var r = robot(rid); return r ? r.name : rid; }).join(', ');
           return '<tr>' +
-            '<td class="name">' + k.name + '</td>' +
+            '<td class="name"><a class="link" href="component-profile.html?id=' + k.id + '">' + k.name + '</a></td>' +
             '<td>' + coLink(k.maker) + '</td>' +
             '<td>' + pill(k.category) + '</td>' +
             '<td class="flag">' + esc(k.flag) + ' ' + esc(k.country) + '</td>' +
@@ -476,9 +478,91 @@
     });
   }
 
+  // -------- ROBOT PROFILE (adaptive spec grid) ----------------------------
+  function renderRobotProfile() {
+    var mount = document.querySelector('[data-rh="robot-profile"]');
+    if (!mount) return;
+    var r = D.robots.find(function (x) { return x.id === qs('id'); }) || D.robots[0];
+    if (!r) { mount.innerHTML = '<div style="padding:60px;text-align:center">Robot not found.</div>'; return; }
+    var maker = company(r.maker);
+    // adaptive specs: only cells that have real data
+    var specs = [
+      ['Price', r.price], ['Height', r.height], ['Payload', r.payload],
+      ['Degrees of freedom', r.dof], ['Battery', r.battery], ['Type', r.type],
+      ['Origin', (r.flag || '') + ' ' + (r.country || '')], ['Year', r.year]
+    ].filter(function (s) { return s[1] && s[1] !== '—' && s[1] !== 'Undisclosed' && String(s[1]).trim() !== ''; });
+    var specCells = specs.map(function (s) {
+      return '<div class="rp__spec"><div class="k">' + s[0] + '</div><div class="v">' + esc(String(s[1])) + '</div></div>';
+    }).join('');
+
+    var sections = '';
+    if (r.compute) sections += '<div class="rp__section"><h3>Onboard compute</h3><div class="rp__use">' + esc(r.compute) + '</div></div>';
+    if (r.useCases) {
+      var chips = r.useCases.split(',').map(function (u) { return '<span class="rp__chip">' + esc(u.trim()) + '</span>'; }).join('');
+      sections += '<div class="rp__section"><h3>Key use cases</h3><div class="rp__chips">' + chips + '</div></div>';
+    }
+    if (maker) {
+      sections += '<div class="rp__section" style="border-bottom:0"><h3>Maker</h3><div class="rp__use">' +
+        esc(maker.name) + (maker.summary ? ' — ' + esc(maker.summary) : '') +
+        ' <a href="company-profile.html?id=' + maker.id + '" style="color:var(--blue);text-decoration:none">View company profile →</a></div></div>';
+    }
+
+    mount.innerHTML =
+      '<header class="phead"><div class="phead__in">' +
+        '<div class="phead__crumb"><a href="index.html">Main</a> / <a href="robots.html">Robots</a> / ' + esc(r.name) + '</div>' +
+        '<h1 class="phead__title">' + esc(r.name) + '</h1>' +
+        '<p class="phead__sub">' + esc(r.type || '') + (maker ? ' · ' + esc(maker.name) : '') + ' · ' + esc(r.country || '') + '</p>' +
+      '</div></header>' +
+      '<section class="section wrap"><div class="rp">' +
+        '<div class="rp__body" style="padding:26px 28px">' +
+          (r.status ? '<span class="rp__status">' + esc(r.status) + '</span>' : '') +
+          '<p class="rp__summary">' + esc(r.summary || '') + '</p>' +
+        '</div>' +
+        '<div class="rp__specs">' + specCells + '</div>' +
+        sections +
+      '</div></section>';
+  }
+
+  // -------- COMPONENT PROFILE ---------------------------------------------
+  function renderComponentProfile() {
+    var mount = document.querySelector('[data-rh="component-profile"]');
+    if (!mount) return;
+    var k = D.components.find(function (x) { return x.id === qs('id'); }) || D.components[0];
+    if (!k) { mount.innerHTML = '<div style="padding:60px;text-align:center">Component not found.</div>'; return; }
+    var maker = company(k.maker);
+    var specs = [
+      ['Category', k.category], ['Origin', (k.flag || '') + ' ' + (k.country || '')], ['Spec', k.spec]
+    ].filter(function (s) { return s[1] && String(s[1]).trim() !== '' && s[1] !== '—'; });
+    var specCells = specs.map(function (s) {
+      return '<div class="rp__spec"><div class="k">' + s[0] + '</div><div class="v" style="font-size:15px">' + esc(String(s[1])) + '</div></div>';
+    }).join('');
+    // robots that use this component
+    var usedIn = (k.used_in || []).map(function (rid) {
+      var r = D.robots.find(function (x) { return x.id === rid; });
+      return r ? '<a class="rp__chip" href="robot-profile.html?id=' + r.id + '" style="text-decoration:none">' + esc(r.name) + '</a>' : '';
+    }).filter(Boolean).join('');
+
+    var sections = '';
+    if (usedIn) sections += '<div class="rp__section"><h3>Used in</h3><div class="rp__chips">' + usedIn + '</div></div>';
+    if (maker) sections += '<div class="rp__section" style="border-bottom:0"><h3>Maker</h3><div class="rp__use">' +
+      esc(maker.name) + ' <a href="company-profile.html?id=' + maker.id + '" style="color:var(--blue);text-decoration:none">View company profile →</a></div></div>';
+
+    mount.innerHTML =
+      '<header class="phead"><div class="phead__in">' +
+        '<div class="phead__crumb"><a href="index.html">Main</a> / <a href="components.html">Components</a> / ' + esc(k.name) + '</div>' +
+        '<h1 class="phead__title">' + esc(k.name) + '</h1>' +
+        '<p class="phead__sub">' + esc(k.category || '') + (maker ? ' · ' + esc(maker.name) : '') + '</p>' +
+      '</div></header>' +
+      '<section class="section wrap"><div class="rp">' +
+        (k.summary ? '<div class="rp__body" style="padding:26px 28px"><p class="rp__summary">' + esc(k.summary) + '</p></div>' : '') +
+        '<div class="rp__specs">' + specCells + '</div>' + sections +
+      '</div></section>';
+  }
+
   function run() {
     renderCompanies(); renderProfile(); renderRobots();
     renderSuppliers(); renderComponents(); renderSupplyContext(); renderCounts();
+    renderRobotProfile(); renderComponentProfile();
     renderLatestUpdates();
     renderSectorStrips(); renderMarkets(); renderDroneMakers(); renderDroneArchive(); renderInvestment();
     renderHubPreview();

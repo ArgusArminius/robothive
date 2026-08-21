@@ -1,4 +1,4 @@
-/* Robot Hive — live stock quotes via Finnhub (free tier, US stocks).
+/* behindrobotics.com — live stock quotes via Finnhub (free tier, US stocks).
    Works anywhere this script loads: custom site AND inside Ghost articles.
    NOTE: free key is public/disposable; regenerate if abused. Commercial use → paid tier. */
 (function () {

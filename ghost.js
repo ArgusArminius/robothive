@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Robot Hive — Ghost content integration (Option 1: live JavaScript fetch)
+   behindrobotics.com — Ghost content integration (Option 1: live JavaScript fetch)
    Pulls published posts from Ghost and places them by TAG:
      - homepage news cards + "Latest posts" rail  (latest, any tag)
      - news page full listing                     (all posts)
@@ -38,7 +38,7 @@
            (post.tags && post.tags[0] && post.tags[0].name) || 'News';
   }
   function authorOf(post) {
-    return (post.authors && post.authors[0] && post.authors[0].name) || 'Robot Hive';
+    return (post.authors && post.authors[0] && post.authors[0].name) || 'behindrobotics.com';
   }
 
   function get(url) {
@@ -72,7 +72,7 @@
 
   // ---- populate homepage --------------------------------------------------
   function fillHome() {
-    // news cards: the grid right under "Latest from the Hive"
+    // news cards: the grid right under "Latest from behindrobotics.com"
     var cardGrid = document.querySelector('[data-ghost="home-cards"]');
     var rail = document.querySelector('[data-ghost="latest-rail"]');
     if (cardGrid) {
@@ -265,7 +265,7 @@
         mount.innerHTML = '<div class="article__loading">Article not found.</div>'; return;
       }
       var p = d.posts[0];
-      document.title = p.title + ' — Robot Hive';
+      document.title = p.title + ' — behindrobotics.com';
       var cat = catOf(p);
       var reading = p.reading_time ? (p.reading_time + ' min read') : '';
       mount.innerHTML =

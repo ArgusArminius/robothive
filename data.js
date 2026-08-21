@@ -1,7 +1,7 @@
 /* ==========================================================================
-   Robot Hive — structured intelligence dataset
+   behindrobotics.com — structured intelligence dataset
    COMPANIES ↔ ROBOTS ↔ COMPONENTS, cross-linked by id.
-   Compiled by Robot Hive from company announcements, filings, exchange
+   Compiled by behindrobotics.com from company announcements, filings, exchange
    listings, market research and credible reporting. Current to Aug 2026.
    Where a figure is disputed, the dispute is noted rather than resolved.
    ========================================================================== */
