@@ -93,21 +93,42 @@ const mcpHandler = createMcpHandler(
 // a custom x-bridge-secret header, or a ?secret= query param â whichever the
 // calling client actually supports.
 async function authenticatedHandler(request) {
-  const url = new URL(request.url);
-  const authHeader = request.headers.get('authorization') || '';
-  const bearerToken = authHeader.toLowerCase().startsWith('bearer ')
-    ? authHeader.slice(7).trim()
-    : null;
-  const provided = bearerToken || request.headers.get('x-bridge-secret') || url.searchParams.get('secret');
+  try {
+    const url = new URL(request.url);
+    const authHeader = request.headers.get('authorization') || '';
+    const bearerToken = authHeader.toLowerCase().startsWith('bearer ')
+      ? authHeader.slice(7).trim()
+      : null;
+    const provided = bearerToken || request.headers.get('x-bridge-secret') || url.searchParams.get('secret');
 
-  if (provided !== process.env.BRIDGE_SECRET) {
-    return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-      status: 401,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    if (provided !== process.env.BRIDGE_SECRET) {
+      return new Response(JSON.stringify({ error: 'Unauthorized', gotSecret: provided ? 'yes-but-wrong' : 'none-provided' }), {
+        status: 401,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
+    try {
+      return await mcpHandler(request);
+    } catch (innerErr) {
+      // Surface the real error directly in the response so we can see it
+      // without depending on Vercel's log viewer.
+      return new Response(
+        JSON.stringify({
+          error: 'mcpHandler threw',
+          message: innerErr?.message || String(innerErr),
+          stack: innerErr?.stack || null,
+        }),
+        { status: 500, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+  } catch (outerErr) {
+    return new Response(
+      JSON.stringify({
+        error: 'authenticatedHandler threw',
+        message: outerErr?.message || String(outerErr),
+        stack: outerErr?.stack || null,
+      }),
+      { status: 500, headers: { 'Content-Type': 'application/json' } }
+    );
   }
-
-  return mcpHandler(request);
-}
-
-export { authenticatedHandler as GET, authenticatedHandler as POST, authenticatedHandler as DELETE };
