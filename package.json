@@ -1,6 +1,6 @@
 {
- "dependencies": {
-   "@modelcontextprotocol/sdk": "latest",
-   "zod": "latest"
- }
+  "dependencies": {
+    "mcp-handler": "latest",
+    "zod": "latest"
+  }
 }
