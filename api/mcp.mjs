@@ -61,28 +61,32 @@ async function createGhostDraft({ title, html, tags }) {
   return data.posts[0];
 }
 
-const mcpHandler = createMcpHandler((server) => {
-  server.tool(
-    'create_ghost_draft',
-    'Create a DRAFT post on the Robot Hive Ghost blog (robothive.ghost.io). Never publishes â always creates status=draft for human review.',
-    {
-      title: z.string().describe('Post headline, ideally under 10 words, leading with the company/subject name'),
-      html: z.string().describe('Post body as simple HTML, e.g. "<p>...</p><p>Source: https://...</p>"'),
-      tags: z.array(z.string()).optional().describe('Tags to apply; defaults to ["wire"] if omitted'),
-    },
-    async ({ title, html, tags }) => {
-      const post = await createGhostDraft({ title, html, tags });
-      return {
-        content: [
-          {
-            type: 'text',
-            text: `Draft created successfully: "${post.title}" (id: ${post.id}, status: ${post.status})`,
-          },
-        ],
-      };
-    }
-  );
-});
+const mcpHandler = createMcpHandler(
+  (server) => {
+    server.tool(
+      'create_ghost_draft',
+      'Create a DRAFT post on the Robot Hive Ghost blog (robothive.ghost.io). Never publishes â always creates status=draft for human review.',
+      {
+        title: z.string().describe('Post headline, ideally under 10 words, leading with the company/subject name'),
+        html: z.string().describe('Post body as simple HTML, e.g. "<p>...</p><p>Source: https://...</p>"'),
+        tags: z.array(z.string()).optional().describe('Tags to apply; defaults to ["wire"] if omitted'),
+      },
+      async ({ title, html, tags }) => {
+        const post = await createGhostDraft({ title, html, tags });
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Draft created successfully: "${post.title}" (id: ${post.id}, status: ${post.status})`,
+            },
+          ],
+        };
+      }
+    );
+  },
+  {},
+  {}
+);
 
 // Wrap the handler with our shared-secret check before letting MCP requests through.
 async function authenticatedHandler(request) {
