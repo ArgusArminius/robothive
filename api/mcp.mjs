@@ -89,9 +89,16 @@ const mcpHandler = createMcpHandler(
 );
 
 // Wrap the handler with our shared-secret check before letting MCP requests through.
+// Accepts the secret via (in order of preference): Authorization: Bearer <secret>,
+// a custom x-bridge-secret header, or a ?secret= query param â whichever the
+// calling client actually supports.
 async function authenticatedHandler(request) {
   const url = new URL(request.url);
-  const provided = request.headers.get('x-bridge-secret') || url.searchParams.get('secret');
+  const authHeader = request.headers.get('authorization') || '';
+  const bearerToken = authHeader.toLowerCase().startsWith('bearer ')
+    ? authHeader.slice(7).trim()
+    : null;
+  const provided = bearerToken || request.headers.get('x-bridge-secret') || url.searchParams.get('secret');
 
   if (provided !== process.env.BRIDGE_SECRET) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), {
