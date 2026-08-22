@@ -1,11 +1,8 @@
 // api/mcp.mjs
-// A minimal remote MCP server exposing one tool: create_ghost_draft.
-// Uses the official @modelcontextprotocol/sdk — add it to your package.json (see below).
-// .mjs extension = always treated as an ES module by Vercel, regardless of your
-// existing package.json "type" setting, so this can't break your other files.
+// Correct pattern per Vercel's current Functions API (Web Handler style) +
+// the official mcp-handler package, which implements the MCP protocol correctly.
 
-import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
-import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
+import { createMcpHandler } from 'mcp-handler';
 import { z } from 'zod';
 import crypto from 'crypto';
 
@@ -37,7 +34,7 @@ function makeGhostToken(keyId, secretHex) {
 async function createGhostDraft({ title, html, tags }) {
   const [keyId, secretHex] = process.env.GHOST_ADMIN_API_KEY.split(':');
   const token = makeGhostToken(keyId, secretHex);
-  const base = process.env.GHOST_API_URL.replace(/\/+$/, ''); // strip trailing slash if present
+  const base = process.env.GHOST_API_URL.replace(/\/+$/, '');
 
   const res = await fetch(`${base}/ghost/api/admin/posts/?source=html`, {
     method: 'POST',
@@ -51,7 +48,7 @@ async function createGhostDraft({ title, html, tags }) {
           title,
           html,
           tags: tags && tags.length ? tags : ['wire'],
-          status: 'draft', // hard-coded — this tool can never publish
+          status: 'draft',
         },
       ],
     }),
@@ -64,12 +61,10 @@ async function createGhostDraft({ title, html, tags }) {
   return data.posts[0];
 }
 
-function buildServer() {
-  const server = new McpServer({ name: 'robothive-ghost-bridge', version: '1.0.0' });
-
+const mcpHandler = createMcpHandler((server) => {
   server.tool(
     'create_ghost_draft',
-    'Create a DRAFT post on the Robot Hive Ghost blog (robothive.ghost.io). Never publishes — always creates status=draft for human review.',
+    'Create a DRAFT post on the Robot Hive Ghost blog (robothive.ghost.io). Never publishes â always creates status=draft for human review.',
     {
       title: z.string().describe('Post headline, ideally under 10 words, leading with the company/subject name'),
       html: z.string().describe('Post body as simple HTML, e.g. "<p>...</p><p>Source: https://...</p>"'),
@@ -87,39 +82,21 @@ function buildServer() {
       };
     }
   );
+});
 
-  return server;
-}
+// Wrap the handler with our shared-secret check before letting MCP requests through.
+async function authenticatedHandler(request) {
+  const url = new URL(request.url);
+  const provided = request.headers.get('x-bridge-secret') || url.searchParams.get('secret');
 
-export default async function handler(req, res) {
-  // Auth: accept the shared secret via header OR query string, whichever the
-  // connector setup ends up supporting.
-  const provided = req.headers['x-bridge-secret'] || req.query?.secret;
   if (provided !== process.env.BRIDGE_SECRET) {
-    res.status(401).json({ error: 'Unauthorized' });
-    return;
+    return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+      status: 401,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 
-  const server = buildServer();
-  const transport = new StreamableHTTPServerTransport({
-    sessionIdGenerator: undefined, // stateless — each request is independent
-  });
-
-  res.on('close', () => {
-    transport.close();
-    server.close();
-  });
-
-  await server.connect(transport);
-
-  let body = req.body;
-  if (typeof body === 'string') {
-    try {
-      body = JSON.parse(body);
-    } catch {
-      // leave as-is; handleRequest will surface a parse error
-    }
-  }
-
-  await transport.handleRequest(req, res, body);
+  return mcpHandler(request);
 }
+
+export { authenticatedHandler as GET, authenticatedHandler as POST, authenticatedHandler as DELETE };
