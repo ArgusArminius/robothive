@@ -17,9 +17,9 @@ window.RH_DATA.companies.push(
   summary:'Optimus leverages Tesla\'s EV supply chain and in-house actuator design. Vertical integration is the strategic bet; production targets have repeatedly slipped.',
   notable:'Sanhua Controls, an existing Tesla thermal supplier, is widely reported as an Optimus actuator supplier.', robots:['optimus'], suppliers:['sanhua','shuanghuan'] },
 
-{ id:'unitree', hubs:['Civil'], name:'Unitree Robotics', country:'China', flag:'🇨🇳', founded:2016, type:'builder', sector:'Humanoid / Quadruped', vertical:'Humanoid', status:'ipo-filed', ticker:'STAR (pending)', hq:'Hangzhou', founders:'Wang Xingxing (王兴兴)', ceo:'Wang Xingxing', funding:'~$618M IPO', valuation:'~$5.9B', employees:'~1,000', website:'https://unitree.com',
+{ id:'unitree', hubs:['Civil'], name:'Unitree Robotics', country:'China', flag:'🇨🇳', founded:2016, type:'builder', sector:'Humanoid / Quadruped', vertical:'Humanoid', status:'public', ticker:'STAR (pending)', hq:'Hangzhou', founders:'Wang Xingxing (王兴兴)', ceo:'Wang Xingxing', funding:'~$618M IPO', valuation:'~$5.9B', employees:'~1,000', website:'https://unitree.com',
   summary:'Price and volume leader. Shipped ~5,500 units in 2025, targeting 10,000–20,000 in 2026. G1 base price cut from ~$16,000 to ~$13,500.',
-  notable:'Shanghai STAR Market IPO cleared final registration after a record 104-day review.', robots:['unitree-g1','unitree-h1','unitree-go2','unitree-b2'], suppliers:['shuanghuan'] },
+  notable:'Shanghai STAR Market IPO cleared final registration after a record 104-day review. Listed on the Shanghai STAR Market on 19 Aug 2026, spiking as much as ~629% intraday; closing valuation reported around 340B+ yuan (varies by source).', robots:['unitree-g1','unitree-h1','unitree-go2','unitree-b2'], suppliers:['shuanghuan'] },
 
 { id:'agibot', hubs:['Civil'], name:'AgiBot (智元机器人)', country:'China', flag:'🇨🇳', founded:2023, type:'builder', sector:'Humanoid', vertical:'Humanoid', status:'private', hq:'Shanghai', founders:'Peng Zhihui (彭志辉), Deng Taihua', ceo:'Deng Taihua', funding:'Multiple rounds', valuation:'Multi-billion', employees:'~1,000', website:'https://agibot.com',
   summary:'Ranked #1 for 2025 humanoid shipments by Omdia (5,168 units, 39% share) — a ranking Unitree disputes with its own 5,500+ figure. Rolled out its 10,000th unit in March 2026.',
@@ -27,7 +27,7 @@ window.RH_DATA.companies.push(
 
 { id:'agility', hubs:['Civil'], name:'Agility Robotics', country:'United States', flag:'🇺🇸', founded:2015, type:'builder', sector:'Humanoid', vertical:'Humanoid', status:'ipo-filed', ticker:'AGLT (pending)', hq:'Salem, Oregon', founders:'Damion Shelton, Jonathan Hurst, Mikhail Jones', ceo:'Peggy Johnson', funding:'$620M+ SPAC raise', valuation:'~$2.5B', employees:'~250', website:'https://agilityrobotics.com',
   summary:'Furthest along on paid deployments. Digit runs commercial workflows with GXO, Amazon, Schaeffler and Spanx; 100,000+ totes moved; $300M+ contracted Digit v5 orders.',
-  notable:'Going public via Churchill Capital Corp XI — the first pure-play humanoid listing path in the US. RoboFab designed for 10,000 units/yr.', robots:['digit'], suppliers:['nvidia'] },
+  notable:'Going public via Churchill Capital Corp XI — the first pure-play humanoid listing path in the US. RoboFab designed for 10,000 units/yr. SPAC merger with Churchill Capital Corp XI (~$2.5B, ticker AGLT); CEO Peggy Johnson; reported $300M+ in pre-orders for next-gen Digit.', robots:['digit'], suppliers:['nvidia'] },
 
 { id:'apptronik', hubs:['Civil'], name:'Apptronik', country:'United States', flag:'🇺🇸', founded:2016, type:'builder', sector:'Humanoid', vertical:'Humanoid', status:'private', hq:'Austin, Texas', founders:'Jeff Cardenas, Nick Paine', ceo:'Jeff Cardenas', funding:'$935M+ Series A', valuation:'$5.5B+', employees:'~200', website:'https://apptronik.com',
   summary:'Apollo targets case picking, palletisation and machine tending. $403M Series A led by Google (Mar 2025), extended $520M (Feb 2026). Pilots with Mercedes-Benz and GXO.',
@@ -809,3 +809,41 @@ window.RH_DATA.companies.push(
   summary:'Mobile robots for material handling and crop maintenance in greenhouse and nursery operations.',
   notable:'', robots:[], suppliers:[] }
 );
+
+/* ---- ADDITIONS: World Humanoid Robot Games 2026 key firms ---- */
+window.RH_DATA.companies.push(
+{ id:'x-humanoid', hubs:['Civil'], name:'X-Humanoid (Beijing Humanoid Robot Innovation Center)', country:'China', flag:'🇨🇳', founded:2023, type:'builder', sector:'Humanoid robotics', vertical:'Humanoid', status:'private', hq:'Beijing', founders:'—', ceo:'—', funding:'State-backed', valuation:'Undisclosed', employees:'—', website:'https://www.x-humanoid.com',
+  summary:'Beijing state-backed humanoid innovation center behind the Tiangong (Tien Kung) robot series. Its Tiangong Ultra set a 9.39-second 100m mark at the 2026 World Humanoid Robot Games, faster than the human world record, and demonstrated a ~2.88m high jump.',
+  notable:'Developer of Tiangong Ultra, Tien Kung 3.0, Tien Kung Omni and TianYi 2.0. Tiangong Ultra also won the inaugural 2025 Games 100m in 21.5s — a dramatic one-year leap to sub-9.5s. Positioned as a national-champion open humanoid platform.', robots:['tiangong-ultra'], suppliers:[] },
+{ id:'honor-robotics', hubs:['Civil'], name:'Honor', country:'China', flag:'🇨🇳', founded:2013, type:'builder', sector:'Consumer tech / humanoid', vertical:'Humanoid', status:'private', hq:'Shenzhen', founders:'—', ceo:'George Zhao', funding:'Undisclosed', valuation:'Undisclosed', employees:'—', website:'https://www.honor.com',
+  summary:'Chinese smartphone maker that entered humanoid robotics; its Lightning robot ran a 9.47-second 100m at the 2026 World Humanoid Robot Games and a reported 9.32s in a test run, at a peak speed of 14.5 m/s.',
+  notable:'A non-traditional entrant — a consumer-electronics company competing at the front of humanoid athletics. Lightning finished second to the Tiangong Ultra in the headline 100m heat, both beating the human 100m world record.', robots:['honor-lightning'], suppliers:[] },
+{ id:'booster-robotics', hubs:['Civil'], name:'Booster Robotics', country:'China', flag:'🇨🇳', founded:2023, type:'builder', sector:'Humanoid robotics', vertical:'Humanoid', status:'private', hq:'Beijing', founders:'Zhao Mingguo', ceo:'Zhao Mingguo', funding:'Undisclosed', valuation:'Undisclosed', employees:'—', website:'https://www.boosterobotics.com',
+  summary:'Maker of the Booster T1 humanoid, a research and athletics platform strong in robot football. Tsinghua University teams using Booster hardware have won RoboCup humanoid honors.',
+  notable:'Chief scientist Zhao Mingguo frames competitive events as a spur toward real-world humanoid deployment. T1 is a common platform in humanoid soccer leagues.', robots:['booster-t1'], suppliers:[] }
+);
+window.RH_DATA.robots.push(
+{ id:'tiangong-ultra', name:'Tiangong Ultra', maker:'x-humanoid', type:'Humanoid', vertical:'Humanoid', country:'China', flag:'🇨🇳', year:2025, price:'Research platform', status:'Competition', height:'~1.8 m', payload:'—', summary:'Record-setting athletic humanoid: 9.39s over 100m and ~2.88m high jump at the 2026 World Humanoid Robot Games, both beating human world records in demonstration/heat conditions.', dof:'', battery:'', compute:'Autonomous locomotion control', useCases:'Athletics, locomotion research, demonstration', components:[] },
+{ id:'honor-lightning', name:'Lightning', maker:'honor-robotics', type:'Humanoid', vertical:'Humanoid', country:'China', flag:'🇨🇳', year:2026, price:'Prototype', status:'Competition', height:'—', payload:'—', summary:'Athletic humanoid sprinter: 9.47s over 100m in competition and a reported 9.32s in testing, peak speed 14.5 m/s.', useCases:'Sprinting, locomotion research', components:[] },
+{ id:'booster-t1', name:'Booster T1', maker:'booster-robotics', type:'Humanoid', vertical:'Humanoid', country:'China', flag:'🇨🇳', year:2024, price:'Research platform', status:'Shipping', height:'~1.2 m', payload:'—', summary:'Compact humanoid platform widely used in robot football and research; associated with RoboCup humanoid league success.', useCases:'Football, research, education', components:[] }
+);
+
+/* ---- ADDITIONS: Cowork DB research 2026-08-22 ---- */
+window.RH_DATA.companies.push(
+{ id:'byd-robotics', hubs:['Civil'], name:'BYD Robotics (15th Division)', country:'China', flag:'🇨🇳', founded:2025, type:'builder', sector:'Humanoid robotics', vertical:'Humanoid', status:'private', hq:'Shenzhen', founders:'—', ceo:'Wang Chuanfu (BYD)', funding:'BYD-backed', valuation:'Undisclosed', employees:'—', website:'https://www.byd.com',
+  summary:'In-house humanoid robot division of Chinese EV and battery giant BYD. First prototype teased for an August 2026 reveal, with a planned dealership sales-advisor role at BYD "Di Space" experience centers; specifications undisclosed. [NEEDS VERIFICATION]',
+  notable:'A major automaker entering humanoid robotics from a battery/EV manufacturing base — a pattern echoing Tesla Optimus and XPeng. Details thin as of announcement.', robots:['byd-humanoid'], suppliers:[] }
+);
+window.RH_DATA.robots.push(
+{ id:'unitree-r1', name:'Unitree R1', maker:'unitree', type:'Humanoid', vertical:'Humanoid', country:'China', flag:'🇨🇳', year:2025, price:'~$5,900', status:'Shipping', height:'1.2 m', payload:'—', summary:'Low-cost education/developer humanoid unveiled July 2025 — roughly $5,900, 25 kg, 26 degrees of freedom, 8-core CPU with optional NVIDIA Jetson Orin. Undercuts even the G1 on price.', dof:'26', battery:'', compute:'8-core CPU, optional NVIDIA Jetson Orin', useCases:'Education, developer platform, research', components:[] },
+{ id:'byd-humanoid', name:'BYD humanoid prototype', maker:'byd-robotics', type:'Humanoid', vertical:'Humanoid', country:'China', flag:'🇨🇳', year:2026, price:'Undisclosed', status:'Prototype', height:'—', payload:'—', summary:'Unnamed humanoid prototype teased August 2026 for a planned dealership sales-advisor role; specifications undisclosed. [NEEDS VERIFICATION]', useCases:'Retail / sales-advisor role', components:[] }
+);
+
+/* Enrich existing suppliers with fresh figures */
+(function(){
+  var D=window.RH_DATA;
+  var ld=D.companies.find(function(c){return c.id==='leaderdrive'});
+  if(ld && !(ld.notable||'').includes('124.4M')){ ld.notable=(ld.notable? ld.notable+' ':'')+'FY25 net profit reported ~124.4M yuan (~+100% YoY); estimated ~30-40% China harmonic-reducer share; clients include AgiBot and UBTECH. [NEEDS VERIFICATION]'; }
+  var rs=D.companies.find(function(c){return c.id==='robosense'});
+  if(rs && !(rs.notable||'').includes('185,500')){ rs.notable=(rs.notable? rs.notable+' ':'')+'Q1 2026 robotics-segment LiDAR sales reported ~185,500 units (+1,458.8% YoY) across 3,400+ clients; listed on HKEX (2498.HK).'; }
+})();

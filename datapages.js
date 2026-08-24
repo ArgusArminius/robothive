@@ -559,9 +559,36 @@
       '</div></section>';
   }
 
+  // -------- INDUSTRY LANDING: latest entries per hub card ------------------
+  function renderHubLatest() {
+    document.querySelectorAll('[data-rh-hublatest]').forEach(function (el) {
+      var hub = el.getAttribute('data-rh-hublatest');
+      var page = hub === 'Agriculture' ? 'industry-agriculture.html'
+               : hub === 'Defense' ? 'industry-defense.html' : 'industry-civil.html';
+      var nCo = D.companies.length, nRo = D.robots.length;
+      var items = [];
+      D.companies.forEach(function (c, i) {
+        if (!(c.hubs && c.hubs.indexOf(hub) !== -1)) return;
+        items.push({ recency: (nCo - 1 - i) / nCo, title: c.name.replace(/\s*\(.*\)/, '') });
+      });
+      D.robots.forEach(function (r, i) {
+        if (r.vertical !== hub && !(hub === 'Civil' && r.vertical === 'Humanoid')) return;
+        items.push({ recency: (nRo - 1 - i) / nRo, title: r.name });
+      });
+      items.sort(function (a, b) { return a.recency - b.recency; });
+      var top = items.slice(0, 5);
+      if (!top.length) { el.innerHTML = '<a href="' + page + '"><span class="n">01</span>See the hub →</a>'; return; }
+      el.innerHTML = top.map(function (it, i) {
+        var n = ('0' + (i + 1)).slice(-2);
+        return '<a href="' + page + '"><span class="n">' + n + '</span>' + esc(it.title) + '</a>';
+      }).join('');
+    });
+  }
+
   function run() {
     renderCompanies(); renderProfile(); renderRobots();
     renderSuppliers(); renderComponents(); renderSupplyContext(); renderCounts();
+    renderHubLatest();
     renderRobotProfile(); renderComponentProfile();
     renderLatestUpdates();
     renderSectorStrips(); renderMarkets(); renderDroneMakers(); renderDroneArchive(); renderInvestment();
