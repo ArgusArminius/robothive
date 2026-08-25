@@ -8,7 +8,7 @@
    so the site never looks broken.
    ========================================================================== */
 (function () {
-  var GHOST_URL = 'https://hive.behindrobotics.com';
+  var GHOST_URL = 'https://robothive.ghost.io';
   var GHOST_KEY = 'b2360bf0d2fb751a405c35a7ab';
   var API = GHOST_URL + '/ghost/api/content/posts/';
 
