@@ -1,26 +1,25 @@
 {
  "site": "behindrobotics.com",
- "updated": "2026-08-27",
+ "updated": "2026-08-31",
  "counts": {
-  "companies": 242,
-  "robots": 87,
-  "components": 31
+  "companies": 376,
+  "robots": 94,
+  "components": 31,
+  "regulations": 11
  },
  "companies": [
   {
    "name": "Figure AI",
    "country": "United States",
-   "founded": 2022,
    "sector": "Humanoid",
    "status": "private",
-   "funding": "$1.9B cumulative",
+   "funding": "~$1.9B across all rounds",
    "website": "https://figure.ai",
    "summary": "The highest-valued humanoid developer. Figure 03 is deployed on the BMW Spartanburg line; the BotQ facility targets 12,000 robots annually. Helix is its in-house vision-language-action model."
   },
   {
    "name": "Tesla",
    "country": "United States",
-   "founded": 2003,
    "sector": "Humanoid / EV",
    "status": "public",
    "funding": "Public",
@@ -30,7 +29,6 @@
   {
    "name": "Unitree Robotics",
    "country": "China",
-   "founded": 2016,
    "sector": "Humanoid / Quadruped",
    "status": "public",
    "funding": "~$618M IPO",
@@ -40,7 +38,6 @@
   {
    "name": "AgiBot (智元机器人)",
    "country": "China",
-   "founded": 2023,
    "sector": "Humanoid",
    "status": "private",
    "funding": "Multiple rounds",
@@ -50,7 +47,6 @@
   {
    "name": "Agility Robotics",
    "country": "United States",
-   "founded": 2015,
    "sector": "Humanoid",
    "status": "ipo-filed",
    "funding": "$620M+ SPAC raise",
@@ -60,17 +56,15 @@
   {
    "name": "Apptronik",
    "country": "United States",
-   "founded": 2016,
    "sector": "Humanoid",
    "status": "private",
-   "funding": "$935M+ Series A",
+   "funding": "$520M (Feb 2026, Dealroom)",
    "website": "https://apptronik.com",
    "summary": "Apollo targets case picking, palletisation and machine tending. $403M Series A led by Google (Mar 2025), extended $520M (Feb 2026). Pilots with Mercedes-Benz and GXO."
   },
   {
    "name": "Boston Dynamics",
    "country": "United States",
-   "founded": 1992,
    "sector": "Humanoid / Quadruped",
    "status": "private",
    "funding": "Hyundai-owned",
@@ -80,7 +74,6 @@
   {
    "name": "1X Technologies",
    "country": "Norway",
-   "founded": 2014,
    "sector": "Humanoid",
    "status": "private",
    "funding": "$125M+",
@@ -90,27 +83,24 @@
   {
    "name": "NEURA Robotics",
    "country": "Germany",
-   "founded": 2019,
    "sector": "Cognitive robots",
    "status": "private",
-   "funding": "Up to $1.4B (Tether-led)",
+   "funding": "$1.4B (Jun 2026, Dealroom)",
    "website": "https://neura-robotics.com",
    "summary": "Europe's largest humanoid bet. 4NE-1 humanoid with deliveries targeted for late 2026; also builds cognitive cobots."
   },
   {
    "name": "UBTECH Robotics",
    "country": "China",
-   "founded": 2012,
    "sector": "Humanoid",
    "status": "public",
-   "funding": "HKEX IPO",
+   "funding": "Public (HKEX 9880.HK); ~$307M Jul + ~$398M Nov 2025 placements",
    "website": "https://ubtrobot.com",
    "summary": "Walker series targets industrial and commercial service. Among the top three by 2025 humanoid shipment volume per Counterpoint."
   },
   {
    "name": "Fourier Intelligence",
    "country": "China",
-   "founded": 2015,
    "sector": "Humanoid / Rehab",
    "status": "private",
    "funding": "$100M+",
@@ -120,47 +110,42 @@
   {
    "name": "Galbot (银河通用)",
    "country": "China",
-   "founded": 2023,
    "sector": "Humanoid",
    "status": "private",
-   "funding": "$400M+",
+   "funding": "$369M (Mar 2026, Dealroom)",
    "website": "",
    "summary": "Wheeled-base humanoid focused on retail and pharmacy operations; backers include CATL and Meituan."
   },
   {
    "name": "AI² Robotics",
    "country": "China",
-   "founded": 2023,
    "sector": "Humanoid",
    "status": "private",
-   "funding": "~$735M",
+   "funding": "$735M (Jun 2026, Dealroom)",
    "website": "",
    "summary": "Wheeled humanoid developer that raised roughly $735M at a near-$3B valuation in mid-2026."
   },
   {
    "name": "RobotEra (星动纪元)",
    "country": "China",
-   "founded": 2023,
    "sector": "Humanoid",
    "status": "private",
-   "funding": "$400M+",
+   "funding": "$295M (Apr 2026, Dealroom)",
    "website": "",
    "summary": "Tsinghua-affiliated humanoid developer; STAR series platforms with a dexterous-hand focus."
   },
   {
    "name": "LimX Dynamics",
    "country": "China",
-   "founded": 2022,
    "sector": "Humanoid / Legged",
    "status": "private",
-   "funding": "Nine-figure",
+   "funding": "$200M (Feb 2026 + $200M Jul 2026, Dealroom)",
    "website": "https://limxdynamics.com",
    "summary": "Biped and humanoid platforms with strong locomotion research; CL-series and TRON point-foot bipeds."
   },
   {
    "name": "Pudu Robotics",
    "country": "China",
-   "founded": 2016,
    "sector": "Service robots",
    "status": "private",
    "funding": "$150M+",
@@ -170,7 +155,6 @@
   {
    "name": "Sanctuary AI",
    "country": "Canada",
-   "founded": 2018,
    "sector": "Robot software",
    "status": "private",
    "funding": "$140M+",
@@ -180,7 +164,6 @@
   {
    "name": "XPeng Robotics",
    "country": "China",
-   "founded": 2020,
    "sector": "Humanoid",
    "status": "public",
    "funding": "Parent-funded",
@@ -190,7 +173,6 @@
   {
    "name": "PAL Robotics",
    "country": "Spain",
-   "founded": 2004,
    "sector": "Humanoid / Service",
    "status": "private",
    "funding": "Private",
@@ -200,7 +182,6 @@
   {
    "name": "Kawasaki Heavy Industries",
    "country": "Japan",
-   "founded": 1896,
    "sector": "Industrial / Humanoid",
    "status": "public",
    "funding": "Public",
@@ -210,7 +191,6 @@
   {
    "name": "Astribot (星尘智能)",
    "country": "China",
-   "founded": 2022,
    "sector": "Humanoid",
    "status": "private",
    "funding": "Nine-figure",
@@ -220,7 +200,6 @@
   {
    "name": "Noetix Robotics (松延动力)",
    "country": "China",
-   "founded": 2023,
    "sector": "Humanoid",
    "status": "private",
    "funding": "Nine-figure",
@@ -230,17 +209,15 @@
   {
    "name": "EngineAI (众擎机器人)",
    "country": "China",
-   "founded": 2023,
    "sector": "Humanoid",
    "status": "private",
-   "funding": "Nine-figure",
+   "funding": "$200M (Apr 2026, Dealroom)",
    "website": "https://engineai.com.cn",
    "summary": "PM01 and SE01 bipeds known for natural gait demonstrations."
   },
   {
    "name": "MagicLab (魔法原子)",
    "country": "China",
-   "founded": 2023,
    "sector": "Humanoid",
    "status": "private",
    "funding": "Undisclosed",
@@ -250,7 +227,6 @@
   {
    "name": "Deep Robotics (云深处科技)",
    "country": "China",
-   "founded": 2017,
    "sector": "Quadruped",
    "status": "private",
    "funding": "$100M+",
@@ -260,7 +236,6 @@
   {
    "name": "Ghost Robotics",
    "country": "United States",
-   "founded": 2015,
    "sector": "Quadruped / Defense",
    "status": "private",
    "funding": "Acquired (LIG Nex1)",
@@ -270,7 +245,6 @@
   {
    "name": "ANYbotics",
    "country": "Switzerland",
-   "founded": 2016,
    "sector": "Quadruped / Inspection",
    "status": "private",
    "funding": "$70M+",
@@ -280,7 +254,6 @@
   {
    "name": "Physical Intelligence",
    "country": "United States",
-   "founded": 2024,
    "sector": "Robot foundation models",
    "status": "private",
    "funding": "$400M+",
@@ -290,7 +263,6 @@
   {
    "name": "Skild AI",
    "country": "United States",
-   "founded": 2023,
    "sector": "Robot foundation models",
    "status": "private",
    "funding": "~$1.4B Series C",
@@ -300,7 +272,6 @@
   {
    "name": "Field AI",
    "country": "United States",
-   "founded": 2021,
    "sector": "Robot autonomy software",
    "status": "private",
    "funding": "$400M+",
@@ -310,7 +281,6 @@
   {
    "name": "Covariant",
    "country": "United States",
-   "founded": 2017,
    "sector": "Manipulation AI",
    "status": "private",
    "funding": "$220M+",
@@ -320,7 +290,6 @@
   {
    "name": "Generalist AI",
    "country": "United States",
-   "founded": 2024,
    "sector": "Robot foundation models",
    "status": "private",
    "funding": "Undisclosed",
@@ -330,7 +299,6 @@
   {
    "name": "World Labs",
    "country": "United States",
-   "founded": 2024,
    "sector": "Spatial intelligence",
    "status": "private",
    "funding": "$230M+",
@@ -340,7 +308,6 @@
   {
    "name": "Anduril Industries",
    "country": "United States",
-   "founded": 2017,
    "sector": "Defense autonomy",
    "status": "private",
    "funding": "$5B Series H",
@@ -350,7 +317,6 @@
   {
    "name": "Shield AI",
    "country": "United States",
-   "founded": 2015,
    "sector": "Autonomous flight",
    "status": "private",
    "funding": "$2B Series G",
@@ -360,7 +326,6 @@
   {
    "name": "Helsing",
    "country": "Germany",
-   "founded": 2021,
    "sector": "Defense AI",
    "status": "private",
    "funding": "~$3.4B total",
@@ -370,7 +335,6 @@
   {
    "name": "Skydio",
    "country": "United States",
-   "founded": 2014,
    "sector": "Autonomous drones",
    "status": "private",
    "funding": "$850M+",
@@ -380,7 +344,6 @@
   {
    "name": "Quantum Systems",
    "country": "Germany",
-   "founded": 2015,
    "sector": "Reconnaissance UAS",
    "status": "private",
    "funding": "$1.2B Series D",
@@ -390,7 +353,6 @@
   {
    "name": "Saronic Technologies",
    "country": "United States",
-   "founded": 2022,
    "sector": "Autonomous surface vessels",
    "status": "private",
    "funding": "$1.8B",
@@ -400,7 +362,6 @@
   {
    "name": "Stark (SKD SE)",
    "country": "Germany",
-   "founded": 2024,
    "sector": "Loitering munitions / unmanned systems",
    "status": "private",
    "funding": "~$670M total",
@@ -410,7 +371,6 @@
   {
    "name": "DJI",
    "country": "China",
-   "founded": 2006,
    "sector": "Commercial drones",
    "status": "private",
    "funding": "Private",
@@ -420,7 +380,6 @@
   {
    "name": "Zipline",
    "country": "United States",
-   "founded": 2014,
    "sector": "Delivery drones",
    "status": "private",
    "funding": "$500M+",
@@ -430,7 +389,6 @@
   {
    "name": "Wing",
    "country": "United States",
-   "founded": 2012,
    "sector": "Delivery drones",
    "status": "private",
    "funding": "Alphabet-funded",
@@ -440,7 +398,6 @@
   {
    "name": "DroneShield",
    "country": "Australia",
-   "founded": 2014,
    "sector": "Counter-UAS",
    "status": "public",
    "funding": "Public",
@@ -450,7 +407,6 @@
   {
    "name": "Epirus",
    "country": "United States",
-   "founded": 2018,
    "sector": "Directed energy",
    "status": "private",
    "funding": "$550M+",
@@ -460,7 +416,6 @@
   {
    "name": "XTEND",
    "country": "Israel",
-   "founded": 2018,
    "sector": "Tactical drones",
    "status": "private",
    "funding": "$152M+",
@@ -470,7 +425,6 @@
   {
    "name": "Chaos Industries",
    "country": "United States",
-   "founded": 2022,
    "sector": "Counter-UAS radar",
    "status": "private",
    "funding": "$200M+",
@@ -480,7 +434,6 @@
   {
    "name": "ICEYE",
    "country": "Finland",
-   "founded": 2014,
    "sector": "SAR satellites",
    "status": "private",
    "funding": "$1.7B total",
@@ -490,7 +443,6 @@
   {
    "name": "Swift Beat",
    "country": "United States",
-   "founded": 2022,
    "sector": "Autonomous drones",
    "status": "private",
    "funding": "Undisclosed",
@@ -500,7 +452,6 @@
   {
    "name": "Unusual Machines",
    "country": "United States",
-   "founded": 2019,
    "sector": "Drone components",
    "status": "public",
    "funding": "Public",
@@ -510,7 +461,6 @@
   {
    "name": "Symbotic",
    "country": "United States",
-   "founded": 2007,
    "sector": "Warehouse automation",
    "status": "public",
    "funding": "Public",
@@ -520,7 +470,6 @@
   {
    "name": "Locus Robotics",
    "country": "United States",
-   "founded": 2014,
    "sector": "Warehouse AMR",
    "status": "private",
    "funding": "$400M+",
@@ -530,7 +479,6 @@
   {
    "name": "Geek+ (极智嘉)",
    "country": "China",
-   "founded": 2015,
    "sector": "Warehouse AMR",
    "status": "public",
    "funding": "IPO 2025",
@@ -540,7 +488,6 @@
   {
    "name": "Exotec",
    "country": "France",
-   "founded": 2015,
    "sector": "Warehouse automation",
    "status": "private",
    "funding": "$450M+",
@@ -550,7 +497,6 @@
   {
    "name": "AutoStore",
    "country": "Norway",
-   "founded": 1996,
    "sector": "Cube storage",
    "status": "public",
    "funding": "Public",
@@ -560,7 +506,6 @@
   {
    "name": "Dexterity",
    "country": "United States",
-   "founded": 2017,
    "sector": "Robotic manipulation",
    "status": "private",
    "funding": "$250M+",
@@ -570,7 +515,6 @@
   {
    "name": "Hai Robotics (海柔创新)",
    "country": "China",
-   "founded": 2016,
    "sector": "Warehouse ASRS",
    "status": "private",
    "funding": "$400M+",
@@ -580,7 +524,6 @@
   {
    "name": "Nimble Robotics",
    "country": "United States",
-   "founded": 2017,
    "sector": "Fulfilment robotics",
    "status": "private",
    "funding": "$200M+",
@@ -590,7 +533,6 @@
   {
    "name": "GreyOrange",
    "country": "United States",
-   "founded": 2011,
    "sector": "Warehouse robotics",
    "status": "private",
    "funding": "$250M+",
@@ -600,7 +542,6 @@
   {
    "name": "Amazon Robotics",
    "country": "United States",
-   "founded": 2003,
    "sector": "Warehouse robotics",
    "status": "public",
    "funding": "Amazon subsidiary",
@@ -610,7 +551,6 @@
   {
    "name": "Pickle Robot",
    "country": "United States",
-   "founded": 2018,
    "sector": "Truck unloading",
    "status": "private",
    "funding": "$100M+",
@@ -620,7 +560,6 @@
   {
    "name": "Standard Bots",
    "country": "United States",
-   "founded": 2018,
    "sector": "Cobots",
    "status": "private",
    "funding": "$100M+",
@@ -630,7 +569,6 @@
   {
    "name": "John Deere",
    "country": "United States",
-   "founded": 1837,
    "sector": "Agricultural autonomy",
    "status": "public",
    "funding": "Public",
@@ -640,7 +578,6 @@
   {
    "name": "Carbon Robotics",
    "country": "United States",
-   "founded": 2018,
    "sector": "Laser weeding",
    "status": "private",
    "funding": "$157M+",
@@ -650,7 +587,6 @@
   {
    "name": "Monarch Tractor",
    "country": "United States",
-   "founded": 2018,
    "sector": "Electric autonomous tractors",
    "status": "private",
    "funding": "$220M+",
@@ -660,7 +596,6 @@
   {
    "name": "Agtonomy",
    "country": "United States",
-   "founded": 2020,
    "sector": "Farm autonomy software",
    "status": "private",
    "funding": "$50M+",
@@ -670,7 +605,6 @@
   {
    "name": "Naïo Technologies",
    "country": "France",
-   "founded": 2011,
    "sector": "Weeding robots",
    "status": "private",
    "funding": "€40M+",
@@ -680,7 +614,6 @@
   {
    "name": "Burro",
    "country": "United States",
-   "founded": 2017,
    "sector": "Agricultural transport",
    "status": "private",
    "funding": "$50M+",
@@ -690,7 +623,6 @@
   {
    "name": "Verdant Robotics",
    "country": "United States",
-   "founded": 2018,
    "sector": "Precision agriculture",
    "status": "private",
    "funding": "$70M+",
@@ -700,7 +632,6 @@
   {
    "name": "Built Robotics",
    "country": "United States",
-   "founded": 2016,
    "sector": "Construction autonomy",
    "status": "private",
    "funding": "$110M+",
@@ -710,7 +641,6 @@
   {
    "name": "Dusty Robotics",
    "country": "United States",
-   "founded": 2018,
    "sector": "Construction layout",
    "status": "private",
    "funding": "$90M+",
@@ -720,7 +650,6 @@
   {
    "name": "Canvas",
    "country": "United States",
-   "founded": 2017,
    "sector": "Construction robotics",
    "status": "private",
    "funding": "$100M+",
@@ -730,7 +659,6 @@
   {
    "name": "Gecko Robotics",
    "country": "United States",
-   "founded": 2013,
    "sector": "Industrial inspection",
    "status": "private",
    "funding": "$350M+",
@@ -740,7 +668,6 @@
   {
    "name": "Intuitive Surgical",
    "country": "United States",
-   "founded": 1995,
    "sector": "Surgical robotics",
    "status": "public",
    "funding": "Public",
@@ -750,7 +677,6 @@
   {
    "name": "CMR Surgical",
    "country": "United Kingdom",
-   "founded": 2014,
    "sector": "Surgical robotics",
    "status": "private",
    "funding": "$1B+",
@@ -760,7 +686,6 @@
   {
    "name": "FANUC",
    "country": "Japan",
-   "founded": 1972,
    "sector": "Industrial robots",
    "status": "public",
    "funding": "Public",
@@ -770,7 +695,6 @@
   {
    "name": "ABB Robotics",
    "country": "Switzerland",
-   "founded": 1988,
    "sector": "Industrial robots",
    "status": "public",
    "funding": "Public",
@@ -780,7 +704,6 @@
   {
    "name": "Yaskawa Electric",
    "country": "Japan",
-   "founded": 1915,
    "sector": "Industrial robots / drives",
    "status": "public",
    "funding": "Public",
@@ -790,7 +713,6 @@
   {
    "name": "KUKA",
    "country": "Germany",
-   "founded": 1898,
    "sector": "Industrial robots",
    "status": "private",
    "funding": "Midea-owned",
@@ -800,7 +722,6 @@
   {
    "name": "Universal Robots",
    "country": "Denmark",
-   "founded": 2005,
    "sector": "Collaborative robots",
    "status": "private",
    "funding": "Teradyne-owned",
@@ -810,7 +731,6 @@
   {
    "name": "Doosan Robotics",
    "country": "South Korea",
-   "founded": 2015,
    "sector": "Collaborative robots",
    "status": "public",
    "funding": "IPO 2023",
@@ -820,7 +740,6 @@
   {
    "name": "Techman Robot",
    "country": "Taiwan",
-   "founded": 2015,
    "sector": "Collaborative robots",
    "status": "private",
    "funding": "Private",
@@ -830,7 +749,6 @@
   {
    "name": "Harmonic Drive Systems",
    "country": "Japan",
-   "founded": 1970,
    "sector": "Precision reducers",
    "status": "public",
    "funding": "Public",
@@ -840,7 +758,6 @@
   {
    "name": "Nabtesco",
    "country": "Japan",
-   "founded": 2003,
    "sector": "Precision reducers",
    "status": "public",
    "funding": "Public",
@@ -850,7 +767,6 @@
   {
    "name": "Leaderdrive (绿的谐波)",
    "country": "China",
-   "founded": 2003,
    "sector": "Harmonic reducers",
    "status": "public",
    "funding": "Public",
@@ -860,7 +776,6 @@
   {
    "name": "Zhejiang Shuanghuan Driveline (双环传动)",
    "country": "China",
-   "founded": 1980,
    "sector": "Reducers / gears",
    "status": "public",
    "funding": "Public",
@@ -870,7 +785,6 @@
   {
    "name": "Ningbo Zhongda Leader (中大力德)",
    "country": "China",
-   "founded": 1998,
    "sector": "Reducers / actuators",
    "status": "public",
    "funding": "Public",
@@ -880,7 +794,6 @@
   {
    "name": "Sanhua Intelligent Controls",
    "country": "China",
-   "founded": 1984,
    "sector": "Actuators / thermal",
    "status": "public",
    "funding": "Public",
@@ -890,7 +803,6 @@
   {
    "name": "Cone Drive",
    "country": "United States",
-   "founded": 1926,
    "sector": "Harmonic / cycloidal",
    "status": "private",
    "funding": "Timken-owned",
@@ -900,7 +812,6 @@
   {
    "name": "Zhejiang Laifual Drive",
    "country": "China",
-   "founded": 2011,
    "sector": "Harmonic reducers",
    "status": "private",
    "funding": "Private",
@@ -910,7 +821,6 @@
   {
    "name": "maxon",
    "country": "Switzerland",
-   "founded": 1961,
    "sector": "Precision motors",
    "status": "private",
    "funding": "Private",
@@ -920,7 +830,6 @@
   {
    "name": "Kollmorgen",
    "country": "United States",
-   "founded": 1916,
    "sector": "Frameless motors",
    "status": "private",
    "funding": "Regal Rexnord-owned",
@@ -930,7 +839,6 @@
   {
    "name": "Nidec",
    "country": "Japan",
-   "founded": 1973,
    "sector": "Motors",
    "status": "public",
    "funding": "Public",
@@ -940,7 +848,6 @@
   {
    "name": "Inovance Technology",
    "country": "China",
-   "founded": 2003,
    "sector": "Servo drives",
    "status": "public",
    "funding": "Public",
@@ -950,7 +857,6 @@
   {
    "name": "Synapticon",
    "country": "Germany",
-   "founded": 2010,
    "sector": "Servo drives",
    "status": "private",
    "funding": "Private",
@@ -960,7 +866,6 @@
   {
    "name": "THK",
    "country": "Japan",
-   "founded": 1971,
    "sector": "Linear motion",
    "status": "public",
    "funding": "Public",
@@ -970,7 +875,6 @@
   {
    "name": "Hiwin Technologies",
    "country": "Taiwan",
-   "founded": 1989,
    "sector": "Linear motion",
    "status": "public",
    "funding": "Public",
@@ -980,7 +884,6 @@
   {
    "name": "Ewellix",
    "country": "Sweden",
-   "founded": 2019,
    "sector": "Linear actuators",
    "status": "private",
    "funding": "Schaeffler-owned",
@@ -990,7 +893,6 @@
   {
    "name": "NVIDIA",
    "country": "United States",
-   "founded": 1993,
    "sector": "Edge compute / AI",
    "status": "public",
    "funding": "Public",
@@ -1000,7 +902,6 @@
   {
    "name": "Qualcomm",
    "country": "United States",
-   "founded": 1985,
    "sector": "Edge compute",
    "status": "public",
    "funding": "Public",
@@ -1010,7 +911,6 @@
   {
    "name": "Ouster",
    "country": "United States",
-   "founded": 2015,
    "sector": "LiDAR",
    "status": "public",
    "funding": "Public",
@@ -1020,7 +920,6 @@
   {
    "name": "Hesai Technology",
    "country": "China",
-   "founded": 2014,
    "sector": "LiDAR",
    "status": "public",
    "funding": "Public (Nasdaq)",
@@ -1030,7 +929,6 @@
   {
    "name": "RoboSense (速腾聚创)",
    "country": "China",
-   "founded": 2014,
    "sector": "LiDAR",
    "status": "public",
    "funding": "Public",
@@ -1040,7 +938,6 @@
   {
    "name": "Livox",
    "country": "China",
-   "founded": 2016,
    "sector": "LiDAR",
    "status": "private",
    "funding": "DJI-backed",
@@ -1050,7 +947,6 @@
   {
    "name": "Stereolabs",
    "country": "United States",
-   "founded": 2010,
    "sector": "Depth cameras",
    "status": "private",
    "funding": "Private",
@@ -1060,7 +956,6 @@
   {
    "name": "Orbbec",
    "country": "China",
-   "founded": 2013,
    "sector": "Depth cameras",
    "status": "public",
    "funding": "Public",
@@ -1070,7 +965,6 @@
   {
    "name": "Sony Semiconductor Solutions",
    "country": "Japan",
-   "founded": 2016,
    "sector": "Image sensors",
    "status": "public",
    "funding": "Public parent",
@@ -1080,7 +974,6 @@
   {
    "name": "Analog Devices",
    "country": "United States",
-   "founded": 1965,
    "sector": "IMU / sensing ICs",
    "status": "public",
    "funding": "Public",
@@ -1090,7 +983,6 @@
   {
    "name": "Bosch",
    "country": "Germany",
-   "founded": 1886,
    "sector": "MEMS sensors",
    "status": "private",
    "funding": "Private",
@@ -1100,7 +992,6 @@
   {
    "name": "Renishaw",
    "country": "United Kingdom",
-   "founded": 1973,
    "sector": "Encoders / metrology",
    "status": "public",
    "funding": "Public",
@@ -1110,7 +1001,6 @@
   {
    "name": "ATI Industrial Automation",
    "country": "United States",
-   "founded": 1989,
    "sector": "Force/torque sensors",
    "status": "private",
    "funding": "Novanta-owned",
@@ -1120,7 +1010,6 @@
   {
    "name": "OnRobot",
    "country": "Denmark",
-   "founded": 2018,
    "sector": "End effectors",
    "status": "private",
    "funding": "Private",
@@ -1130,7 +1019,6 @@
   {
    "name": "SCHUNK",
    "country": "Germany",
-   "founded": 1945,
    "sector": "Grippers",
    "status": "private",
    "funding": "Private",
@@ -1140,7 +1028,6 @@
   {
    "name": "Amprius Technologies",
    "country": "United States",
-   "founded": 2008,
    "sector": "Battery cells",
    "status": "public",
    "funding": "Public",
@@ -1150,7 +1037,6 @@
   {
    "name": "CATL",
    "country": "China",
-   "founded": 2011,
    "sector": "Batteries",
    "status": "public",
    "funding": "Public",
@@ -1160,7 +1046,6 @@
   {
    "name": "Agile Robots SE",
    "country": "Germany",
-   "founded": 2018,
    "sector": "Industrial / Humanoid",
    "status": "private",
    "funding": "$384M+",
@@ -1170,7 +1055,6 @@
   {
    "name": "Franka Robotics",
    "country": "Germany",
-   "founded": 2016,
    "sector": "Collaborative robots",
    "status": "private",
    "funding": "Acquired",
@@ -1180,7 +1064,6 @@
   {
    "name": "Flexiv Robotics",
    "country": "United States / China",
-   "founded": 2016,
    "sector": "Adaptive robots",
    "status": "private",
    "funding": "$100M+",
@@ -1190,7 +1073,6 @@
   {
    "name": "Leju Robot (乐聚机器人)",
    "country": "China",
-   "founded": 2016,
    "sector": "Humanoid",
    "status": "private",
    "funding": "$255M+",
@@ -1200,7 +1082,6 @@
   {
    "name": "Simplexity Robotics (简概机器人)",
    "country": "China",
-   "founded": 2025,
    "sector": "Humanoid",
    "status": "private",
    "funding": "~¥2B (RMB)",
@@ -1208,19 +1089,8 @@
    "summary": "Embodied-intelligence startup that raised roughly ¥2B across five rounds in six months — a record fundraising pace for the sector."
   },
   {
-   "name": "Humanoid",
-   "country": "United Kingdom",
-   "founded": 2024,
-   "sector": "Humanoid",
-   "status": "private",
-   "funding": "Early-stage (seed)",
-   "website": "https://thehumanoid.ai",
-   "summary": "London-based developer of the HMND 01 general-purpose humanoid, built around an in-house control stack (KinetIQ) and NVIDIA Jetson Thor compute with Isaac Sim/Lab for training. Targets a ~15 kg payload for logistics and manufacturing work, and positions Britain in a field otherwise dominated by the US and China."
-  },
-  {
    "name": "Baykar",
    "country": "Türkiye",
-   "founded": 1984,
    "sector": "Combat UAS",
    "status": "private",
    "funding": "Private",
@@ -1230,7 +1100,6 @@
   {
    "name": "General Atomics Aeronautical",
    "country": "United States",
-   "founded": 1993,
    "sector": "MALE/HALE UAS",
    "status": "private",
    "funding": "Private",
@@ -1240,7 +1109,6 @@
   {
    "name": "Northrop Grumman",
    "country": "United States",
-   "founded": 1994,
    "sector": "HALE UAS",
    "status": "public",
    "funding": "Public",
@@ -1250,7 +1118,6 @@
   {
    "name": "AeroVironment",
    "country": "United States",
-   "founded": 1971,
    "sector": "Small UAS / loitering",
    "status": "public",
    "funding": "Public",
@@ -1260,7 +1127,6 @@
   {
    "name": "Boeing / Airpower Teaming",
    "country": "Australia",
-   "founded": 2016,
    "sector": "Autonomous combat air",
    "status": "public",
    "funding": "Public parent",
@@ -1270,7 +1136,6 @@
   {
    "name": "Kratos Defense",
    "country": "United States",
-   "founded": 1994,
    "sector": "Combat drones",
    "status": "public",
    "funding": "Public",
@@ -1280,7 +1145,6 @@
   {
    "name": "Israel Aerospace Industries",
    "country": "Israel",
-   "founded": 1953,
    "sector": "UAS / loitering",
    "status": "private",
    "funding": "State-owned",
@@ -1290,7 +1154,6 @@
   {
    "name": "Parrot",
    "country": "France",
-   "founded": 1994,
    "sector": "Commercial drones",
    "status": "public",
    "funding": "Public",
@@ -1300,7 +1163,6 @@
   {
    "name": "Autel Robotics",
    "country": "China",
-   "founded": 2014,
    "sector": "Commercial drones",
    "status": "private",
    "funding": "Private",
@@ -1310,7 +1172,6 @@
   {
    "name": "AgXeed",
    "country": "Netherlands",
-   "founded": 2018,
    "sector": "Autonomous tractors",
    "status": "private",
    "funding": "Private",
@@ -1320,7 +1181,6 @@
   {
    "name": "FarmDroid",
    "country": "Denmark",
-   "founded": 2018,
    "sector": "Seeding / weeding robots",
    "status": "private",
    "funding": "Private",
@@ -1330,7 +1190,6 @@
   {
    "name": "farm-ng",
    "country": "United States",
-   "founded": 2019,
    "sector": "Modular ag robots",
    "status": "private",
    "funding": "Private",
@@ -1340,7 +1199,6 @@
   {
    "name": "Tytan Technologies",
    "country": "Germany",
-   "founded": 2023,
    "sector": "Counter-UAS interceptors",
    "status": "private",
    "funding": "~€46M+",
@@ -1350,7 +1208,6 @@
   {
    "name": "Reactive Dynamics",
    "country": "Germany",
-   "founded": 2025,
    "sector": "Uncrewed ground vehicles",
    "status": "private",
    "funding": "Early-stage",
@@ -1360,7 +1217,6 @@
   {
    "name": "Elbit Systems",
    "country": "Israel",
-   "founded": 1966,
    "sector": "Robotic & autonomous systems",
    "status": "private",
    "funding": "Public",
@@ -1370,7 +1226,6 @@
   {
    "name": "Rheinmetall",
    "country": "Germany",
-   "founded": 1889,
    "sector": "Uncrewed ground systems",
    "status": "private",
    "funding": "Public",
@@ -1380,7 +1235,6 @@
   {
    "name": "Lockheed Martin Autonomous Systems",
    "country": "United States",
-   "founded": 1995,
    "sector": "Autonomous systems",
    "status": "private",
    "funding": "Public",
@@ -1390,7 +1244,6 @@
   {
    "name": "Raytheon Advanced Technology",
    "country": "United States",
-   "founded": 1922,
    "sector": "Defense robotics & AI",
    "status": "private",
    "funding": "Public",
@@ -1400,7 +1253,6 @@
   {
    "name": "Applied Intuition",
    "country": "United States",
-   "founded": 2017,
    "sector": "Autonomy software / simulation",
    "status": "private",
    "funding": "~$550M+",
@@ -1410,7 +1262,6 @@
   {
    "name": "LIG Nex1",
    "country": "South Korea",
-   "founded": 1976,
    "sector": "Defense robotics / UGVs",
    "status": "private",
    "funding": "Public",
@@ -1420,7 +1271,6 @@
   {
    "name": "BlueHalo",
    "country": "United States",
-   "founded": 2018,
    "sector": "Space / counter-UAS / autonomy",
    "status": "private",
    "funding": "Acquired by AeroVironment ($4.1B)",
@@ -1430,7 +1280,6 @@
   {
    "name": "Cubic Defense",
    "country": "United States",
-   "founded": 1951,
    "sector": "C5ISR / autonomous systems",
    "status": "private",
    "funding": "~$2B+ segment",
@@ -1440,7 +1289,6 @@
   {
    "name": "General Atomics",
    "country": "United States",
-   "founded": 1955,
    "sector": "MALE/HALE UAS",
    "status": "private",
    "funding": "Private",
@@ -1450,7 +1298,6 @@
   {
    "name": "Agrobot",
    "country": "Spain",
-   "founded": 2011,
    "sector": "Harvesting robotics",
    "status": "private",
    "funding": "~$20M+",
@@ -1460,7 +1307,6 @@
   {
    "name": "Harvest CROO Robotics",
    "country": "United States",
-   "founded": 2014,
    "sector": "Harvesting robotics",
    "status": "private",
    "funding": "~$5.8M",
@@ -1470,7 +1316,6 @@
   {
    "name": "Advanced Farm Technologies",
    "country": "United States",
-   "founded": 2013,
    "sector": "Harvesting robotics",
    "status": "private",
    "funding": "~$7.5M",
@@ -1480,7 +1325,6 @@
   {
    "name": "Four Growers",
    "country": "United States",
-   "founded": 2020,
    "sector": "Harvesting robotics",
    "status": "private",
    "funding": "~$9M",
@@ -1490,7 +1334,6 @@
   {
    "name": "Bear Robotics",
    "country": "United States",
-   "founded": 2018,
    "sector": "Service / AMR",
    "status": "private",
    "funding": "~$80M+",
@@ -1500,7 +1343,6 @@
   {
    "name": "Bear Flag Robotics",
    "country": "United States",
-   "founded": 2017,
    "sector": "Agricultural autonomy",
    "status": "private",
    "funding": "Acquired by John Deere",
@@ -1510,7 +1352,6 @@
   {
    "name": "Tortuga AgTech",
    "country": "United States",
-   "founded": 2016,
    "sector": "Harvesting robotics",
    "status": "private",
    "funding": "$47.7M",
@@ -1520,7 +1361,6 @@
   {
    "name": "Root AI",
    "country": "United States",
-   "founded": 2016,
    "sector": "Greenhouse robotics",
    "status": "private",
    "funding": "Acquired by AppHarvest",
@@ -1530,7 +1370,6 @@
   {
    "name": "Robotiq",
    "country": "Canada",
-   "founded": 2011,
    "sector": "End effectors / grippers",
    "status": "private",
    "funding": "Private",
@@ -1540,7 +1379,6 @@
   {
    "name": "Festo",
    "country": "Germany",
-   "founded": 1925,
    "sector": "Pneumatic actuators / automation",
    "status": "private",
    "funding": "~€4B+ revenue",
@@ -1550,7 +1388,6 @@
   {
    "name": "SMC Corporation",
    "country": "Japan",
-   "founded": 1959,
    "sector": "Pneumatic actuators",
    "status": "private",
    "funding": "Public",
@@ -1560,7 +1397,6 @@
   {
    "name": "Greenfield Robotics",
    "country": "United States",
-   "founded": 2015,
    "sector": "Agricultural autonomy",
    "status": "private",
    "funding": "Private",
@@ -1570,7 +1406,6 @@
   {
    "name": "Harvest Automation",
    "country": "United States",
-   "founded": 2010,
    "sector": "Material handling",
    "status": "private",
    "funding": "Private",
@@ -1580,7 +1415,6 @@
   {
    "name": "X-Humanoid (Beijing Humanoid Robot Innovation Center)",
    "country": "China",
-   "founded": 2023,
    "sector": "Humanoid robotics",
    "status": "private",
    "funding": "State-backed",
@@ -1590,7 +1424,6 @@
   {
    "name": "Honor",
    "country": "China",
-   "founded": 2013,
    "sector": "Consumer tech / humanoid",
    "status": "private",
    "funding": "Undisclosed",
@@ -1600,7 +1433,6 @@
   {
    "name": "Booster Robotics",
    "country": "China",
-   "founded": 2023,
    "sector": "Humanoid robotics",
    "status": "private",
    "funding": "Undisclosed",
@@ -1610,7 +1442,6 @@
   {
    "name": "BYD Robotics (15th Division)",
    "country": "China",
-   "founded": 2025,
    "sector": "Humanoid robotics",
    "status": "private",
    "funding": "BYD-backed",
@@ -1620,7 +1451,6 @@
   {
    "name": "10Beauty",
    "country": "United States",
-   "founded": 2020,
    "sector": "Robot manicures / Beauty automation",
    "status": "private",
    "funding": "$23.5M raise (2026-07-01); Series A extension to $38M total (2024-02-06)",
@@ -1630,7 +1460,6 @@
   {
    "name": "10Lines",
    "country": "Estonia",
-   "founded": 2019,
    "sector": "Striping robots",
    "status": "private",
    "funding": "",
@@ -1640,7 +1469,6 @@
   {
    "name": "3D Infotech",
    "country": "United States",
-   "founded": 2005,
    "sector": "3D metrology",
    "status": "private",
    "funding": "",
@@ -1650,7 +1478,6 @@
   {
    "name": "3D s.r.o.",
    "country": "Slovakia",
-   "founded": 1991,
    "sector": "3D programming",
    "status": "private",
    "funding": "",
@@ -1660,7 +1487,6 @@
   {
    "name": "3D-Components AS",
    "country": "Norway",
-   "founded": 2016,
    "sector": "RobTrack",
    "status": "private",
    "funding": "",
@@ -1670,7 +1496,6 @@
   {
    "name": "3DR Inc.",
    "country": "United States",
-   "founded": 0,
    "sector": "Autopilots / GNSS / telemetry",
    "status": "private",
    "funding": "",
@@ -1680,7 +1505,6 @@
   {
    "name": "7A Drones",
    "country": "Taiwan",
-   "founded": 2019,
    "sector": "Commercial drones",
    "status": "private",
    "funding": "",
@@ -1690,7 +1514,6 @@
   {
    "name": "7robotics",
    "country": "United States",
-   "founded": 2019,
    "sector": "Production automation systems",
    "status": "private",
    "funding": "",
@@ -1700,7 +1523,6 @@
   {
    "name": "7Xrobotics",
    "country": "Canada",
-   "founded": 2024,
    "sector": "AI laundry-folding systems",
    "status": "private",
    "funding": "",
@@ -1710,7 +1532,6 @@
   {
    "name": "8i Robotics",
    "country": "Canada",
-   "founded": 0,
    "sector": "Optimus",
    "status": "private",
    "funding": "",
@@ -1720,7 +1541,6 @@
   {
    "name": "9 Mothers",
    "country": "United States",
-   "founded": 2024,
    "sector": "AI mission systems",
    "status": "private",
    "funding": "",
@@ -1730,7 +1550,6 @@
   {
    "name": "A-LUX",
    "country": "South Korea",
-   "founded": 2015,
    "sector": "Lightweight training drones",
    "status": "private",
    "funding": "",
@@ -1740,7 +1559,6 @@
   {
    "name": "A-techSYN",
    "country": "Ireland",
-   "founded": 2016,
    "sector": "CGT aircraft and avionics stack",
    "status": "private",
    "funding": "",
@@ -1750,7 +1568,6 @@
   {
    "name": "A&K Robotics",
    "country": "Canada",
-   "founded": 2015,
    "sector": "Cruz pods",
    "status": "private",
    "funding": "Series A C$8M (2026-04-21)",
@@ -1760,7 +1577,6 @@
   {
    "name": "A2Z Drone Delivery",
    "country": "United States",
-   "founded": 2016,
    "sector": "Cargo drones",
    "status": "private",
    "funding": "",
@@ -1770,7 +1586,6 @@
   {
    "name": "AAEON",
    "country": "Taiwan",
-   "founded": 1992,
    "sector": "Embedded and edge-AI systems",
    "status": "private",
    "funding": "",
@@ -1780,7 +1595,6 @@
   {
    "name": "AALTO",
    "country": "United Kingdom",
-   "founded": 2022,
    "sector": "Zephyr HAPS",
    "status": "private",
    "funding": "$100 million conditional investment announced (2024-06-03)",
@@ -1790,7 +1604,6 @@
   {
    "name": "Aaronia",
    "country": "Germany",
-   "founded": 2003,
    "sector": "AARTOS platform",
    "status": "private",
    "funding": "",
@@ -1800,7 +1613,6 @@
   {
    "name": "AB Dynamics",
    "country": "United Kingdom",
-   "founded": 1982,
    "sector": "Driving robots",
    "status": "private",
    "funding": "",
@@ -1810,7 +1622,6 @@
   {
    "name": "Able Innovations",
    "country": "Canada",
-   "founded": 2018,
    "sector": "Patient transfer",
    "status": "private",
    "funding": "",
@@ -1820,7 +1631,6 @@
   {
    "name": "Absolute Robotics",
    "country": "United Kingdom",
-   "founded": 2018,
    "sector": "TM cobot cells",
    "status": "private",
    "funding": "",
@@ -1830,7 +1640,6 @@
   {
    "name": "ABZ Innovation",
    "country": "Hungary",
-   "founded": 2011,
    "sector": "Sprayer drones",
    "status": "private",
    "funding": "€7 million strategic investment (January 2026)",
@@ -1840,7 +1649,6 @@
   {
    "name": "Accerion",
    "country": "Netherlands",
-   "founded": 2015,
    "sector": "Triton optical positioning",
    "status": "private",
    "funding": "",
@@ -1850,7 +1658,6 @@
   {
    "name": "Accio Robotics",
    "country": "India",
-   "founded": 2019,
    "sector": "Goods-to-person automation",
    "status": "private",
    "funding": "Pre-Series A $1.8 million (2024-01-09)",
@@ -1860,7 +1667,6 @@
   {
    "name": "Accipiter Radar",
    "country": "Canada",
-   "founded": 1994,
    "sector": "Intelligence Network",
    "status": "private",
    "funding": "",
@@ -1870,7 +1676,6 @@
   {
    "name": "Acconeer",
    "country": "Sweden",
-   "founded": 2012,
    "sector": "Pulsed radar",
    "status": "private",
    "funding": "",
@@ -1880,7 +1685,6 @@
   {
    "name": "Accuray",
    "country": "United States",
-   "founded": 1990,
    "sector": "CyberKnife / helical radiotherapy (TomoTherapy, Radixact)",
    "status": "private",
    "funding": "",
@@ -1890,7 +1694,6 @@
   {
    "name": "Acecore Technologies",
    "country": "Netherlands",
-   "founded": 2013,
    "sector": "Zoe, Noa",
    "status": "private",
    "funding": "",
@@ -1900,7 +1703,6 @@
   {
    "name": "ACEINNA",
    "country": "United States",
-   "founded": 2017,
    "sector": "IMU / GNSS-INS modules",
    "status": "private",
    "funding": "~$50 million spinout financing completed (2018-06-19)",
@@ -1910,7 +1712,6 @@
   {
    "name": "ACEWORKS",
    "country": "South Korea",
-   "founded": 2009,
    "sector": "ADSmart",
    "status": "private",
    "funding": "",
@@ -1920,7 +1721,6 @@
   {
    "name": "Acieta",
    "country": "United States",
-   "founded": 1983,
    "sector": "Robotic automation cells",
    "status": "private",
    "funding": "",
@@ -1930,7 +1730,6 @@
   {
    "name": "Acodyne",
    "country": "Denmark",
-   "founded": 2023,
    "sector": "E100 / E200",
    "status": "private",
    "funding": "€2.5 million pre-seed (2026-06-22)",
@@ -1940,7 +1739,6 @@
   {
    "name": "Acrab",
    "country": "Singapore",
-   "founded": 2024,
    "sector": "GELIX compute stack",
    "status": "private",
    "funding": "Series B $130 million (2026-08-06); >$350 million cumulative backing disclosed",
@@ -1950,7 +1748,6 @@
   {
    "name": "ACS Motion Control",
    "country": "Israel",
-   "founded": 1985,
    "sector": "SPiiPlus",
    "status": "private",
    "funding": "",
@@ -1960,7 +1757,6 @@
   {
    "name": "ACSL",
    "country": "Japan",
-   "founded": 2013,
    "sector": "SOTEN",
    "status": "private",
    "funding": "",
@@ -1970,7 +1766,6 @@
   {
    "name": "Activ Surgical",
    "country": "United States",
-   "founded": 2017,
    "sector": "Intraoperative visualization",
    "status": "private",
    "funding": "Series B $45M for ActivInsights commercialization (2021-09-30); $15M funding for autonomous surgery platform (2020-07-16",
@@ -1980,7 +1775,6 @@
   {
    "name": "Actuonix Motion Devices",
    "country": "Canada",
-   "founded": 2004,
    "sector": "Linear actuators and servos",
    "status": "private",
    "funding": "",
@@ -1990,7 +1784,6 @@
   {
    "name": "ACUA Ocean",
    "country": "United Kingdom",
-   "founded": 2020,
    "sector": "Long-range USVs",
    "status": "private",
    "funding": "",
@@ -2000,7 +1793,6 @@
   {
    "name": "Acumino",
    "country": "United States",
-   "founded": 2021,
    "sector": "Dexterous models",
    "status": "private",
    "funding": "$11.7 million seed round led by Radar Ventures (2026-06-24); $6.5M from Greek and international investors (2024-05-01)",
@@ -2010,7 +1802,6 @@
   {
    "name": "ACWA Robotics",
    "country": "France",
-   "founded": 2018,
    "sector": "In-pipe robots",
    "status": "private",
    "funding": "raises EUR 4.8M for water-pipe inspection robots (2024-01-19)",
@@ -2020,7 +1811,6 @@
   {
    "name": "AdamantQ",
    "country": "Sweden",
-   "founded": 0,
    "sector": "Diamond spin systems",
    "status": "private",
    "funding": "",
@@ -2030,7 +1820,6 @@
   {
    "name": "Adapta Robotics",
    "country": "Romania",
-   "founded": 2015,
    "sector": "Testing robots",
    "status": "private",
    "funding": "Catalyst Romania invested EUR2 million (2024-10-01)",
@@ -2040,7 +1829,6 @@
   {
    "name": "Adaptronics",
    "country": "Italy",
-   "founded": 2022,
    "sector": "Electro Active Adhesive Layer",
    "status": "private",
    "funding": "",
@@ -2050,7 +1838,6 @@
   {
    "name": "Addverb",
    "country": "India",
-   "founded": 2016,
    "sector": "AMRs, sortation and AS/RS",
    "status": "private",
    "funding": "",
@@ -2060,7 +1847,6 @@
   {
    "name": "Adlatus Robotics",
    "country": "Germany",
-   "founded": 2015,
    "sector": "Cleaning robots",
    "status": "private",
    "funding": "",
@@ -2070,7 +1856,6 @@
   {
    "name": "ADLINK Technology",
    "country": "Taiwan",
-   "founded": 1995,
    "sector": "AI modules",
    "status": "private",
    "funding": "",
@@ -2080,7 +1865,6 @@
   {
    "name": "Advanced Acoustic Concepts",
    "country": "United States",
-   "founded": 1989,
    "sector": "Undersea warfare systems",
    "status": "private",
    "funding": "",
@@ -2090,7 +1874,6 @@
   {
    "name": "Advanced Aircraft Company",
    "country": "United States",
-   "founded": 2017,
    "sector": "HAMR aircraft",
    "status": "private",
    "funding": "",
@@ -2100,7 +1883,6 @@
   {
    "name": "Advanced Metal Research",
    "country": "United States",
-   "founded": 2025,
    "sector": "Welding cells",
    "status": "private",
    "funding": "",
@@ -2110,7 +1892,6 @@
   {
    "name": "ADVANCED Motion Controls",
    "country": "United States",
-   "founded": 1987,
    "sector": "Servo drives",
    "status": "private",
    "funding": "",
@@ -2120,7 +1901,6 @@
   {
    "name": "Advanced Navigation",
    "country": "Australia",
-   "founded": 2012,
    "sector": "INS / GNSS",
    "status": "private",
    "funding": "",
@@ -2130,7 +1910,6 @@
   {
    "name": "Advanced Protection Systems",
    "country": "Poland",
-   "founded": 2015,
    "sector": "Integrated anti-drone systems",
    "status": "private",
    "funding": "",
@@ -2140,7 +1919,6 @@
   {
    "name": "Advantech",
    "country": "Taiwan",
-   "founded": 1983,
    "sector": "Edge AI systems",
    "status": "private",
    "funding": "",
@@ -2150,7 +1928,6 @@
   {
    "name": "Advex AI",
    "country": "United States",
-   "founded": 2023,
    "sector": "Generative visual inspection",
    "status": "private",
    "funding": "Advex AI raises $3.5M seed round (2024-11-01)",
@@ -2160,7 +1937,6 @@
   {
    "name": "AegisX",
    "country": "Sweden",
-   "founded": 2024,
    "sector": "OpenLink radar",
    "status": "private",
    "funding": "",
@@ -2170,7 +1946,6 @@
   {
    "name": "AeiROBOT",
    "country": "South Korea",
-   "founded": 2018,
    "sector": "Alice product line",
    "status": "private",
    "funding": "AeiROBOT raises $7.2M Series A to scale humanoid robotics (2023-04-14)",
@@ -2180,7 +1955,6 @@
   {
    "name": "Aeolus Robotics, Inc.",
    "country": "United States",
-   "founded": 2016,
    "sector": "aeo mobile service robot",
    "status": "private",
    "funding": "",
@@ -2190,7 +1964,6 @@
   {
    "name": "Aereus",
    "country": "Germany",
-   "founded": 2025,
    "sector": "Multimodal spatial data engine",
    "status": "private",
    "funding": "",
@@ -2200,7 +1973,6 @@
   {
    "name": "Aergility",
    "country": "United States",
-   "founded": 2015,
    "sector": "Vista and Hauler VTOL platforms",
    "status": "private",
    "funding": "",
@@ -2210,7 +1982,6 @@
   {
    "name": "Aerial Precision",
    "country": "Netherlands",
-   "founded": 2018,
    "sector": "Laser scanning payloads",
    "status": "private",
    "funding": "",
@@ -2220,7 +1991,6 @@
   {
    "name": "Aerialoop",
    "country": "Ecuador",
-   "founded": 2020,
    "sector": "Drone networks",
    "status": "private",
    "funding": "Kamay Ventures invests in Aerialoop drone delivery airline (2022-10-27)",
@@ -2230,7 +2000,6 @@
   {
    "name": "AerialX",
    "country": "Canada",
-   "founded": 2013,
    "sector": "DroneBullet and detection tools",
    "status": "private",
    "funding": "",
@@ -2240,7 +2009,6 @@
   {
    "name": "Aerion",
    "country": "Estonia",
-   "founded": 2026,
    "sector": "Drone nodes",
    "status": "private",
    "funding": "",
@@ -2250,7 +2018,6 @@
   {
    "name": "AERIUM Analytics",
    "country": "Canada",
-   "founded": 2016,
    "sector": "RoBird platform",
    "status": "private",
    "funding": "",
@@ -2260,7 +2027,6 @@
   {
    "name": "Aerix Systems",
    "country": "France",
-   "founded": 2020,
    "sector": "Omnidirectional UAVs",
    "status": "private",
    "funding": "",
@@ -2270,7 +2036,6 @@
   {
    "name": "Aerobotics",
    "country": "South Africa",
-   "founded": 2014,
    "sector": "Crop intelligence",
    "status": "private",
    "funding": "Aerobotics raises $17M Series B to scale agriculture AI globally (2021-01-20)",
@@ -2280,7 +2045,6 @@
   {
    "name": "Aerobotix",
    "country": "United States",
-   "founded": 2005,
    "sector": "Robot workcells",
    "status": "private",
    "funding": "",
@@ -2290,7 +2054,6 @@
   {
    "name": "AeroDefense",
    "country": "United States",
-   "founded": 2015,
    "sector": "Drone detection",
    "status": "private",
    "funding": "",
@@ -2300,7 +2063,6 @@
   {
    "name": "Aerodyne Group",
    "country": "Malaysia",
-   "founded": 2014,
    "sector": "Drone data operations",
    "status": "private",
    "funding": "Aerodyne Group raises $30M bridging round (2022-09-26)",
@@ -2310,7 +2072,6 @@
   {
    "name": "Aerones",
    "country": "Latvia",
-   "founded": 2018,
    "sector": "Turbine robots",
    "status": "private",
    "funding": "$62M financing round (2025-06-03); $30M growth round (2023-01-16); EUR4.416M EU Innovation Fund grant (2024-01-18)",
@@ -2320,7 +2081,6 @@
   {
    "name": "Aerosense",
    "country": "Japan",
-   "founded": 2015,
    "sector": "Aerobo Wing",
    "status": "private",
    "funding": "",
@@ -2330,7 +2090,6 @@
   {
    "name": "Aerospace Industrial Development Corporation",
    "country": "Taiwan",
-   "founded": 1969,
    "sector": "Uncrewed systems",
    "status": "private",
    "funding": "",
@@ -2340,7 +2099,6 @@
   {
    "name": "Aerotech",
    "country": "United States",
-   "founded": 1970,
    "sector": "Stages, drives and controls",
    "status": "private",
    "funding": "",
@@ -2350,7 +2108,6 @@
   {
    "name": "AeroVect",
    "country": "United States",
-   "founded": 2020,
    "sector": "AeroVect Driver for GSE",
    "status": "private",
    "funding": "",
@@ -2360,7 +2117,6 @@
   {
    "name": "Aescape",
    "country": "United States",
-   "founded": 2017,
    "sector": "Aescape table",
    "status": "private",
    "funding": "Aescape raises $83M in Series B funding (2025-03-04)",
@@ -2370,7 +2126,6 @@
   {
    "name": "Aethon",
    "country": "United States",
-   "founded": 2004,
    "sector": "TUG / Zena",
    "status": "private",
    "funding": "",
@@ -2380,7 +2135,6 @@
   {
    "name": "Aetina",
    "country": "Taiwan",
-   "founded": 2012,
    "sector": "Embedded GPU and Jetson systems",
    "status": "private",
    "funding": "",
@@ -2390,7 +2144,6 @@
   {
    "name": "Aeva Technologies",
    "country": "United States",
-   "founded": 2017,
    "sector": "4D LiDAR",
    "status": "private",
    "funding": "Secured $100M Apollo investment (2025-10-28)",
@@ -2400,7 +2153,6 @@
   {
    "name": "AEVEX",
    "country": "United States",
-   "founded": 2017,
    "sector": "UAS / USV systems",
    "status": "private",
    "funding": "",
@@ -2410,7 +2162,6 @@
   {
    "name": "AEye Inc",
    "country": "United States",
-   "founded": 2013,
    "sector": "Apollo",
    "status": "private",
    "funding": "",
@@ -2420,12 +2171,1226 @@
   {
    "name": "ACE Robotics (大晓机器人)",
    "country": "China",
-   "founded": 2025,
    "sector": "Robotics, Embodied AI",
    "status": "private",
    "funding": "Angel round led by Ant Group (2026-02-10); Angel+ round completion (2026-06-15)",
    "website": "https://www.ace-robotics.cn/",
    "summary": "ACE Robotics develops embodied-intelligence world models and robot-brain modules, including Kairos, A1 and ACE-Ego."
+  },
+  {
+   "name": "Hyundai Mobis",
+   "country": "South Korea",
+   "sector": "Actuators (robot joints)",
+   "status": "public",
+   "funding": "Public",
+   "website": "https://www.mobis.com",
+   "summary": "Automotive component giant entering robotics: announced at CES 2026 as the actuator supplier for Boston Dynamics next-generation Atlas, pairing automotive-scale manufacturing with Hyundai Motor Group ownership of Boston Dynamics. [NEEDS VERIFICATION]"
+  },
+  {
+   "name": "LG Energy Solution",
+   "country": "South Korea",
+   "sector": "Batteries (robot power packs)",
+   "status": "public",
+   "funding": "Public",
+   "website": "https://www.lgensol.com",
+   "summary": "Major EV battery maker moving into humanoid robot power: has secured battery supply deals with Tesla (Optimus), Boston Dynamics and Figure AI, with Unitree reported in talks, leveraging high-nickel ternary chemistry from its EV business. [NEEDS VERIFICATION]"
+  },
+  {
+   "name": "AGCO",
+   "country": "United States",
+   "sector": "Agriculture (farm machinery)",
+   "status": "private",
+   "funding": "",
+   "website": "https://www.agcocorp.com",
+   "summary": "\"AGCO manufactures agricultural machinery, tractors, combines, sprayers and precision-farming systems.\" — Korthos.xyz"
+  },
+  {
+   "name": "AgEagle Aerial Systems",
+   "country": "United States",
+   "sector": "Aerial / drones",
+   "status": "private",
+   "funding": "",
+   "website": "https://ageagle.com/",
+   "summary": "\"builds professional drones, sensors and software for commercial and government users\" — Korthos.xyz"
+  },
+  {
+   "name": "AgileX Robotics",
+   "country": "China",
+   "sector": "Mobile robotics development platforms",
+   "status": "private",
+   "funding": "",
+   "website": "https://global.agilex.ai/",
+   "summary": "\"builds configurable mobile bases and unmanned ground vehicles for research, education, inspection, logistics, agriculture and industrial development\" — Korthos.xyz"
+  },
+  {
+   "name": "AGILINK",
+   "country": "China",
+   "sector": "End effectors (dexterous hands/grippers)",
+   "status": "private",
+   "funding": "",
+   "website": "https://store.agibot.com/collections/dexterous-hand",
+   "summary": "\"AGILINK develops dexterous robotic hands and grippers for humanoids, industrial robots and embodied-AI developers.\" — Korthos.xyz"
+  },
+  {
+   "name": "Agilis Robotics",
+   "country": "Hong Kong",
+   "sector": "Surgical robotics",
+   "status": "private",
+   "funding": "",
+   "website": "https://www.agilisrobotics.com/",
+   "summary": "\"Miniature flexible robotic instruments for endoluminal surgery.\" — Korthos.xyz"
+  },
+  {
+   "name": "AGILOX",
+   "country": "Austria",
+   "sector": "Warehouse logistics / AMR",
+   "status": "private",
+   "funding": "",
+   "website": "https://www.agilox.net/en/",
+   "summary": "\"AGILOX builds autonomous mobile robots and intelligent guided vehicles for intralogistics and warehouse automation.\" — Korthos.xyz"
+  },
+  {
+   "name": "Agreenculture",
+   "country": "France",
+   "sector": "Agriculture (autonomy retrofit)",
+   "status": "private",
+   "funding": "",
+   "website": "https://www.agreenculture.fr/",
+   "summary": "\"Combines positioning, perception, control and safety hardware so equipment manufacturers and farm operators can convert tractors and implements into autonomous field systems.\" — Korthos.xyz"
+  },
+  {
+   "name": "Agri Automation",
+   "country": "Australia",
+   "sector": "Agriculture (systems integration)",
+   "status": "private",
+   "funding": "",
+   "website": "https://www.agriautomation.com.au/",
+   "summary": "\"Agri Automation distributes, integrates and supports automation systems for agricultural operations.\" — Korthos.xyz"
+  },
+  {
+   "name": "Agricobots",
+   "country": "Italy",
+   "sector": "Agriculture (vineyards and orchards)",
+   "status": "private",
+   "funding": "",
+   "website": "https://www.agricobots.com/en/",
+   "summary": "\"Agricobots develops autonomous agricultural robots for vineyards and orchards.\" — Korthos.xyz"
+  },
+  {
+   "name": "AgriPass Robotics",
+   "country": "Israel",
+   "sector": "Agriculture (precision weeding)",
+   "status": "private",
+   "funding": "",
+   "website": "https://agripass.co/",
+   "summary": "\"RHIC uses cameras and crop models to distinguish weeds from cultivated plants as the machine travels through a field.\" — Korthos.xyz"
+  },
+  {
+   "name": "AgriRobot",
+   "country": "Denmark",
+   "sector": "Agriculture (safety software)",
+   "status": "private",
+   "funding": "",
+   "website": "https://agrirobot.ai/",
+   "summary": "\"Develops certifiable safety software for autonomous agricultural machines.\" — Korthos.xyz"
+  },
+  {
+   "name": "Agrointelli",
+   "country": "Denmark",
+   "sector": "Agriculture (field robots)",
+   "status": "private",
+   "funding": "",
+   "website": "https://agrointelli.com/",
+   "summary": "\"ROBOTTI autonomous field robots for arable and horticultural farming\" — Korthos.xyz"
+  },
+  {
+   "name": "AheadForm",
+   "country": "China",
+   "sector": "Humanoid / social robotics",
+   "status": "private",
+   "funding": "",
+   "website": "https://www.aheadform.com/products",
+   "summary": "\"develops expressive humanoid heads and social robots for human-machine interaction\" — Korthos.xyz"
+  },
+  {
+   "name": "Aibo Medical Robot",
+   "country": "China",
+   "sector": "Surgical robotics (vascular intervention)",
+   "status": "private",
+   "funding": "",
+   "website": "https://www.abrobo.com/",
+   "summary": "\"Develops robotic systems for vascular intervention\" — Korthos.xyz"
+  },
+  {
+   "name": "AICA",
+   "country": "Switzerland",
+   "sector": "Industrial automation / robot control software",
+   "status": "private",
+   "funding": "",
+   "website": "https://www.aica.tech/",
+   "summary": "\"sensor-driven adaptive control for industrial robots\" — Korthos.xyz"
+  },
+  {
+   "name": "AICE",
+   "country": "United States",
+   "sector": "Maritime / defense robotics",
+   "status": "private",
+   "funding": "",
+   "website": "https://aicepower.com",
+   "summary": "\"builds modular underwater drone swarms for defence missions\" — Korthos.xyz"
+  },
+  {
+   "name": "Aidin Robotics",
+   "country": "South Korea",
+   "sector": "Robotic sensors (force-torque)",
+   "status": "private",
+   "funding": "",
+   "website": "https://www.aidinrobotics.co.kr/en",
+   "summary": "\"develops force-torque sensors and robotic sensing products for industrial robots, cobots and research platforms\" — Korthos.xyz"
+  },
+  {
+   "name": "AIDOL",
+   "country": "Russia",
+   "sector": "Humanoid / social robotics",
+   "status": "private",
+   "funding": "",
+   "website": "https://aidoltech.ru/en",
+   "summary": "\"anthropomorphic humanoid robots for communication, assistance and public-facing service environments\" — Korthos.xyz"
+  },
+  {
+   "name": "aiEndoscopic",
+   "country": "Switzerland",
+   "sector": "Medical AI / healthcare robotics-adjacent",
+   "status": "private",
+   "funding": "",
+   "website": "https://www.aiendoscopic.com/",
+   "summary": "\"larynGuide analyses the live image from an endoscope and adds visual guidance during airway procedures\" — Korthos.xyz"
+  },
+  {
+   "name": "Aigen",
+   "country": "United States",
+   "sector": "Agriculture robotics",
+   "status": "private",
+   "funding": "",
+   "website": "https://aigen.io/",
+   "summary": "\"autonomous solar-powered field robots for agriculture\" — Korthos.xyz"
+  },
+  {
+   "name": "AILOS Robotics",
+   "country": "Belgium",
+   "sector": "Motion components (gearboxes)",
+   "status": "private",
+   "funding": "",
+   "website": "https://ailos-robotics.com/",
+   "summary": "\"develops compact, backdrivable gearboxes for human-centred robots\" — Korthos.xyz"
+  },
+  {
+   "name": "AiM Medical Robotics",
+   "country": "United States",
+   "sector": "Surgical robotics (neurosurgery)",
+   "status": "private",
+   "funding": "",
+   "website": "https://www.aimmedicalrobotics.com/",
+   "summary": "\"MRI-compatible surgical robotics for neurosurgical procedures\" — Korthos.xyz"
+  },
+  {
+   "name": "AIM Robotics",
+   "country": "Denmark",
+   "sector": "End-effectors / dispensing tools",
+   "status": "private",
+   "funding": "",
+   "website": "https://www.aim-robotics.com/",
+   "summary": "\"supplies electrically driven dispensing end-effectors for collaborative robot process applications\" — Korthos.xyz"
+  },
+  {
+   "name": "AiMOGA Robotics",
+   "country": "China",
+   "sector": "Humanoid and quadruped robotics",
+   "status": "private",
+   "funding": "",
+   "website": "https://www.aimoga-robot.com/",
+   "summary": "\"AiMOGA Robotics develops humanoid robots and quadruped robot dogs under Chery robotics program.\" — Korthos.xyz"
+  },
+  {
+   "name": "Ainos",
+   "country": "United States",
+   "sector": "Sensors / industrial and robotic olfaction",
+   "status": "private",
+   "funding": "",
+   "website": "https://www.ainos.com/",
+   "summary": "\"converts scent and volatile-compound signals into machine-readable Smell ID data\" — Korthos.xyz"
+  },
+  {
+   "name": "Ainstein",
+   "country": "United States",
+   "sector": "Perception (radar sensors)",
+   "status": "private",
+   "funding": "",
+   "website": "https://ainstein.ai/",
+   "summary": "\"Ainstein develops radar sensing products for drones, vehicles and industrial autonomy systems.\" — Korthos.xyz"
+  },
+  {
+   "name": "AIR Robotics",
+   "country": "United States",
+   "sector": "Robotics design and engineering services",
+   "status": "private",
+   "funding": "",
+   "website": "https://www.airoboticstudio.com/",
+   "summary": "\"a robotics design and development studio focused on streamlining how robotics solutions are designed and developed\" — Korthos.xyz"
+  },
+  {
+   "name": "Airbot Systems",
+   "country": "France",
+   "sector": "UAV electronics (carrier boards, power distribution)",
+   "status": "private",
+   "funding": "",
+   "website": "https://www.airbot-systems.com/",
+   "summary": "\"supplies Cube/Pixhawk carrier-board hardware and compact power-distribution boards for UAV builds\" — Korthos.xyz"
+  },
+  {
+   "name": "Airbound",
+   "country": "India",
+   "sector": "Delivery drones / logistics",
+   "status": "private",
+   "funding": "",
+   "website": "https://www.airbound.com/",
+   "summary": "\"builds autonomous delivery drones and logistics operations for healthcare, e-commerce and public-service delivery in India\" — Korthos.xyz"
+  },
+  {
+   "name": "Lightwheel",
+   "country": "China",
+   "sector": "Robotics components / data",
+   "status": "private",
+   "funding": "Undisclosed",
+   "website": "",
+   "summary": "Confirmed platinum partner/exhibitor at IEEE ICRA 2026. [NEEDS VERIFICATION — profile to be researched; details not yet confirmed]"
+  },
+  {
+   "name": "TARS",
+   "country": "",
+   "sector": "Robotics",
+   "status": "private",
+   "funding": "Undisclosed",
+   "website": "",
+   "summary": "Confirmed platinum partner/exhibitor at IEEE ICRA 2026. [NEEDS VERIFICATION — profile to be researched; details not yet confirmed]"
+  },
+  {
+   "name": "HEBI Robotics",
+   "country": "United States",
+   "sector": "Modular actuators / components",
+   "status": "private",
+   "funding": "Seed-stage",
+   "website": "https://www.hebirobotics.com",
+   "summary": "Carnegie Mellon Biorobotics Lab spin-off making modular, force-controlled \"Lego for robots\" actuators. Its H-Series smart actuators offer zero backlash and up to 140 Nm continuous torque with onboard IMU and current sensing, used to build custom robots for rugged environments — from refinery inspection to underwater and space applications."
+  },
+  {
+   "name": "Seegrid",
+   "country": "United States",
+   "sector": "Autonomous mobile robots (AMR)",
+   "status": "private",
+   "funding": "~$265M total (incl. $50M Series D, 2024)",
+   "website": "https://seegrid.com",
+   "summary": "Pittsburgh-based leader in autonomous mobile robots for material handling. Its Palion AMR line — Lift, Pallet Truck and Tow Tractor — uses vision-guided \"Sliding Scale Autonomy\" and is engineered and assembled in the US. Ranked the #1 US AMR provider by Interact Analysis; surpassed 20 million autonomous miles in 2026."
+  },
+  {
+   "name": "Humanoid",
+   "country": "United Kingdom",
+   "sector": "Humanoid robotics",
+   "status": "private",
+   "funding": "$152M (Jul 2026, Dealroom)",
+   "website": "https://thehumanoid.ai",
+   "summary": "London-based humanoid startup (founded 2024 as SKL Robotics Ltd.), became Europe’s first pure-play humanoid unicorn with a $152M Series A in July 2026 (Schaeffler and Bosch among investors) at a $1.35B post-money valuation. Builds the HMND 01 wheeled bimanual manipulator, with Bosch’s robotics subsidiary as contract manufacturer; beta rollout targeted Q4 2026."
+  },
+  {
+   "name": "EHang",
+   "country": "China",
+   "sector": "Passenger eVTOL / drones",
+   "status": "public",
+   "funding": "Public (Nasdaq: EH)",
+   "website": "https://www.ehang.com",
+   "summary": "Guangzhou-based, Nasdaq-listed maker of pilotless passenger eVTOL aircraft. Its EH216-S was CAAC type-certified in 2023 and completed its first public demonstration flight at Hong Kong Cyberport on Aug 28, 2026 under the HKSAR \"Regulatory Sandbox X\" project, partnering with Kwoon Chung Smart Mobility toward Hong Kong/Macau commercialization."
+  },
+  {
+   "name": "CubeMars",
+   "country": "China",
+   "sector": "Actuators",
+   "status": "private",
+   "funding": "Undisclosed",
+   "website": "https://www.cubemars.com",
+   "summary": "Chinese maker of quasi-direct-drive robotic actuators widely used in the DIY, academic and prototyping community for quadrupeds and humanoid hands. Its AK80-64 integrates a BLDC motor, planetary gearbox, 14-bit magnetic encoder and driver with dual servo/MIT control modes."
+  },
+  {
+   "name": "Bosch Rexroth",
+   "country": "Germany",
+   "sector": "Mobile robotics / AMR",
+   "status": "private",
+   "funding": "Bosch subsidiary",
+   "website": "https://www.boschrexroth.com",
+   "summary": "Bosch industrial subsidiary whose ACTIVE Shuttle autonomous mobile robot carries 260 kg on a 612×235 mm lifting platform at up to 1.0 m/s, using laser SLAM navigation, PL d safety scanners and stereo cameras, fleet-managed via a REST/WebSocket management system."
+  },
+  {
+   "name": "Algorized",
+   "country": "United States",
+   "sector": "Perception AI",
+   "status": "private",
+   "funding": "",
+   "website": "https://www.algorized.com",
+   "summary": "\"sensor-agnostic people-sensing and positioning software for UWB and mmWave radar\""
+  },
+  {
+   "name": "Alias Robotics",
+   "country": "Spain",
+   "sector": "Robot cybersecurity",
+   "status": "private",
+   "funding": "",
+   "website": "https://aliasrobotics.com/",
+   "summary": "\"on-premise security models, agent tooling, vulnerability research, threat assessments and products such as RIS, BlackBox and Alurity\""
+  },
+  {
+   "name": "AliciaBots",
+   "country": "Singapore",
+   "sector": "Marine robotics",
+   "status": "private",
+   "funding": "",
+   "website": "https://aliciabots.com/",
+   "summary": "\"RoverClean, which uses magnetic attachment and rotating brushes for underwater hull cleaning\""
+  },
+  {
+   "name": "All3",
+   "country": "United Kingdom",
+   "sector": "Construction Robotics",
+   "status": "private",
+   "funding": "",
+   "website": "https://all3.com/",
+   "summary": "\"combines software-assisted design with robotic fabrication for custom-building workflows\""
+  },
+  {
+   "name": "Allen Control Systems",
+   "country": "United States",
+   "sector": "Defense",
+   "status": "private",
+   "funding": "",
+   "website": "https://www.allencontrolsystems.com",
+   "summary": "\"detects, identifies and neutralizes UAVs, combining sensors, autonomy and kinetic or non-kinetic effects\""
+  },
+  {
+   "name": "Allied Vision",
+   "country": "Germany",
+   "sector": "Vision (industrial cameras)",
+   "status": "private",
+   "funding": "",
+   "website": "https://www.alliedvision.com",
+   "summary": "\"supplies area-scan, line-scan, smart, embedded, high-speed, short-wave-infrared and thermal cameras alongside lenses, frame grabbers and image-processing software\""
+  },
+  {
+   "name": "Allient",
+   "country": "United States",
+   "sector": "Motion, controls and power technology",
+   "status": "private",
+   "funding": "",
+   "website": "https://www.allient.com/",
+   "summary": "\"Allient is a US-listed motion, controls and power-technology company formed from Allied Motion Technologies\""
+  },
+  {
+   "name": "Allonic",
+   "country": "Hungary",
+   "sector": "End Effectors",
+   "status": "private",
+   "funding": "",
+   "website": "https://www.allonic.co",
+   "summary": "\"produces monolithic robotic mechanisms with scaffolding, soft load-bearing fibers, actuators and routed tendons integrated during production\""
+  },
+  {
+   "name": "Allus AI",
+   "country": "United States",
+   "sector": "Manufacturing vision AI",
+   "status": "private",
+   "funding": "",
+   "website": "https://allus.ai",
+   "summary": "the platform deploys \"to cameras, industrial PCs, and robots to enable real-time inspection, anomaly detection, and process monitoring\""
+  },
+  {
+   "name": "Allvision IO",
+   "country": "United States",
+   "sector": "Localization / geospatial mapping",
+   "status": "private",
+   "funding": "",
+   "website": "https://www.allvision.io/",
+   "summary": "\"Allvision IO is a geospatial mapping and asset-intelligence layer for physical infrastructure\""
+  },
+  {
+   "name": "Allwinner Technology Co., Ltd.",
+   "country": "China",
+   "sector": "Semiconductors",
+   "status": "private",
+   "funding": "",
+   "website": "https://www.allwinnertech.com/",
+   "summary": "\"Allwinner’s product families combine Arm application processors with graphics, video, audio and, on selected devices, neural-processing and real-time-control resources\""
+  },
+  {
+   "name": "Ally Robotics",
+   "country": "United States",
+   "sector": "Collaborative robotics (industrial)",
+   "status": "private",
+   "funding": "",
+   "website": "https://allyrobotics.com/",
+   "summary": "\"Ally Robotics develops lightweight collaborative robot arms intended to make automation easier to deploy in restaurants, manufacturing and service environments\""
+  },
+  {
+   "name": "AllynavAG",
+   "country": "China",
+   "sector": "Agriculture (farm robotics)",
+   "status": "private",
+   "funding": "",
+   "website": "https://www.allynav.com/",
+   "summary": "\"GNSS-RTK positioning, sensor fusion, and remote path planning on a tracked electric chassis\""
+  },
+  {
+   "name": "Almond",
+   "country": "United States",
+   "sector": "Industrial (manipulation)",
+   "status": "private",
+   "funding": "",
+   "website": "https://almond.bot/",
+   "summary": "\"The Axol ecosystem includes the standalone robot, Axol Cart, a perception kit and an open-source SDK\""
+  },
+  {
+   "name": "Aloft Technologies",
+   "country": "United States",
+   "sector": "Aerial (drone fleet/airspace software)",
+   "status": "private",
+   "funding": "",
+   "website": "https://www.aloft.ai/",
+   "summary": "\"reporting over 10 million flights on its network\""
+  },
+  {
+   "name": "Alpha Autonomy",
+   "country": "Greece",
+   "sector": "Perception / autonomy software",
+   "status": "private",
+   "funding": "",
+   "website": "https://www.alpha-autonomy.com/",
+   "summary": "\"Its AlphaMind.AI stack combines lidar, visual sensing and onboard models for navigation, perception and decision-making in GPS-denied or hazardous environments\""
+  },
+  {
+   "name": "Alpha Unmanned Systems",
+   "country": "Spain",
+   "sector": "Aerial (UAV manufacturer)",
+   "status": "private",
+   "funding": "",
+   "website": "https://www.alphaunmannedsystems.com",
+   "summary": "\"develops professional helicopter UAVs for defence, maritime security, surveillance and industrial payload missions, including the A900 platform family\""
+  },
+  {
+   "name": "Alphadroid",
+   "country": "India",
+   "sector": "Service robotics",
+   "status": "private",
+   "funding": "",
+   "website": "https://www.alphadroid.io/",
+   "summary": "\"offerings span cleaning, delivery and conversational capabilities across hospitality, healthcare, retail, logistics, offices and public venues\""
+  },
+  {
+   "name": "Alpine Bearing",
+   "country": "United States",
+   "sector": "Motion Components (bearings)",
+   "status": "private",
+   "funding": "",
+   "website": "https://alpinebearing.com/",
+   "summary": "\"designed for high-speed rotary joints, compact designs, and weight-sensitive robot applications\""
+  },
+  {
+   "name": "APT",
+   "country": "Japan",
+   "sector": "Warehouse Logistics",
+   "status": "private",
+   "funding": "",
+   "website": "https://n-apt.com/",
+   "summary": "\"APT engineers warehouse projects from system design through controls, software, installation and maintenance.\""
+  },
+  {
+   "name": "Aqua Robotics",
+   "country": "Norway",
+   "sector": "Maritime",
+   "status": "private",
+   "funding": "",
+   "website": "https://en.aquarobotics.no/",
+   "summary": "\"HALO remains installed on an aquaculture cage and brushes both the inside and outside of the net continuously.\""
+  },
+  {
+   "name": "AquaAirX",
+   "country": "India",
+   "sector": "Maritime",
+   "status": "private",
+   "funding": "",
+   "website": "https://www.aquaairx.com/",
+   "summary": "\"develops AI-enabled amphibious drones and mission systems for aerial and underwater operations\""
+  },
+  {
+   "name": "Aquatonomy",
+   "country": "United States",
+   "sector": "Maritime",
+   "status": "private",
+   "funding": "",
+   "website": "https://www.aquatonomy.com",
+   "summary": "\"develops autonomy software for underwater inspection and search robots\""
+  },
+  {
+   "name": "Aquiline Drones",
+   "country": "United States",
+   "sector": "Aerial",
+   "status": "private",
+   "funding": "",
+   "website": "https://www.aquilinedrones.com/",
+   "summary": "\"develops enterprise UAS products and drone operations services\""
+  },
+  {
+   "name": "Arbe Robotics Ltd.",
+   "country": "Israel",
+   "sector": "Perception (Radar supplier)",
+   "status": "private",
+   "funding": "",
+   "website": "https://arberobotics.com/",
+   "summary": "\"develops high-resolution 4D imaging radar chipsets and perception software for autonomous systems\""
+  },
+  {
+   "name": "ARC Aerosystems",
+   "country": "United Kingdom",
+   "sector": "Aerial",
+   "status": "private",
+   "funding": "",
+   "website": "https://arcaerosystems.com/",
+   "summary": "\"Pegasus is a two-seat gyroplane capable of vertical take-off and landing through a powered rotor system\""
+  },
+  {
+   "name": "Arcani",
+   "country": "United Kingdom",
+   "sector": "Sensors",
+   "status": "private",
+   "funding": "",
+   "website": "https://www.arcani.ai/",
+   "summary": "\"develops passive acoustic sensing systems for detecting drones and ground threats\""
+  },
+  {
+   "name": "Archer Aviation",
+   "country": "United States",
+   "sector": "Aerial (eVTOL maker)",
+   "status": "private",
+   "funding": "",
+   "website": "https://www.archer.com/",
+   "summary": "\"Midnight remains a piloted four-passenger aircraft undergoing certification and operational preparation\""
+  },
+  {
+   "name": "ARCTOS Robotics",
+   "country": "Netherlands",
+   "sector": "Development Platform",
+   "status": "private",
+   "funding": "",
+   "website": "https://arctosrobotics.com/",
+   "summary": "\"an open-source six-axis robot-arm project and kit platform for education, research and prototyping\""
+  },
+  {
+   "name": "Argeo",
+   "country": "Norway",
+   "sector": "Maritime",
+   "status": "private",
+   "funding": "",
+   "website": "https://argeo.no/",
+   "summary": "\"provides subsea data and inspection services using autonomous underwater vehicles, sensors and digital survey workflows\""
+  },
+  {
+   "name": "ARGUS Interception",
+   "country": "Germany",
+   "sector": "Defense; C-UAS robotics",
+   "status": "private",
+   "funding": "",
+   "website": "https://argus-interception.com/en/",
+   "summary": "\"develops A1-FALKE as a reusable net-based interceptor for small drones\""
+  },
+  {
+   "name": "Aria Insights",
+   "country": "United States",
+   "sector": "Aerial",
+   "status": "private",
+   "funding": "",
+   "website": "",
+   "summary": "\"developed persistent aerial-observation systems built around tethered multirotor aircraft, ground power and data equipment\""
+  },
+  {
+   "name": "ARIX Technologies",
+   "country": "United States",
+   "sector": "Inspection",
+   "status": "private",
+   "funding": "",
+   "website": "https://www.arix-tech.com/",
+   "summary": "\"builds pipe-climbing robots for corrosion and external pipeline inspection\""
+  },
+  {
+   "name": "ARK Electronics",
+   "country": "United States",
+   "sector": "Avionics",
+   "status": "private",
+   "funding": "",
+   "website": "https://arkelectron.com",
+   "summary": "\"develops electronics and hardware for drones, autonomous systems and embedded robotics projects\""
+  },
+  {
+   "name": "Arke Telekom",
+   "country": "Turkey",
+   "sector": "Communications",
+   "status": "private",
+   "funding": "",
+   "website": "https://arketel.com/",
+   "summary": "\"designs wireless communications, embedded systems and software for defence, cloud and industrial applications\""
+  },
+  {
+   "name": "ARKEUS",
+   "country": "Australia",
+   "sector": "Perception",
+   "status": "private",
+   "funding": "",
+   "website": "https://arkeus.com/",
+   "summary": "\"combines hyperspectral optics with its ARK edge-AI engine to search large areas and convert sensor data into tracks before transmission\""
+  },
+  {
+   "name": "Askari Defense",
+   "country": "United States",
+   "sector": "Defense robotics",
+   "status": "private",
+   "funding": "",
+   "website": "https://askaridefense.com/",
+   "summary": "\"compact kinetic interceptors that can be carried and launched by an individual operator\""
+  },
+  {
+   "name": "ASRock Industrial",
+   "country": "Taiwan",
+   "sector": "AI compute / edge computing",
+   "status": "private",
+   "funding": "",
+   "website": "https://www.asrockind.com/",
+   "summary": "\"industrial computers, embedded motherboards and edge AI systems for automation equipment\""
+  },
+  {
+   "name": "ASS Maschinenbau",
+   "country": "Germany",
+   "sector": "End-effectors / robot tooling",
+   "status": "private",
+   "funding": "",
+   "website": "https://www.ass-automation.com/en/",
+   "summary": "\"designs and manufactures end-of-arm tooling, robotic hands and automation systems\""
+  },
+  {
+   "name": "AssistMotion",
+   "country": "Japan",
+   "sector": "Exoskeleton / wearable robotics",
+   "status": "private",
+   "funding": "",
+   "website": "https://assistmotion.jp/",
+   "summary": "\"a Shinshu University spinout developing wearable robots and soft actuators for movement support\""
+  },
+  {
+   "name": "Asteria Aerospace",
+   "country": "India",
+   "sector": "Aerial / drone manufacturer",
+   "status": "private",
+   "funding": "",
+   "website": "https://asteria.co.in/",
+   "summary": "\"develops and manufactures uncrewed aircraft and aerial-data software for government and enterprise users\""
+  },
+  {
+   "name": "Asterion Systems",
+   "country": "United States",
+   "sector": "Defense / counter-UAS",
+   "status": "private",
+   "funding": "",
+   "website": "https://asterion.systems/",
+   "summary": "\"fuses radar, optical, radio-frequency and other sensor inputs into a shared command picture\""
+  },
+  {
+   "name": "Astrobotic",
+   "country": "United States",
+   "sector": "Space robotics (lunar)",
+   "status": "private",
+   "funding": "",
+   "website": "https://www.astrobotic.com/",
+   "summary": "\"develops lunar landers, rovers, surface-power systems and mission services\""
+  },
+  {
+   "name": "Astroscale",
+   "country": "Japan",
+   "sector": "Space robotics (on-orbit servicing)",
+   "status": "private",
+   "funding": "",
+   "website": "https://www.astroscale.com/en",
+   "summary": "\"builds servicing spacecraft around rendezvous, proximity operations and controlled interaction with another object in orbit\""
+  },
+  {
+   "name": "Asylon",
+   "country": "United States",
+   "sector": "Security robotics (service)",
+   "status": "private",
+   "funding": "",
+   "website": "https://asylonrobotics.com/",
+   "summary": "\"managed robotic-security systems that combine aerial and ground robots, human oversight, real-time analytics and a Robotic Security Operations Center\""
+  },
+  {
+   "name": "ATDev",
+   "country": "United States",
+   "sector": "Healthcare / assistive robotics",
+   "status": "private",
+   "funding": "",
+   "website": "https://assistivetech.dev/",
+   "summary": "\"develops robotic mobility devices for people with physical injuries and disabilities\""
+  },
+  {
+   "name": "Ati Robotics",
+   "country": "India",
+   "sector": "Industrial / autonomous mobile robots",
+   "status": "private",
+   "funding": "",
+   "website": "https://www.atirobotics.ai/",
+   "summary": "\"builds autonomous mobile robots and AI software for factory material orchestration\""
+  },
+  {
+   "name": "Atlas Elektronik",
+   "country": "Germany",
+   "sector": "Maritime robotics",
+   "status": "private",
+   "funding": "",
+   "website": "https://www.tkmsgroup.com/atlas-elektronik",
+   "summary": "\"develops sonar, command systems, sensors and uncrewed naval platforms for mine countermeasures, surveillance and other maritime missions\""
+  },
+  {
+   "name": "Atlas Innovative Technologies",
+   "country": "United Kingdom",
+   "sector": "Defense / counter-UAS",
+   "status": "private",
+   "funding": "",
+   "website": "https://www.atlasinnotech.com/",
+   "summary": "\"develops modular systems intended to keep sensors, communications and effectors operating where conventional links or infrastructure are disrupted\""
+  },
+  {
+   "name": "Atlas Motion",
+   "country": "United States",
+   "sector": "Actuation / motor manufacturing",
+   "status": "private",
+   "funding": "",
+   "website": "https://atlasmotion.com/",
+   "summary": "\"building a design-to-production system for electric motion hardware rather than selling only a fixed catalogue of motors\""
+  },
+  {
+   "name": "Atomic Industries",
+   "country": "United States",
+   "sector": "Manufacturing / factory automation",
+   "status": "private",
+   "funding": "",
+   "website": "https://atomic.industries",
+   "summary": "\"combines software, tooling production and injection moulding within one manufacturing workflow\""
+  },
+  {
+   "name": "Atoms",
+   "country": "United States",
+   "sector": "Industrial automation group",
+   "status": "private",
+   "funding": "",
+   "website": "https://atoms.co",
+   "summary": "\"an industrial physical-automation group spanning food infrastructure, mining technology and transport\""
+  },
+  {
+   "name": "Alibaba Group",
+   "country": "China",
+   "sector": "Foundation models / robot AI",
+   "status": "public",
+   "funding": "Public (NYSE: BABA)",
+   "website": "https://www.alibaba.com",
+   "summary": "Chinese tech giant increasingly central to the robot software layer: its Qwen-Robot foundation-model suite targets embodied AI, and it is an investor across multiple Chinese humanoid makers (including XPeng Robotics and LimX Dynamics), positioning as a potential \"operating system\" layer for the robot economy."
+  },
+  {
+   "name": "Airbus",
+   "country": "France",
+   "sector": "Aerospace / autonomous flight",
+   "status": "public",
+   "funding": "Public (EPA: AIR)",
+   "website": "https://www.airbus.com",
+   "summary": "European aerospace OEM whose Airbus UpNext R&D arm develops autonomous-flight demonstrators, uncrewed systems and AI-assisted piloting. Relevant to robotics through autonomy, uncrewed aerial platforms and defence drone programmes."
+  },
+  {
+   "name": "Aptiv",
+   "country": "Ireland",
+   "sector": "Perception sensors / autonomy",
+   "status": "public",
+   "funding": "Public (NYSE: APTV)",
+   "website": "https://www.aptiv.com",
+   "summary": "Automotive technology supplier of perception sensors, compute and software for autonomous systems. Its radar, vision and sensor-fusion stacks — built for advanced driver assistance and autonomy — are increasingly relevant to mobile robotics and AMRs."
+  },
+  {
+   "name": "Atlas Copco",
+   "country": "Sweden",
+   "sector": "Industrial tooling / end effectors",
+   "status": "public",
+   "funding": "Public (STO: ATCO)",
+   "website": "https://www.atlascopco.com",
+   "summary": "Swedish industrial group supplying precision assembly tools, robotic tightening systems and end-of-arm tooling widely integrated into factory-automation and robotic assembly lines."
+  },
+  {
+   "name": "ArcBest",
+   "country": "United States",
+   "sector": "Logistics robotics",
+   "status": "public",
+   "funding": "Public (Nasdaq: ARCB)",
+   "website": "https://arcb.com",
+   "summary": "US freight and logistics company that developed Vaux, an autonomous material-handling system, and deploys warehouse/dock automation — bringing robotics into freight handling and the loading dock."
+  },
+  {
+   "name": "NASA (Valkyrie)",
+   "country": "United States",
+   "sector": "Research humanoid",
+   "status": "government",
+   "funding": "Government-funded",
+   "website": "https://www.nasa.gov",
+   "summary": "US space agency; its Valkyrie (R5) humanoid is a research platform developed for dexterous work in degraded or dangerous environments, including future space and disaster-response applications."
+  },
+  {
+   "name": "IHMC",
+   "country": "United States",
+   "sector": "Research humanoid",
+   "status": "nonprofit",
+   "funding": "Research-funded",
+   "website": "https://www.ihmc.us",
+   "summary": "Institute for Human and Machine Cognition; its Nadia humanoid is a dynamic bipedal research robot known for advanced balance and locomotion control work."
+  },
+  {
+   "name": "Kepler Robotics",
+   "country": "China",
+   "sector": "Humanoid robotics",
+   "status": "private",
+   "funding": "Undisclosed",
+   "website": "https://www.gotokepler.com",
+   "summary": "Shanghai-based humanoid maker building the Forerunner series of general-purpose humanoid robots aimed at industrial and commercial deployment."
+  },
+  {
+   "name": "ROBOTIS",
+   "country": "South Korea",
+   "sector": "Robotics platforms",
+   "status": "public",
+   "funding": "Public",
+   "website": "https://www.robotis.com",
+   "summary": "Korean robotics company known for Dynamixel smart actuators and the THORMANG humanoid research platform, widely used in academia."
+  },
+  {
+   "name": "Mentee Robotics",
+   "country": "Israel",
+   "sector": "Humanoid robotics",
+   "status": "private",
+   "funding": "Undisclosed",
+   "website": "https://www.menteebot.com",
+   "summary": "Israeli humanoid startup (backed by Mobileye founder Amnon Shashua) building the MenteeBot general-purpose humanoid with an AI-first, simulation-trained approach."
+  },
+  {
+   "name": "Toyota",
+   "country": "Japan",
+   "sector": "Research humanoid",
+   "status": "public",
+   "funding": "Public",
+   "website": "https://www.toyota-global.com",
+   "summary": "Japanese automaker with a long-running humanoid research programme; its T-HR3 is a remotely-controlled humanoid demonstrating whole-body teleoperation and balance."
+  },
+  {
+   "name": "Zhicheng AI (Towards AGI)",
+   "country": "China",
+   "sector": "Humanoid robotics",
+   "status": "private",
+   "funding": "Undisclosed",
+   "website": "",
+   "summary": "Hangzhou-based humanoid robotics company developing general-purpose humanoid robots under a \"Towards AGI\" embodied-intelligence approach. [NEEDS VERIFICATION]"
+  },
+  {
+   "name": "Lanxin Robotics",
+   "country": "China",
+   "sector": "Service / humanoid robotics",
+   "status": "private",
+   "funding": "Undisclosed",
+   "website": "",
+   "summary": "Hangzhou-based robotics company building wheeled service humanoid robots. [NEEDS VERIFICATION]"
+  },
+  {
+   "name": "Spirit AI (Qianxun)",
+   "country": "China",
+   "sector": "Humanoid robotics",
+   "status": "private",
+   "funding": "Undisclosed",
+   "website": "",
+   "summary": "Hangzhou-based humanoid robotics developer building general-purpose bipedal robots. [NEEDS VERIFICATION]"
+  },
+  {
+   "name": "PNDbotics",
+   "country": "China",
+   "sector": "Humanoid robotics",
+   "status": "private",
+   "funding": "Undisclosed",
+   "website": "https://www.pndbotics.com",
+   "summary": "Ningbo-based humanoid maker building the Adam full-size general-purpose humanoid robot."
+  },
+  {
+   "name": "Estun (Codroid)",
+   "country": "China",
+   "sector": "Industrial robotics / humanoid",
+   "status": "public",
+   "funding": "Public (SZSE)",
+   "website": "https://www.estun.com",
+   "summary": "Nanjing-based industrial-automation and robotics group; its Codroid line extends into humanoid robotics alongside a large industrial-robot business."
+  },
+  {
+   "name": "Dobot",
+   "country": "China",
+   "sector": "Collaborative robots / humanoid",
+   "status": "public",
+   "funding": "Public",
+   "website": "https://www.dobot-robots.com",
+   "summary": "Shenzhen-based maker of collaborative robot arms and education robots, expanding into humanoid robotics."
+  },
+  {
+   "name": "Cyborg Robotics",
+   "country": "China",
+   "sector": "Humanoid robotics",
+   "status": "private",
+   "funding": "Undisclosed",
+   "website": "",
+   "summary": "Shenzhen-based humanoid robotics developer. [NEEDS VERIFICATION]"
+  },
+  {
+   "name": "Dexforce",
+   "country": "China",
+   "sector": "Humanoid robotics",
+   "status": "private",
+   "funding": "Undisclosed",
+   "website": "",
+   "summary": "Shenzhen-based humanoid robotics company. [NEEDS VERIFICATION]"
+  },
+  {
+   "name": "X Square Robot",
+   "country": "China",
+   "sector": "Humanoid robotics",
+   "status": "private",
+   "funding": "Undisclosed",
+   "website": "",
+   "summary": "Shenzhen-based humanoid and embodied-AI robotics company. [NEEDS VERIFICATION]"
+  },
+  {
+   "name": "Matrix",
+   "country": "China",
+   "sector": "Humanoid robotics",
+   "status": "private",
+   "funding": "Undisclosed",
+   "website": "",
+   "summary": "Shanghai-based humanoid robotics developer. [NEEDS VERIFICATION]"
+  },
+  {
+   "name": "Whallsbot",
+   "country": "China",
+   "sector": "Humanoid robotics",
+   "status": "private",
+   "funding": "Undisclosed",
+   "website": "",
+   "summary": "Shanghai-based humanoid robotics company. [NEEDS VERIFICATION]"
+  },
+  {
+   "name": "Robbyant (Ant Lingbo)",
+   "country": "China",
+   "sector": "Humanoid robotics",
+   "status": "private",
+   "funding": "Undisclosed",
+   "website": "",
+   "summary": "Shanghai-based humanoid robotics developer (Ant Lingbo Technology). [NEEDS VERIFICATION]"
+  },
+  {
+   "name": "DroidUp",
+   "country": "China",
+   "sector": "Humanoid robotics",
+   "status": "private",
+   "funding": "Undisclosed",
+   "website": "",
+   "summary": "Shanghai-based humanoid robotics company. [NEEDS VERIFICATION]"
+  },
+  {
+   "name": "TiSROBOT",
+   "country": "China",
+   "sector": "Humanoid robotics",
+   "status": "private",
+   "funding": "Undisclosed",
+   "website": "",
+   "summary": "Shanghai-based humanoid robotics developer. [NEEDS VERIFICATION]"
+  },
+  {
+   "name": "iSageBot",
+   "country": "China",
+   "sector": "Humanoid robotics",
+   "status": "private",
+   "funding": "Undisclosed",
+   "website": "",
+   "summary": "Shanghai-based humanoid robotics company building multi-arm mobile manipulators. [NEEDS VERIFICATION]"
+  },
+  {
+   "name": "Galaxea",
+   "country": "China",
+   "sector": "Humanoid robotics",
+   "status": "private",
+   "funding": "$280M (Apr 2026, Dealroom)",
+   "website": "",
+   "summary": "Beijing-based humanoid and embodied-AI company; raised $280M in April 2026 (per Dealroom) among the top humanoid rounds of the year."
+  },
+  {
+   "name": "CASBOT",
+   "country": "China",
+   "sector": "Humanoid robotics",
+   "status": "private",
+   "funding": "Undisclosed",
+   "website": "",
+   "summary": "Beijing-based humanoid robotics company developing general-purpose humanoids. [NEEDS VERIFICATION]"
+  },
+  {
+   "name": "Corenetic",
+   "country": "China",
+   "sector": "Humanoid robotics",
+   "status": "private",
+   "funding": "Undisclosed",
+   "website": "",
+   "summary": "Beijing-based humanoid robotics developer. [NEEDS VERIFICATION]"
+  },
+  {
+   "name": "Phybot",
+   "country": "China",
+   "sector": "Humanoid robotics",
+   "status": "private",
+   "funding": "Undisclosed",
+   "website": "",
+   "summary": "Beijing-based humanoid robotics company (Dongyi Technology). [NEEDS VERIFICATION]"
+  },
+  {
+   "name": "CyberOne",
+   "country": "China",
+   "sector": "Humanoid robotics",
+   "status": "private",
+   "funding": "Undisclosed",
+   "website": "",
+   "summary": "Beijing-based humanoid robotics developer. [NEEDS VERIFICATION]"
+  },
+  {
+   "name": "Dreame",
+   "country": "China",
+   "sector": "Consumer / humanoid robotics",
+   "status": "private",
+   "funding": "Undisclosed",
+   "website": "https://www.dreametech.com",
+   "summary": "Suzhou-based consumer-robotics company (cleaning robots) expanding into humanoid robotics."
+  },
+  {
+   "name": "GAC",
+   "country": "China",
+   "sector": "Automaker / humanoid",
+   "status": "public",
+   "funding": "Public",
+   "website": "https://www.gac.com.cn",
+   "summary": "Guangzhou Automobile Group; the Chinese automaker has a humanoid robotics programme (GoMate) leveraging its manufacturing base."
+  },
+  {
+   "name": "Midea",
+   "country": "China",
+   "sector": "Appliances / humanoid",
+   "status": "public",
+   "funding": "Public",
+   "website": "https://www.midea.com",
+   "summary": "Foshan-based appliance giant (owner of KUKA) developing humanoid robots, combining its KUKA industrial-robot arm with consumer-scale manufacturing."
+  },
+  {
+   "name": "Zerith",
+   "country": "China",
+   "sector": "Humanoid robotics",
+   "status": "private",
+   "funding": "Undisclosed",
+   "website": "",
+   "summary": "Hefei-based humanoid robotics developer. [NEEDS VERIFICATION]"
+  },
+  {
+   "name": "Haier",
+   "country": "China",
+   "sector": "Appliances / humanoid",
+   "status": "public",
+   "funding": "Public",
+   "website": "https://www.haier.com",
+   "summary": "Qingdao-based appliance multinational developing humanoid robots as part of a smart-home and industrial automation push."
+  },
+  {
+   "name": "Yobotics (Yobo Robotics)",
+   "country": "China",
+   "sector": "Humanoid robotics",
+   "status": "private",
+   "funding": "Undisclosed",
+   "website": "",
+   "summary": "Jinan-based humanoid robotics developer. [NEEDS VERIFICATION]"
+  },
+  {
+   "name": "Lumos",
+   "country": "China",
+   "sector": "Humanoid robotics",
+   "status": "private",
+   "funding": "Undisclosed",
+   "website": "",
+   "summary": "Shenzhen-based humanoid robotics company. [NEEDS VERIFICATION]"
+  },
+  {
+   "name": "Chaoneng Robot",
+   "country": "China",
+   "sector": "Humanoid robotics",
+   "status": "private",
+   "funding": "Undisclosed",
+   "website": "",
+   "summary": "Changsha-based humanoid robotics developer. [NEEDS VERIFICATION]"
+  },
+  {
+   "name": "GigaAI (Jijia)",
+   "country": "China",
+   "sector": "Humanoid robotics",
+   "status": "private",
+   "funding": "$295M (Apr 2026, Dealroom)",
+   "website": "",
+   "summary": "Chinese humanoid/embodied-AI company; raised $295M in April 2026 (per Dealroom), among the top humanoid rounds of the year."
+  },
+  {
+   "name": "Rhoda",
+   "country": "United States",
+   "sector": "Humanoid robotics",
+   "status": "private",
+   "funding": "$450M (Mar 2026, Dealroom)",
+   "website": "",
+   "summary": "US humanoid/embodied-AI startup; raised $450M in March 2026 (per Dealroom), among the largest humanoid rounds of the year. [NEEDS VERIFICATION]"
+  },
+  {
+   "name": "Walden",
+   "country": "United Kingdom",
+   "sector": "Humanoid robotics",
+   "status": "private",
+   "funding": "$300M (Jul 2026, Dealroom)",
+   "website": "",
+   "summary": "UK humanoid/embodied-AI startup; raised $300M in July 2026 (per Dealroom). [NEEDS VERIFICATION]"
+  },
+  {
+   "name": "PsiBot (Lingchu)",
+   "country": "China",
+   "sector": "Humanoid robotics",
+   "status": "private",
+   "funding": "$280M (Mar 2026, Dealroom)",
+   "website": "",
+   "summary": "Chinese embodied-AI/humanoid company; raised $280M in March 2026 (per Dealroom). [NEEDS VERIFICATION]"
+  },
+  {
+   "name": "Anyverse Dynamics",
+   "country": "China",
+   "sector": "Humanoid robotics",
+   "status": "private",
+   "funding": "$200M (May 2026, Dealroom)",
+   "website": "",
+   "summary": "Chinese humanoid robotics company; raised $200M in May 2026 (per Dealroom). [NEEDS VERIFICATION]"
   }
  ]
 }

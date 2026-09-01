@@ -585,9 +585,50 @@
     });
   }
 
+  // -------- REGULATION table (data-driven) --------------------------------
+  function renderRegulation() {
+    var mount = document.querySelector('[data-rh-regulation]');
+    if (!mount || !D.regulations) return;
+    mount.innerHTML = D.regulations.map(function (r) {
+      var pill = r.status === 'In force' ? 'In force' : r.status;
+      var doc = r.source
+        ? '<a class="link" href="' + r.source + '" target="_blank" rel="noopener">Source doc ↗</a>'
+        : '<span class="link">🔒 Source doc</span>';
+      return '<tr>' +
+        '<td class="flag">' + r.flag + ' ' + esc(r.region) + '</td>' +
+        '<td class="name"><strong>' + esc(r.topic) + '</strong>' +
+        '<div style="font-size:12.5px;color:var(--ink-2);font-weight:400;margin-top:4px;max-width:70ch">' + esc(r.summary) + '</div></td>' +
+        '<td><span class="pill">' + esc(pill) + '</span></td>' +
+        '<td>' + doc + '</td>' +
+      '</tr>';
+    }).join('');
+  }
+
+  // -------- INVESTMENT: real aggregate funding (largest round per company) --
+  function renderInvestTotal() {
+    var el = document.querySelector('[data-rh-invest]');
+    if (!el) return;
+    var total = 0;
+    D.companies.forEach(function (c) {
+      var f = c.funding || '';
+      var best = 0;
+      var bM = f.match(/\$\s*([\d.]+)\s*B/gi) || [];
+      var mM = f.match(/\$\s*([\d,]+)\s*M/gi) || [];
+      bM.forEach(function (s) { var v = parseFloat(s.replace(/[^\d.]/g, '')) * 1000; if (v > best) best = v; });
+      mM.forEach(function (s) { var v = parseFloat(s.replace(/[^\d.]/g, '')); if (v > best) best = v; });
+      total += best;
+    });
+    if (total > 0) {
+      var disp = total >= 1000 ? '$' + (total / 1000).toFixed(1) + 'B+' : '$' + Math.round(total) + 'M+';
+      el.textContent = disp + ' tracked →';
+    }
+  }
+
   function run() {
     renderCompanies(); renderProfile(); renderRobots();
     renderSuppliers(); renderComponents(); renderSupplyContext(); renderCounts();
+    renderInvestTotal();
+    renderRegulation();
     renderHubLatest();
     renderRobotProfile(); renderComponentProfile();
     renderLatestUpdates();
