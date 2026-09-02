@@ -639,14 +639,21 @@
     var now = new Date();
     var upcoming = D.events.filter(function (e) { return new Date((e.end || e.start) + 'T23:59:59') >= now; })
       .sort(function (a, b) { return new Date(a.start) - new Date(b.start); });
-    var show = upcoming.slice(0, 3);
     var ongoing = D.events.filter(function (e) { return new Date(e.start) <= now && new Date((e.end || e.start) + 'T23:59:59') >= now; });
-    mount.innerHTML = show.map(function (e) {
+    function item(e) {
       var live = ongoing.indexOf(e) !== -1;
       return '<a class="railitem" href="' + e.url + '" target="_blank" rel="noopener">' +
         '<div class="railitem__meta"><span>' + esc(e.cat) + (live ? ' · Now' : '') + '</span><span>' + fmtRange(e.start, e.end) + '</span></div>' +
         '<div class="railitem__t">' + esc(e.name) + ' · ' + esc(e.city) + '</div></a>';
-    }).join('');
+    }
+    var first3 = upcoming.slice(0, 3).map(item).join('');
+    var next2 = upcoming.slice(3, 5).map(item).join('');
+    var html = first3;
+    if (next2) {
+      html += '<div id="cal-more" style="display:none">' + next2 + '</div>' +
+        '<button onclick="var m=document.getElementById(\'cal-more\');var s=m.style.display===\'none\';m.style.display=s?\'block\':\'none\';this.textContent=s?\'less ↑\':\'more events ↓\'" style="width:100%;margin-top:8px;background:none;border:1px solid var(--line);border-radius:8px;padding:8px;font-family:\'IBM Plex Mono\',monospace;font-size:11px;color:var(--ink-2);cursor:pointer">more events ↓</button>';
+    }
+    mount.innerHTML = html;
   }
 
   function run() {
