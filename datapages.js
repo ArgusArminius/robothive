@@ -259,8 +259,9 @@
       function (rows) {
         body.innerHTML = rows.map(function (k) {
           var usedIn = (k.used_in || []).map(function (rid) { var r = robot(rid); return r ? r.name : rid; }).join(', ');
+          var thumb = k.img ? '<img src="' + esc(k.img) + '" alt="" loading="lazy" style="width:44px;height:44px;object-fit:cover;border-radius:6px;border:1px solid var(--line);vertical-align:middle;margin-right:8px" onerror="this.style.display=\'none\'">' : '';
           return '<tr>' +
-            '<td class="name"><a class="link" href="component-profile.html?id=' + k.id + '">' + k.name + '</a></td>' +
+            '<td class="name">' + thumb + '<a class="link" href="component-profile.html?id=' + k.id + '">' + k.name + '</a></td>' +
             '<td>' + coLink(k.maker) + '</td>' +
             '<td>' + pill(k.category) + '</td>' +
             '<td class="flag">' + esc(k.flag) + ' ' + esc(k.country) + '</td>' +
@@ -543,6 +544,7 @@
     }).filter(Boolean).join('');
 
     var sections = '';
+    if (k.img) sections += '<div class="rp__section"><img src="' + esc(k.img) + '" alt="' + esc(k.name) + '" loading="lazy" style="max-width:100%;border-radius:12px;border:1px solid var(--line)" onerror="this.style.display=\'none\'"></div>';
     if (usedIn) sections += '<div class="rp__section"><h3>Used in</h3><div class="rp__chips">' + usedIn + '</div></div>';
     if (maker) sections += '<div class="rp__section" style="border-bottom:0"><h3>Maker</h3><div class="rp__use">' +
       esc(maker.name) + ' <a href="company-profile.html?id=' + maker.id + '" style="color:var(--blue);text-decoration:none">View company profile →</a></div></div>';
