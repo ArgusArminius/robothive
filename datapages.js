@@ -626,9 +626,33 @@
     }
   }
 
+  // -------- EVENTS: homepage calendar (upcoming, auto-shuffled) -----------
+  function fmtRange(s, e) {
+    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    var sd = new Date(s + 'T00:00:00'), ed = new Date((e || s) + 'T00:00:00');
+    if (sd.getMonth() === ed.getMonth()) return months[sd.getMonth()].toUpperCase() + ' ' + sd.getDate() + '–' + ed.getDate();
+    return months[sd.getMonth()].toUpperCase() + ' ' + sd.getDate() + '–' + months[ed.getMonth()].toUpperCase() + ' ' + ed.getDate();
+  }
+  function renderHomeEvents() {
+    var mount = document.querySelector('[data-rh-events]');
+    if (!mount || !D.events) return;
+    var now = new Date();
+    var upcoming = D.events.filter(function (e) { return new Date((e.end || e.start) + 'T23:59:59') >= now; })
+      .sort(function (a, b) { return new Date(a.start) - new Date(b.start); });
+    var show = upcoming.slice(0, 3);
+    var ongoing = D.events.filter(function (e) { return new Date(e.start) <= now && new Date((e.end || e.start) + 'T23:59:59') >= now; });
+    mount.innerHTML = show.map(function (e) {
+      var live = ongoing.indexOf(e) !== -1;
+      return '<a class="railitem" href="' + e.url + '" target="_blank" rel="noopener">' +
+        '<div class="railitem__meta"><span>' + esc(e.cat) + (live ? ' · Now' : '') + '</span><span>' + fmtRange(e.start, e.end) + '</span></div>' +
+        '<div class="railitem__t">' + esc(e.name) + ' · ' + esc(e.city) + '</div></a>';
+    }).join('');
+  }
+
   function run() {
     renderCompanies(); renderProfile(); renderRobots();
     renderSuppliers(); renderComponents(); renderSupplyContext(); renderCounts();
+    renderHomeEvents();
     renderInvestTotal();
     renderRegulation();
     renderHubLatest();
