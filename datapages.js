@@ -646,14 +646,23 @@
         '<div class="railitem__meta"><span>' + esc(e.cat) + (live ? ' · Now' : '') + '</span><span>' + fmtRange(e.start, e.end) + '</span></div>' +
         '<div class="railitem__t">' + esc(e.name) + ' · ' + esc(e.city) + '</div></a>';
     }
-    var first3 = upcoming.slice(0, 3).map(item).join('');
-    var next2 = upcoming.slice(3, 5).map(item).join('');
-    var html = first3;
-    if (next2) {
-      html += '<div id="cal-more" style="display:none">' + next2 + '</div>' +
-        '<button onclick="var m=document.getElementById(\'cal-more\');var s=m.style.display===\'none\';m.style.display=s?\'block\':\'none\';this.textContent=s?\'less ↑\':\'more events ↓\'" style="width:100%;margin-top:8px;background:none;border:1px solid var(--line);border-radius:8px;padding:8px;font-family:\'IBM Plex Mono\',monospace;font-size:11px;color:var(--ink-2);cursor:pointer">more events ↓</button>';
+    var shown = 5;
+    function draw() {
+      var html = upcoming.slice(0, shown).map(item).join('');
+      var remaining = upcoming.length - shown;
+      if (remaining > 0) {
+        html += '<button data-cal-more style="width:100%;margin-top:8px;background:none;border:1px solid var(--line);border-radius:8px;padding:8px;font-family:\'IBM Plex Mono\',monospace;font-size:11px;color:var(--ink-2);cursor:pointer">+' +
+          Math.min(5, remaining) + ' more events ↓</button>';
+      } else if (upcoming.length > 5) {
+        html += '<button data-cal-less style="width:100%;margin-top:8px;background:none;border:1px solid var(--line);border-radius:8px;padding:8px;font-family:\'IBM Plex Mono\',monospace;font-size:11px;color:var(--ink-2);cursor:pointer">show less ↑</button>';
+      }
+      mount.innerHTML = html;
+      var moreBtn = mount.querySelector('[data-cal-more]');
+      if (moreBtn) moreBtn.onclick = function () { shown += 5; draw(); };
+      var lessBtn = mount.querySelector('[data-cal-less]');
+      if (lessBtn) lessBtn.onclick = function () { shown = 5; draw(); };
     }
-    mount.innerHTML = html;
+    draw();
   }
 
   function run() {

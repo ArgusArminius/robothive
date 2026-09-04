@@ -551,82 +551,111 @@ a.rp__chip:hover{border-color:var(--blue);color:var(--blue)}
 <header class="phead"><div class="phead__in">
   <div class="phead__crumb"><a href="index.html">Main</a> / Events</div>
   <h1 class="phead__title">Industry events calendar</h1>
-  <p class="phead__sub">Robotics, drone and embodied-AI events through the end of 2027. Past events are marked; upcoming events are highlighted. Hover or tap any event for details.</p>
+  <p class="phead__sub">Robotics, drone and embodied-AI events through the end of 2027. Click any tile for full details, venue and the official event site.</p>
 </div></header>
 
 <section class="section wrap">
-  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px" id="ev-filters"></div>
-  <div id="ev-list" style="display:flex;flex-direction:column;gap:12px"></div>
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:22px">
+    <div style="display:flex;gap:8px;flex-wrap:wrap" id="ev-filters"></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap" id="yr-filters"></div>
+  </div>
+  <div class="tilegrid" id="tiles"></div>
 </section>
 
-<div id="ev-pop" style="display:none;position:fixed;inset:0;background:rgba(5,8,20,.7);z-index:200;align-items:center;justify-content:center;padding:20px" onclick="if(event.target===this)this.style.display='none'">
-  <div style="background:var(--bg-2,#0d1622);border:1px solid var(--line);border-radius:16px;max-width:460px;width:100%;padding:26px;position:relative">
-    <button onclick="document.getElementById('ev-pop').style.display='none'" style="position:absolute;top:14px;right:16px;background:none;border:0;color:var(--ink-3);font-size:22px;cursor:pointer">×</button>
+<div id="ev-pop" style="display:none;position:fixed;inset:0;background:rgba(5,8,20,.75);z-index:200;align-items:center;justify-content:center;padding:20px" onclick="if(event.target===this)this.style.display='none'">
+  <div style="background:#0d1622;border:1px solid #1e2c44;border-radius:18px;max-width:470px;width:100%;padding:28px;position:relative">
+    <button onclick="document.getElementById('ev-pop').style.display='none'" style="position:absolute;top:14px;right:18px;background:none;border:0;color:#8895a4;font-size:26px;cursor:pointer;line-height:1">×</button>
     <div id="ev-pop-body"></div>
   </div>
 </div>
 
-<footer class="foot"><div class="foot__in"><div class="foot__brand"></div></div></footer>
+<style>
+.tilegrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:14px}
+.tile{aspect-ratio:1/1;border:1px solid var(--line);border-radius:16px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;background:var(--card,#fff);transition:transform .16s,box-shadow .16s,border-color .16s;position:relative}
+.tile:hover{transform:translateY(-4px);box-shadow:0 12px 28px rgba(10,14,39,.16);border-color:var(--blue)}
+.tile__date{padding:14px 16px 12px;color:#fff;position:relative}
+.tile__date .st{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;opacity:.9}
+.tile__date .d{font-family:'Space Grotesk',sans-serif;font-size:23px;font-weight:700;line-height:1.05;margin-top:5px}
+.tile__date .y{font-family:'IBM Plex Mono',monospace;font-size:11.5px;opacity:.75;margin-top:2px}
+.tile--up .tile__date{background:linear-gradient(135deg,#1f4fd8,#2563eb)}
+.tile--live .tile__date{background:linear-gradient(135deg,#0f7a3d,#16a34a)}
+.tile--past .tile__date{background:linear-gradient(135deg,#3d1420,#7a2135)}
+.tile--past{opacity:.66}
+.tile__body{padding:14px 16px;flex:1;display:flex;flex-direction:column}
+.tile__cat{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.08em;color:var(--ink-3);text-transform:uppercase}
+.tile__name{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600;line-height:1.25;margin:5px 0 6px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.tile__venue{font-size:11.5px;color:var(--ink-2);line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.tile__more{margin-top:auto;padding-top:9px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--blue)}
+.fbtn{font-family:'IBM Plex Mono',monospace;font-size:11.5px;padding:7px 13px;border-radius:20px;cursor:pointer;transition:.15s}
+@media(max-width:520px){.tilegrid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}.tile__name{font-size:13px}}
+</style>
 
+<footer class="foot"><div class="foot__in"><div class="foot__brand"></div></div></footer>
 <script src="data.js"></script>
 <script>
 (function(){
   var D=window.RH_DATA||{}; var events=(D.events||[]).slice();
-  var now=new Date();
-  var months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  function isPast(e){return new Date((e.end||e.start)+'T23:59:59')<now;}
-  function isLive(e){return new Date(e.start)<=now && new Date((e.end||e.start)+'T23:59:59')>=now;}
-  function fmt(s,e){var sd=new Date(s+'T00:00:00'),ed=new Date((e||s)+'T00:00:00');var y=sd.getFullYear();if(sd.getMonth()===ed.getMonth())return months[sd.getMonth()]+' '+sd.getDate()+'–'+ed.getDate()+', '+y;return months[sd.getMonth()]+' '+sd.getDate()+' – '+months[ed.getMonth()]+' '+ed.getDate()+', '+y;}
-  // sort: upcoming first (by date), then past (most recent first)
-  events.sort(function(a,b){var pa=isPast(a),pb=isPast(b);if(pa!==pb)return pa?1:-1;return pa?(new Date(b.start)-new Date(a.start)):(new Date(a.start)-new Date(b.start));});
+  var now=new Date(); var today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  var M=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var MF=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  function d(s){return new Date(s+'T00:00:00');}
+  function isPast(e){return d(e.end||e.start)<today;}
+  function isLive(e){return d(e.start)<=today&&d(e.end||e.start)>=today;}
+  function shortDate(e){var s=d(e.start),x=d(e.end||e.start);
+    if(s.getMonth()===x.getMonth())return M[s.getMonth()]+' '+s.getDate()+'–'+x.getDate();
+    return M[s.getMonth()]+' '+s.getDate()+'–'+M[x.getMonth()]+' '+x.getDate();}
+  function longDate(e){var s=d(e.start),x=d(e.end||e.start);
+    if(s.getMonth()===x.getMonth())return MF[s.getMonth()]+' '+s.getDate()+'–'+x.getDate()+', '+s.getFullYear();
+    return MF[s.getMonth()]+' '+s.getDate()+' – '+MF[x.getMonth()]+' '+x.getDate()+', '+x.getFullYear();}
 
+  var cat='All', yr='All';
   var cats=['All'].concat([...new Set(events.map(function(e){return e.cat;}))]);
-  var active='All';
-  var fWrap=document.getElementById('ev-filters');
+  var yrs=['All'].concat([...new Set(events.map(function(e){return String(d(e.start).getFullYear());}))].sort());
+  function btn(label,on,attr){return '<button '+attr+' class="fbtn" style="border:1px solid '+(on?'var(--blue)':'var(--line)')+';background:'+(on?'var(--blue)':'transparent')+';color:'+(on?'#fff':'var(--ink-2)')+'">'+label+'</button>';}
   function drawFilters(){
-    fWrap.innerHTML=cats.map(function(c){
-      var on=c===active;
-      return '<button data-cat="'+c+'" style="font-family:\'IBM Plex Mono\',monospace;font-size:12px;padding:7px 14px;border-radius:20px;cursor:pointer;border:1px solid '+(on?'var(--blue)':'var(--line)')+';background:'+(on?'var(--blue)':'transparent')+';color:'+(on?'#fff':'var(--ink-2)')+'">'+c+'</button>';
-    }).join('');
-    fWrap.querySelectorAll('button').forEach(function(b){b.onclick=function(){active=b.dataset.cat;drawFilters();drawList();};});
+    document.getElementById('ev-filters').innerHTML=cats.map(function(c){return btn(c,c===cat,'data-c="'+c+'"');}).join('');
+    document.getElementById('yr-filters').innerHTML=yrs.map(function(y){return btn(y,y===yr,'data-y="'+y+'"');}).join('');
+    document.querySelectorAll('#ev-filters button').forEach(function(b){b.onclick=function(){cat=b.dataset.c;drawFilters();draw();};});
+    document.querySelectorAll('#yr-filters button').forEach(function(b){b.onclick=function(){yr=b.dataset.y;drawFilters();draw();};});
   }
-  function drawList(){
-    var list=document.getElementById('ev-list');
-    var rows=events.filter(function(e){return active==='All'||e.cat===active;});
-    list.innerHTML=rows.map(function(e,i){
+  function draw(){
+    var rows=events.filter(function(e){
+      return (cat==='All'||e.cat===cat)&&(yr==='All'||String(d(e.start).getFullYear())===yr);
+    }).sort(function(a,b){
+      var pa=isPast(a),pb=isPast(b);
+      if(pa!==pb)return pa?1:-1;
+      return pa?(d(b.start)-d(a.start)):(d(a.start)-d(b.start));
+    });
+    document.getElementById('tiles').innerHTML=rows.map(function(e){
       var past=isPast(e),live=isLive(e);
-      var dateBg=past?'#3a1620':(live?'#12351f':'#132138');
-      var dateBd=past?'#5a2230':(live?'#1f6f3f':'#1f6feb');
-      var dateColor=past?'#ff8a9a':(live?'#4ade80':'#60a5fa');
-      var badge=past?'PASSED':(live?'● LIVE NOW':'UPCOMING');
-      return '<div class="card ev-card" data-i="'+i+'" style="padding:0;overflow:hidden;cursor:pointer;display:flex;align-items:stretch;'+(past?'opacity:.72;':'')+'transition:transform .15s,border-color .15s" onmouseover="this.style.transform=\'translateX(3px)\';this.style.borderColor=\'var(--blue)\'" onmouseout="this.style.transform=\'none\';this.style.borderColor=\'\'">'+
-        '<div style="background:'+dateBg+';border-right:1px solid '+dateBd+';padding:16px 18px;min-width:120px;display:flex;flex-direction:column;justify-content:center;text-align:center">'+
-          '<div style="font-family:\'IBM Plex Mono\',monospace;font-size:11px;color:'+dateColor+';font-weight:600">'+badge+'</div>'+
-          '<div style="font-family:\'Space Grotesk\',sans-serif;font-size:15px;font-weight:600;margin-top:4px;color:var(--ink)">'+fmt(e.start,e.end).split(',')[0]+'</div>'+
-          '<div style="font-size:12px;color:var(--ink-3)">'+new Date(e.start).getFullYear()+'</div>'+
-        '</div>'+
-        '<div style="padding:16px 20px;flex:1">'+
-          '<div style="font-family:\'IBM Plex Mono\',monospace;font-size:10.5px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.05em">'+e.cat+'</div>'+
-          '<div style="font-family:\'Space Grotesk\',sans-serif;font-size:18px;font-weight:600;margin:3px 0 4px">'+e.name+'</div>'+
-          '<div style="font-size:13px;color:var(--ink-2)">'+e.flag+' '+e.city+', '+e.country+'</div>'+
-        '</div>'+
-      '</div>';
+      var cls=past?'tile--past':(live?'tile--live':'tile--up');
+      var st=past?'PASSED':(live?'● LIVE NOW':'UPCOMING');
+      return '<div class="tile '+cls+'" data-id="'+e.id+'">'+
+        '<div class="tile__date"><div class="st">'+st+'</div><div class="d">'+shortDate(e)+'</div><div class="y">'+d(e.start).getFullYear()+'</div></div>'+
+        '<div class="tile__body">'+
+          '<div class="tile__cat">'+e.cat+'</div>'+
+          '<div class="tile__name">'+e.name+'</div>'+
+          '<div class="tile__venue">'+e.flag+' '+(e.venue?e.venue+' · ':'')+e.city+'</div>'+
+          '<div class="tile__more">click for more →</div>'+
+        '</div></div>';
     }).join('');
-    list.querySelectorAll('.ev-card').forEach(function(c){c.onclick=function(){showPop(rows[+c.dataset.i]);};});
+    document.querySelectorAll('.tile').forEach(function(t){t.onclick=function(){pop(events.find(function(x){return x.id===t.dataset.id;}));};});
   }
-  function showPop(e){
+  function pop(e){
+    if(!e)return;
     var past=isPast(e),live=isLive(e);
-    var badge=past?'<span style="color:#ff8a9a">PASSED</span>':(live?'<span style="color:#4ade80">● LIVE NOW</span>':'<span style="color:#60a5fa">UPCOMING</span>');
+    var st=past?'<span style="color:#ff8a9a">PASSED</span>':(live?'<span style="color:#4ade80">● LIVE NOW</span>':'<span style="color:#60a5fa">UPCOMING</span>');
     document.getElementById('ev-pop-body').innerHTML=
-      '<div style="font-family:\'IBM Plex Mono\',monospace;font-size:11px;letter-spacing:.06em;margin-bottom:10px">'+e.cat.toUpperCase()+' · '+badge+'</div>'+
-      '<h2 style="font-family:\'Space Grotesk\',sans-serif;font-size:24px;margin-bottom:10px">'+e.name+'</h2>'+
-      '<div style="font-family:\'IBM Plex Mono\',monospace;font-size:13px;color:var(--ink-2);margin-bottom:4px">📅 '+fmt(e.start,e.end)+'</div>'+
-      '<div style="font-family:\'IBM Plex Mono\',monospace;font-size:13px;color:var(--ink-2);margin-bottom:14px">📍 '+e.flag+' '+e.city+', '+e.country+'</div>'+
-      '<p style="font-size:14.5px;color:var(--ink-2);line-height:1.6;margin-bottom:18px">'+(e.summary||'')+'</p>'+
-      (e.url?'<a href="'+e.url+'" target="_blank" rel="noopener" class="btn btn--blue" style="display:inline-block">Visit event site →</a>':'');
+      '<div style="font-family:\'IBM Plex Mono\',monospace;font-size:11px;letter-spacing:.07em;margin-bottom:11px;color:#93a4bd">'+e.cat.toUpperCase()+' · '+st+'</div>'+
+      '<h2 style="font-family:\'Space Grotesk\',sans-serif;font-size:23px;line-height:1.2;margin-bottom:14px;color:#eaf0f8">'+e.name+'</h2>'+
+      '<div style="font-family:\'IBM Plex Mono\',monospace;font-size:13px;color:#93a4bd;margin-bottom:5px">📅 '+longDate(e)+'</div>'+
+      (e.venue?'<div style="font-family:\'IBM Plex Mono\',monospace;font-size:13px;color:#93a4bd;margin-bottom:5px">🏛 '+e.venue+'</div>':'')+
+      '<div style="font-family:\'IBM Plex Mono\',monospace;font-size:13px;color:#93a4bd;margin-bottom:16px">📍 '+e.flag+' '+e.city+', '+e.country+'</div>'+
+      '<p style="font-size:14.5px;color:#93a4bd;line-height:1.62;margin-bottom:20px">'+(e.summary||'')+'</p>'+
+      (e.url?'<a href="'+e.url+'" target="_blank" rel="noopener" style="display:inline-block;background:#2563eb;color:#fff;padding:11px 20px;border-radius:10px;font-size:14px;font-weight:500">Visit event website →</a>':'');
     document.getElementById('ev-pop').style.display='flex';
   }
-  drawFilters();drawList();
+  drawFilters();draw();
 })();
 </script>
 </body></html>
