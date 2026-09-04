@@ -23,4 +23,5 @@
   <url><loc>https://behindrobotics.com/robot-profile.html</loc></url>
   <url><loc>https://behindrobotics.com/component-profile.html</loc></url>
   <url><loc>https://behindrobotics.com/database.html</loc><priority>0.9</priority></url>
+  <url><loc>https://behindrobotics.com/events.html</loc><priority>0.8</priority></url>
 </urlset>
