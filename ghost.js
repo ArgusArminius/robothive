@@ -107,8 +107,7 @@
     if (rail) {
       get(api({ limit: 7, filter: 'featured:true' })).then(function (d) {
         if (d.posts && d.posts.length) {
-          rail.innerHTML = d.posts.map(railItem).join('') +
-            '<div class="railbox__foot"><a href="news.html">All posts →</a></div>';
+          rail.innerHTML = d.posts.map(railItem).join('');
         } else {
           rail.innerHTML = '<div class="railitem" style="color:var(--ink-3)">No featured stories yet. Toggle "Feature this post" in Ghost to surface a story here.</div>';
         }
@@ -242,8 +241,7 @@
     if (rail) {
       get(api({ limit: 6, filter: 'featured:true' })).then(function (d) {
         if (d.posts && d.posts.length) {
-          rail.innerHTML = d.posts.map(railItem).join('') +
-            '<div class="railbox__foot"><a href="news.html">All posts →</a></div>';
+          rail.innerHTML = d.posts.map(railItem).join('');
         } else {
           rail.innerHTML = '<div class="railitem" style="color:var(--ink-3)">No featured stories yet. Toggle "Feature this post" in Ghost to surface a story here.</div>';
         }
