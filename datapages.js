@@ -288,8 +288,11 @@
   // -------- homepage counters ---------------------------------------------
   function renderCounts() {
     var countries = {}; D.companies.forEach(function (c) { if (c.country) countries[c.country] = 1; });
-    var map = { companies: D.companies.length, robots: D.robots.length, components: D.components.length,
+    var robotCount = (D.robotsX && D.robotsX.length) || D.robots.length;
+    var map = { companies: D.companies.length, robots: robotCount, components: D.components.length,
                 suppliers: D.companies.filter(function (c) { return c.type === 'supplier' || c.type === 'both'; }).length,
+                regulations: (D.regulations || []).length,
+                events: (D.events || []).length,
                 countries: Object.keys(countries).length };
     document.querySelectorAll('[data-rh-count]').forEach(function (el) {
       var k = el.getAttribute('data-rh-count');

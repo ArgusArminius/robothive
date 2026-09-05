@@ -184,6 +184,7 @@ h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;letter-spacing:-.01em;font-we
 .hero2__title{font-size:24px;line-height:1.12;margin-bottom:10px}
 .hero2__sub{font-size:13.5px;color:var(--ink-2);margin-bottom:14px}
 .hero2__stats{display:flex;gap:16px;flex-wrap:wrap;padding-top:12px;border-top:1px solid var(--line)}
+.hero2__stat:hover b{color:var(--blue)}
 .hero2__stat b{font-family:'Space Grotesk';font-size:18px;color:var(--blue);display:block;line-height:1}
 .hero2__stat span{font-family:'IBM Plex Mono';font-size:9.5px;color:var(--ink-3);text-transform:uppercase}
 /* embedded youtube window */
@@ -556,10 +557,11 @@ a.rp__chip:hover{border-color:var(--blue);color:var(--blue)}
         <h1 class="hero2__title">Who builds it, who funds it, who supplies it.</h1>
         <p class="hero2__sub">Companies, robots, capital and regulation across robotics, drones and embodied AI — with our own editorial cut.</p>
         <div class="hero2__stats">
-          <div class="hero2__stat"><b data-rh-count="companies">0</b><span>Companies</span></div>
-          <div class="hero2__stat"><b data-rh-count="robots">0</b><span>Robots</span></div>
-          <div class="hero2__stat"><b data-rh-count="suppliers">0</b><span>Suppliers</span></div>
-          <div class="hero2__stat"><b data-rh-count="components">0</b><span>Components</span></div>
+          <a class="hero2__stat" href="companies.html"><b data-rh-count="companies">0</b><span>Companies</span></a>
+          <a class="hero2__stat" href="robots.html"><b data-rh-count="robots">0</b><span>Robots</span></a>
+          <a class="hero2__stat" href="suppliers.html"><b data-rh-count="suppliers">0</b><span>Suppliers</span></a>
+          <a class="hero2__stat" href="components.html"><b data-rh-count="components">0</b><span>Components</span></a>
+          <a class="hero2__stat" href="regulation.html"><b data-rh-count="regulations">0</b><span>Regulations</span></a>
         </div>
       </div>
       <div class="ytwin" data-ghost="video-slideshow">

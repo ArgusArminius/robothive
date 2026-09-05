@@ -2,7 +2,6 @@
 (function () {
   var D = window.RH_DATA || {};
   var R = D.robotsX || [];
-  var favs = {}; try { favs = JSON.parse(localStorage.getItem('bfav') || '{}'); } catch (e) {}
   var F = { vertical: new Set(), country: new Set(), maker: new Set(), status: new Set() };
   var q = '', view = 'cards', SL = { h: null, w: null };
 
@@ -73,18 +72,17 @@
       el.className = 'rgrid';
       el.innerHTML = rows.map(function (r) {
         var im = r.img ? '<img src="' + esc(r.img) + '" loading="lazy" onerror="this.parentNode.innerHTML=\'<span class=ph>no image</span>\'">' : '<span class="ph">no image</span>';
-        return '<div class="rtile" data-s="' + esc(r.slug) + '"><div class="im">' + im +
-          '<span class="fav' + (favs[r.slug] ? ' on' : '') + '" data-f="' + esc(r.slug) + '">' + (favs[r.slug] ? '♥' : '♡') + '</span></div>' +
-          '<div class="b"><div class="n">' + esc(r.name) + '</div><div class="mk">' + esc(r.maker) + '</div>' +
+        var pr = r.price ? '<div class="rprice">' + esc(r.price) + '</div>' : '';
+        return '<div class="rtile" data-s="' + esc(r.slug) + '"><div class="im">' + im + '</div>' +
+          '<div class="b"><div class="n">' + esc(r.name) + '</div><div class="mk">' + esc(r.maker) + '</div>' + pr +
           '<div class="rbadges"><span class="rbadge">' + esc(r.bucket) + '</span><span class="rbadge">' + r.flag + ' ' + esc(r.country) + '</span></div></div></div>';
       }).join('') || '<p style="color:var(--ink-3)">No platforms match these filters.</p>';
     } else {
       el.className = '';
-      el.innerHTML = '<table class="tbl"><thead><tr><th>Robot</th><th>Maker</th><th>Category</th><th>Status</th><th>Origin</th><th>Height</th></tr></thead><tbody>' +
-        rows.map(function (r) { return '<tr data-s="' + esc(r.slug) + '" style="cursor:pointer"><td><b>' + esc(r.name) + '</b></td><td>' + esc(r.maker) + '</td><td>' + esc(r.vertical) + '</td><td>' + esc(r.bucket) + '</td><td>' + r.flag + ' ' + esc(r.country) + '</td><td>' + (r.h ? r.h + ' cm' : '—') + '</td></tr>'; }).join('') + '</tbody></table>';
+      el.innerHTML = '<table class="tbl"><thead><tr><th>Robot</th><th>Maker</th><th>Category</th><th>Status</th><th>Origin</th><th>Price</th><th>Height</th></tr></thead><tbody>' +
+        rows.map(function (r) { return '<tr data-s="' + esc(r.slug) + '" style="cursor:pointer"><td><b>' + esc(r.name) + '</b></td><td>' + esc(r.maker) + '</td><td>' + esc(r.vertical) + '</td><td>' + esc(r.bucket) + '</td><td>' + r.flag + ' ' + esc(r.country) + '</td><td>' + esc(r.price || '—') + '</td><td>' + (r.h ? r.h + ' cm' : '—') + '</td></tr>'; }).join('') + '</tbody></table>';
     }
-    el.querySelectorAll('[data-s]').forEach(function (t) { t.onclick = function (e) { if (e.target.dataset.f) return; openModal(t.dataset.s); }; });
-    el.querySelectorAll('[data-f]').forEach(function (f) { f.onclick = function (e) { e.stopPropagation(); favs[f.dataset.f] = !favs[f.dataset.f]; try { localStorage.setItem('bfav', JSON.stringify(favs)); } catch (x) {} render(); }; });
+    el.querySelectorAll('[data-s]').forEach(function (t) { t.onclick = function () { openModal(t.dataset.s); }; });
     buildSide();
   }
 
@@ -154,7 +152,7 @@
       if (r.img) h += '<div class="mhero" style="max-width:520px;border-radius:14px;border:1px solid var(--line);margin-bottom:20px"><img src="' + esc(r.img) + '" onerror="this.parentNode.style.display=\'none\'"></div>';
       h += '<div class="sect"><h4>Summary</h4><p style="font-size:15px;color:var(--ink-2)">' + esc(r.summary || 'No description recorded yet.') + '</p></div>';
       h += '<div class="sect"><h4>Identity</h4><div class="specgrid">' +
-        [['Status', r.status], ['Category', r.vertical], ['Type', r.type], ['Function', r.function], ['Audience', r.audience]].filter(function (x) { return x[1]; })
+        [['Status', r.status], ['Category', r.vertical], ['Indicative price', r.price], ['Type', r.type], ['Function', r.function], ['Audience', r.audience]].filter(function (x) { return x[1]; })
         .map(function (x) { return '<div class="spec"><div class="k">' + x[0] + '</div><div class="v">' + esc(x[1]) + '</div></div>'; }).join('') + '</div></div>';
       h += specHtml(r);
       if (r.yt) h += '<div class="sect"><h4>Video</h4><iframe width="100%" height="330" style="border-radius:12px;border:1px solid var(--line)" src="' + esc(r.yt) + '" frameborder="0" allowfullscreen></iframe></div>';
