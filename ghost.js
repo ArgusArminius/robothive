@@ -426,8 +426,9 @@
     var frame = box.querySelector('.ytwin__frame');
     var titleEl = box.querySelector('.ytwin__bar b');
     var countEl = box.querySelector('.ytwin__count');
-    // fetch posts WITH html so we can scan for embeds (limit 10 to keep the call light)
-    var url = API + '?key=' + GHOST_KEY + '&limit=10&fields=title,slug,html&formats=html';
+    // fetch posts WITH html so we can scan for embeds.
+    // Safe at a high limit because get() caches for 15 min and falls back to stale on 429.
+    var url = API + '?key=' + GHOST_KEY + '&limit=100&fields=title,slug,html&formats=html';
     get(url).then(function (d) {
       var vids = [];
       (d.posts || []).forEach(function (p) {
