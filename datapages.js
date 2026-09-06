@@ -35,6 +35,11 @@
         sel.innerHTML = '<option value="">' + f.label + ': All</option>' +
           vals.map(function (v) { return '<option value="' + esc(v) + '">' + esc(v) + '</option>'; }).join('');
         sel.onchange = function () { state[f.key] = sel.value; apply(); };
+        // preselect from URL, e.g. companies.html?vertical=Drones
+        try {
+          var pv = new URLSearchParams(location.search).get(f.key);
+          if (pv && vals.indexOf(pv) >= 0) { sel.value = pv; state[f.key] = pv; }
+        } catch (e) {}
         bar.appendChild(sel);
       });
       var search = document.createElement('input');
@@ -236,12 +241,15 @@
       [{ key: 'country', label: 'Country' }, { key: 'sector', label: 'Category' }],
       function (rows) {
         body.innerHTML = rows.map(function (c) {
-          var to = (c.supplies_to || []).map(function (id) { var t = company(id); return t ? t.name : id; }).join(', ');
+          var rels = (D.relations || []).filter(function (e) { return e.from === c.id && e.type === 'supplier'; });
+          var to = rels.map(function (e) { var t = company(e.to); return t ? coLink(e.to) : e.to; }).join(', ');
+          if (!to) to = (c.supplies_to || []).map(function (id) { var t = company(id); return t ? t.name : id; }).join(', ');
+          var unv = c.verified === 'unverified' ? ' <span class="unvtag">Unverified</span>' : '';
           return '<tr>' +
-            '<td class="name"><a class="link" href="company-profile.html?id=' + c.id + '">' + c.name + '</a></td>' +
+            '<td class="name"><a class="link" href="company-profile.html?id=' + c.id + '">' + c.name + '</a>' + unv + '</td>' +
             '<td>' + pill(c.sector) + '</td>' +
             '<td class="flag">' + esc(c.flag) + ' ' + esc(c.country) + '</td>' +
-            '<td style="color:var(--ink-2);font-size:13px">' + esc(c.summary).slice(0, 110) + '…</td>' +
+            '<td style="color:var(--ink-2);font-size:13px">' + esc(c.summary).slice(0, 110) + (c.summary.length > 110 ? '…' : '') + '</td>' +
             '<td style="font-size:12.5px">' + (to || '—') + '</td>' +
             '</tr>';
         }).join('') || '<tr><td colspan="5" style="color:var(--ink-3)">No matches.</td></tr>';
@@ -590,23 +598,57 @@
     });
   }
 
-  // -------- REGULATION table (data-driven) --------------------------------
+  // -------- REGULATION table (data-driven, filterable) --------------------
   function renderRegulation() {
     var mount = document.querySelector('[data-rh-regulation]');
     if (!mount || !D.regulations) return;
-    mount.innerHTML = D.regulations.map(function (r) {
-      var pill = r.status === 'In force' ? 'In force' : r.status;
-      var doc = r.source
-        ? '<a class="link" href="' + r.source + '" target="_blank" rel="noopener">Source doc ↗</a>'
-        : '<span class="link">🔒 Source doc</span>';
-      return '<tr>' +
-        '<td class="flag">' + r.flag + ' ' + esc(r.region) + '</td>' +
-        '<td class="name"><strong>' + esc(r.topic) + '</strong>' +
-        '<div style="font-size:12.5px;color:var(--ink-2);font-weight:400;margin-top:4px;max-width:70ch">' + esc(r.summary) + '</div></td>' +
-        '<td><span class="pill">' + esc(pill) + '</span></td>' +
-        '<td>' + doc + '</td>' +
-      '</tr>';
-    }).join('');
+    var regionEl = document.getElementById('regRegion');
+    var catEl = document.getElementById('regCat');
+    var statusEl = document.getElementById('regStatus');
+    var searchEl = document.getElementById('regSearch');
+    var countEl = document.getElementById('regCount');
+
+    function fillSelect(el, key) {
+      if (!el || el.dataset.filled) return;
+      var vals = [];
+      D.regulations.forEach(function (r) { if (r[key] && vals.indexOf(r[key]) < 0) vals.push(r[key]); });
+      vals.sort().forEach(function (v) {
+        var o = document.createElement('option'); o.value = v; o.textContent = v; el.appendChild(o);
+      });
+      el.dataset.filled = '1';
+      el.onchange = draw;
+    }
+    fillSelect(regionEl, 'region');
+    fillSelect(catEl, 'category');
+    fillSelect(statusEl, 'status');
+    if (searchEl && !searchEl.dataset.wired) { searchEl.dataset.wired = '1'; searchEl.oninput = draw; }
+
+    function draw() {
+      var q = (searchEl && searchEl.value || '').toLowerCase();
+      var rows = D.regulations.filter(function (r) {
+        if (regionEl && regionEl.value && r.region !== regionEl.value) return false;
+        if (catEl && catEl.value && r.category !== catEl.value) return false;
+        if (statusEl && statusEl.value && r.status !== statusEl.value) return false;
+        if (q) {
+          var t = (r.topic + ' ' + r.summary + ' ' + r.region + ' ' + (r.category || '')).toLowerCase();
+          if (t.indexOf(q) < 0) return false;
+        }
+        return true;
+      });
+      if (countEl) countEl.textContent = rows.length + ' of ' + D.regulations.length + ' regulations';
+      mount.innerHTML = rows.length ? rows.map(function (r) {
+        var doc = r.source
+          ? '<a class="link" href="' + r.source + '" target="_blank" rel="noopener">Source doc ↗</a>'
+          : '<span class="link">🔒 Source doc</span>';
+        return '<tr>' +
+          '<td class="flag">' + r.flag + ' ' + esc(r.region) + '</td>' +
+          '<td class="name"><strong>' + esc(r.topic) + '</strong>' +
+          '<div style="font-size:12.5px;color:var(--ink-2);font-weight:400;margin-top:4px;max-width:70ch">' + esc(r.summary) + '</div></td>' +
+          '<td><span class="pill">' + esc(r.status) + '</span></td>' +
+          '<td>' + doc + '</td></tr>';
+      }).join('') : '<tr><td colspan="4" style="color:var(--ink-3)">No regulations match these filters.</td></tr>';
+    }
+    draw();
   }
 
   // -------- INVESTMENT: real aggregate funding (largest round per company) --

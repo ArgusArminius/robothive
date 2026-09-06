@@ -2,8 +2,14 @@
 (function () {
   var D = window.RH_DATA || {};
   var R = D.robotsX || [];
-  var F = { vertical: new Set(), country: new Set(), maker: new Set(), status: new Set() };
+  var F = { vertical: new Set(), country: new Set(), maker: new Set(), status: new Set(), band: new Set() };
   var q = '', view = 'cards', SL = { h: null, w: null };
+  // Pre-filter from URL, e.g. robots.html?cat=Drones
+  (function () {
+    var p = new URLSearchParams(location.search);
+    var c = p.get('cat'); if (c) c.split(',').forEach(function (v) { F.vertical.add(v); });
+    var s = p.get('status'); if (s) s.split(',').forEach(function (v) { F.status.add(v); });
+  })();
 
   function esc(s) { return String(s == null ? '' : s).replace(/[<>&"]/g, function (c) { return { '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' }[c]; }); }
   function matches(r, skip) {
@@ -12,6 +18,7 @@
     if (skip !== 'country' && F.country.size && !F.country.has(r.country)) return false;
     if (skip !== 'maker' && F.maker.size && !F.maker.has(r.maker)) return false;
     if (skip !== 'status' && F.status.size && !F.status.has(r.bucket)) return false;
+    if (skip !== 'band' && F.band.size && !F.band.has(r.band)) return false;
     if (SL.h && r.h != null && (r.h < SL.h[0] || r.h > SL.h[1])) return false;
     if (SL.w && r.w != null && (r.w < SL.w[0] || r.w > SL.w[1])) return false;
     return true;
@@ -37,6 +44,7 @@
       '<div class="fh"><b>Filters</b><a id="clr">Clear all</a></div>' +
       facet('Category', 'vertical', uniq('vertical'), true) +
       facet('Status', 'status', ['Shipping', 'Production', 'Pilot / Deployed', 'Development', 'Announced', 'Research', 'Other'], true) +
+      facet('Price', 'band', ['Under $5K', '$5K – $15K', '$15K – $50K', '$50K – $150K', 'Over $150K', 'Enterprise / on request', 'Research / not for sale', 'Not disclosed', 'No price listed'], true) +
       facet('Country', 'country', uniq('country'), false) +
       '<div class="facet open"><div class="ft">Key specs<span class="ar">▾</span></div><div class="opts">' +
         '<div class="sl"><div class="lab"><span>Height</span><span class="mono" id="hv">' + SL.h[0] + '–' + SL.h[1] + ' cm</span></div>' +
@@ -52,7 +60,7 @@
       i.onchange = function () { var k = i.dataset.k, v = i.dataset.v; if (i.checked) F[k].add(v); else F[k].delete(v); render(); };
     });
     document.getElementById('clr').onclick = function () {
-      F = { vertical: new Set(), country: new Set(), maker: new Set(), status: new Set() }; SL = { h: null, w: null }; q = '';
+      F = { vertical: new Set(), country: new Set(), maker: new Set(), status: new Set(), band: new Set() }; SL = { h: null, w: null }; q = '';
       var qq = document.getElementById('q'); if (qq) qq.value = ''; render();
     };
     var hr = document.getElementById('hr'); if (hr) hr.oninput = function () { SL.h[1] = +hr.value; document.getElementById('hv').textContent = SL.h[0] + '–' + hr.value + ' cm'; render(); };
@@ -61,7 +69,7 @@
 
   function render() {
     var rows = filtered(), ch = [];
-    ['vertical', 'status', 'country', 'maker'].forEach(function (k) {
+    ['vertical', 'status', 'band', 'country', 'maker'].forEach(function (k) {
       F[k].forEach(function (v) { ch.push('<span class="rchip" data-k="' + k + '" data-v="' + esc(v) + '">' + esc(v) + ' ×</span>'); });
     });
     document.getElementById('chips').innerHTML = ch.join('');
@@ -79,8 +87,9 @@
       }).join('') || '<p style="color:var(--ink-3)">No platforms match these filters.</p>';
     } else {
       el.className = '';
-      el.innerHTML = '<table class="tbl"><thead><tr><th>Robot</th><th>Maker</th><th>Category</th><th>Status</th><th>Origin</th><th>Price</th><th>Height</th></tr></thead><tbody>' +
-        rows.map(function (r) { return '<tr data-s="' + esc(r.slug) + '" style="cursor:pointer"><td><b>' + esc(r.name) + '</b></td><td>' + esc(r.maker) + '</td><td>' + esc(r.vertical) + '</td><td>' + esc(r.bucket) + '</td><td>' + r.flag + ' ' + esc(r.country) + '</td><td>' + esc(r.price || '—') + '</td><td>' + (r.h ? r.h + ' cm' : '—') + '</td></tr>'; }).join('') + '</tbody></table>';
+      el.innerHTML = '<table class="tbl"><thead><tr><th style="width:52px"></th><th>Robot</th><th>Maker</th><th>Category</th><th>Status</th><th>Origin</th><th>Price</th><th>Height</th></tr></thead><tbody>' +
+        rows.map(function (r) { var th = r.img ? '<img src="' + esc(r.img) + '" loading="lazy" style="width:40px;height:40px;object-fit:contain;background:#eef1f5;border-radius:6px" onerror="this.style.visibility=\'hidden\'">' : '<div style="width:40px;height:40px;background:#eef1f5;border-radius:6px"></div>';
+          return '<tr data-s="' + esc(r.slug) + '" style="cursor:pointer"><td>' + th + '</td><td><b>' + esc(r.name) + '</b></td><td>' + esc(r.maker) + '</td><td>' + esc(r.vertical) + '</td><td>' + esc(r.bucket) + '</td><td>' + r.flag + ' ' + esc(r.country) + '</td><td>' + esc(r.price || '—') + '</td><td>' + (r.h ? r.h + ' cm' : '—') + '</td></tr>'; }).join('') + '</tbody></table>';
     }
     el.querySelectorAll('[data-s]').forEach(function (t) { t.onclick = function () { openModal(t.dataset.s); }; });
     buildSide();
@@ -160,8 +169,10 @@
       h += chart(r, 'h', 'Height', 'cm') + chart(r, 'w', 'Weight', 'kg') + chart(r, 'pay', 'Payload', 'kg') + chart(r, 'dof', 'Degrees of freedom', 'DoF');
       var peers = R.filter(function (x) { return x.slug !== r.slug && x.bucket === r.bucket && x.vertical === r.vertical; }).slice(0, 6);
       var same = R.filter(function (x) { return x.slug !== r.slug && x.maker === r.maker; });
-      if (peers.length) h += '<div class="sect"><h4>Comparable systems — same status tier</h4><div class="cmp">' + peers.map(function (p) { return '<div class="cmpc" data-s="' + esc(p.slug) + '"><div class="n">' + esc(p.name) + '</div><div style="color:var(--ink-3);font-size:12px">' + esc(p.maker) + '</div><div style="font-size:11.5px;margin-top:5px">' + (p.h ? p.h + ' cm' : '—') + ' · ' + p.flag + '</div></div>'; }).join('') + '</div></div>';
-      if (same.length) h += '<div class="sect"><h4>Other systems from ' + esc(r.maker) + '</h4><div class="cmp">' + same.map(function (p) { return '<div class="cmpc" data-s="' + esc(p.slug) + '"><div class="n">' + esc(p.name) + '</div><div style="font-size:11.5px;color:var(--ink-3)">' + esc(p.bucket) + '</div></div>'; }).join('') + '</div></div>';
+      if (peers.length) h += '<div class="sect"><h4>Comparable systems — same status tier</h4><div class="cmp">' + peers.map(function (p) { var ci = p.img ? '<img src="' + esc(p.img) + '" loading="lazy" class="cmpimg" onerror="this.style.display=\'none\'">' : '';
+        return '<div class="cmpc" data-s="' + esc(p.slug) + '">' + ci + '<div class="n">' + esc(p.name) + '</div><div style="color:var(--ink-3);font-size:12px">' + esc(p.maker) + '</div><div style="font-size:11.5px;margin-top:5px">' + (p.h ? p.h + ' cm' : '—') + ' · ' + p.flag + '</div></div>'; }).join('') + '</div></div>';
+      if (same.length) h += '<div class="sect"><h4>Other systems from ' + esc(r.maker) + '</h4><div class="cmp">' + same.map(function (p) { var ci2 = p.img ? '<img src="' + esc(p.img) + '" loading="lazy" class="cmpimg" onerror="this.style.display=\'none\'">' : '';
+        return '<div class="cmpc" data-s="' + esc(p.slug) + '">' + ci2 + '<div class="n">' + esc(p.name) + '</div><div style="font-size:11.5px;color:var(--ink-3)">' + esc(p.bucket) + '</div></div>'; }).join('') + '</div></div>';
       if (r.tabc && r.tabc.context) h += '<div class="sect"><h4>Recorded context</h4>' + r.tabc.context.map(function (c) { return '<div class="logitem">' + esc(c) + '</div>'; }).join('') + '</div>';
     } else {
       var items = (r.tabc && r.tabc[t]) || [];
