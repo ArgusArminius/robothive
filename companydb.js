@@ -96,7 +96,7 @@
       '<div class="mh"><div class="cmark cmark--lg">' + esc(init) + '</div><div><h2>' + esc(r.name) + '</h2>' +
       '<div class="crumb">' + r.flag + ' ' + esc(r.country) + ' · ' + esc(r.vertical) + ' · ' + esc(r.type) +
       (r.verified === 'unverified' ? ' · <span class="unvtag">Unverified — auto-listed</span>' : '') + '</div></div>' +
-      '<div class="acts"><button class="btn" id="mprof">View full profile →</button><button class="btn btn--ghost" id="mclose">×</button></div></div>' +
+      '<div class="acts">' + (ok(r.website) ? '<a class="btn btn--ghost" href="' + esc(r.website) + '" target="_blank" rel="noopener">Visit website →</a>' : '') + '<button class="btn" id="mprof">View full profile →</button><button class="btn btn--ghost" id="mclose">×</button></div></div>' +
       '<div class="mb">' +
       (r.verified === 'unverified' ? '<div class="unvbox">Auto-listed from component data — not yet editorially reviewed.</div>' : '') +
       '<div class="popstats">' +
@@ -129,7 +129,8 @@
     document.getElementById('listView').style.display = 'none';
     var pv = document.getElementById('profView'); pv.classList.add('show');
     pv.innerHTML = '<div class="ptop"><div class="back" id="pback">← Back to companies</div><h1>' + esc(r.name) + '</h1>' +
-      '<div class="crumb">' + r.flag + ' ' + esc(r.country) + ' · ' + esc(r.sector || r.vertical) + ' · ' + esc(r.status) + '</div></div>' +
+      '<div class="crumb">' + r.flag + ' ' + esc(r.country) + ' · ' + esc(r.sector || r.vertical) + ' · ' + esc(r.status) +
+      (ok(r.website) ? ' &nbsp;·&nbsp; <a href="' + esc(r.website) + '" target="_blank" rel="noopener" style="color:#8fb6f5">Visit website →</a>' : '') + '</div></div>' +
       '<div class="rtabs" id="ptabs">' + tabs.map(function (t, i) { return '<button data-t="' + t + '"' + (i === 0 ? ' class="on"' : '') + '>' + TABS[t] + '</button>'; }).join('') + '</div><div class="pbody" id="pbody"></div>';
     document.getElementById('pback').onclick = function () { pv.classList.remove('show'); document.getElementById('listView').style.display = ''; window.scrollTo(0, 0); };
     document.querySelectorAll('#ptabs button').forEach(function (b) { b.onclick = function () { document.querySelectorAll('#ptabs button').forEach(function (x) { x.classList.remove('on'); }); b.classList.add('on'); drawTab(r, b.dataset.t); }; });
@@ -156,7 +157,6 @@
       h += '<div class="sect"><h4>Summary</h4><p style="font-size:15px;color:var(--ink-2)">' + esc(r.summary || '') + '</p></div>';
       if (ok(r.notable)) h += '<div class="sect"><h4>Notable</h4><p style="font-size:14.5px;color:var(--ink-2)">' + esc(r.notable) + '</p></div>';
       h += '<div class="sect"><h4>Key facts</h4><div class="specgrid">' + facts(r).map(function (f) { return '<div class="spec"><div class="k">' + esc(f[0]) + '</div><div class="v">' + esc(f[1]) + '</div></div>'; }).join('') + '</div></div>';
-      if (ok(r.website)) h += '<div class="sect"><a class="btn" href="' + esc(r.website) + '" target="_blank" rel="noopener">Visit website →</a></div>';
     } else if (t === 'products') {
       var mine = RX.filter(function (x) { return x.makerId === r.id; });
       if (mine.length) h += '<div class="sect"><h4>Robots (' + mine.length + ')</h4><div class="cmp">' + mine.map(function (p) {

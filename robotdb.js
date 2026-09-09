@@ -2,6 +2,9 @@
 (function () {
   var D = window.RH_DATA || {};
   var R = D.robotsX || [];
+  var CO = D.companies || [];
+  function makerCo(r) { return r.makerId ? (CO.find(function (c) { return c.id === r.makerId; }) || null) : null; }
+  function makerCrumb(r) { var mc = makerCo(r); return mc ? '<a href="company-profile.html?id=' + esc(mc.id) + '" style="color:var(--blue);text-decoration:none">' + esc(r.maker) + '</a>' : esc(r.maker); }
   var F = { vertical: new Set(), country: new Set(), maker: new Set(), status: new Set(), band: new Set() };
   var q = '', view = 'cards', SL = { h: null, w: null };
   // Pre-filter from URL, e.g. robots.html?cat=Drones
@@ -89,7 +92,7 @@
     } else {
       el.className = '';
       el.innerHTML = '<div style="overflow-x:auto"><table class="tbl rtbl"><thead><tr><th style="width:76px"></th><th>Robot</th><th>Maker</th><th>Category</th><th>Status</th><th>Origin</th><th>Price</th><th>Height</th></tr></thead><tbody>' +
-        rows.map(function (r) { var th = r.img ? '<img src="' + esc(r.img) + '" loading="lazy" style="width:64px;height:64px;object-fit:contain;background:#eef1f5;border-radius:8px" onerror="this.style.visibility=\'hidden\'">' : '<div style="width:64px;height:64px;background:#eef1f5;border-radius:8px"></div>';
+        rows.map(function (r) { var th = r.img ? '<img src="' + esc(r.img) + '" loading="lazy" style="width:64px;height:64px;object-fit:cover;background:#eef1f5;border-radius:8px" onerror="this.style.visibility=\'hidden\'">' : '<div style="width:64px;height:64px;background:#eef1f5;border-radius:8px"></div>';
           return '<tr data-s="' + esc(r.slug) + '" style="cursor:pointer"><td>' + th + '</td><td><b>' + esc(r.name) + '</b></td><td>' + esc(r.maker) + '</td><td>' + esc(r.vertical) + '</td><td style="white-space:nowrap">' + esc(r.bucket) + '</td><td style="white-space:nowrap">' + r.flag + ' ' + esc(r.country) + '</td><td style="white-space:nowrap">' + esc(r.price || '—') + '</td><td style="white-space:nowrap">' + (r.h ? r.h + ' cm' : '—') + '</td></tr>'; }).join('') + '</tbody></table></div>';
     }
     el.querySelectorAll('[data-s]').forEach(function (t) { t.onclick = function () { openModal(t.dataset.s); }; });
@@ -111,13 +114,15 @@
 
   window.openModal = function (slug) {
     var r = R.find(function (x) { return x.slug === slug; }); if (!r) return;
+    var mc = makerCo(r);
     document.getElementById('modal').innerHTML =
-      '<div class="mh"><div><h2>' + esc(r.name) + '</h2><div class="crumb">' + esc(r.maker) + ' · ' + esc(r.vertical || r.type) + ' · ' + r.flag + ' ' + esc(r.country) + '</div></div>' +
-      '<div class="acts"><button class="btn" id="mprof">View full profile →</button><button class="btn btn--ghost" id="mclose">×</button></div></div>' +
+      '<div class="mh"><div><h2>' + esc(r.name) + '</h2><div class="crumb">' + makerCrumb(r) + ' · ' + esc(r.vertical || r.type) + ' · ' + r.flag + ' ' + esc(r.country) + '</div></div>' +
+      '<div class="acts">' + (mc ? '<button class="btn btn--ghost" id="mcogo">Company profile →</button>' : '') + '<button class="btn" id="mprof">View full profile →</button><button class="btn btn--ghost" id="mclose">×</button></div></div>' +
       '<div class="mhero">' + (r.img ? '<img src="' + esc(r.img) + '" onerror="this.parentNode.innerHTML=\'<span style=color:#8895a4;font-family:monospace;font-size:12px>no image available</span>\'">' : '<span style="color:#8895a4;font-family:monospace;font-size:12px">no image available</span>') + '</div>' +
       '<div class="mb"><div class="sect"><h4>Overview</h4><p style="font-size:14.5px;color:var(--ink-2)">' + esc(r.summary || 'No description recorded yet.') + '</p></div>' + specHtml(r) + '</div>';
     document.getElementById('mprof').onclick = function () { openProfile(r.slug); };
     document.getElementById('mclose').onclick = closeModal;
+    if (mc) document.getElementById('mcogo').onclick = function () { window.location.href = 'company-profile.html?id=' + mc.id; };
     document.getElementById('ov').classList.add('show');
   };
   function closeModal() { document.getElementById('ov').classList.remove('show'); }
@@ -128,10 +133,12 @@
     var r = R.find(function (x) { return x.slug === slug; }); if (!r) return;
     closeModal();
     var tabs = ['overview'].concat(Object.keys(TABS).filter(function (t) { return t !== 'overview' && ((t === 'context') || (r.tabc && r.tabc[t] && r.tabc[t].length)); }));
+    var mc = makerCo(r);
     document.getElementById('listView').style.display = 'none';
     var pv = document.getElementById('profView'); pv.classList.add('show');
     pv.innerHTML = '<div class="ptop"><div class="back" id="pback">← Back to database</div><h1>' + esc(r.name) + '</h1>' +
-      '<div class="crumb">' + esc(r.maker) + ' · ' + r.flag + ' ' + esc(r.country) + ' · ' + esc(r.status) + '</div></div>' +
+      '<div class="crumb">' + makerCrumb(r) + ' · ' + r.flag + ' ' + esc(r.country) + ' · ' + esc(r.status) +
+      (mc ? ' &nbsp;·&nbsp; <a href="company-profile.html?id=' + esc(mc.id) + '" style="color:#8fb6f5">Visit ' + esc(mc.name) + '’s company profile →</a>' : '') + '</div></div>' +
       '<div class="rtabs" id="ptabs">' + tabs.map(function (t, i) { return '<button data-t="' + t + '"' + (i === 0 ? ' class="on"' : '') + '>' + TABS[t] + '</button>'; }).join('') + '</div><div class="pbody" id="pbody"></div>';
     document.getElementById('pback').onclick = function () { pv.classList.remove('show'); document.getElementById('listView').style.display = ''; window.scrollTo(0, 0); };
     document.querySelectorAll('#ptabs button').forEach(function (b) {

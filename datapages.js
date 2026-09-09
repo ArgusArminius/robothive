@@ -152,6 +152,7 @@
         '<div class="phead__crumb"><a href="index.html">Main</a> / <a href="companies.html">Companies</a> / ' + c.name + '</div>' +
         '<h1 class="phead__title">' + c.flag + ' ' + c.name + '</h1>' +
         '<p class="phead__sub">' + esc(c.sector) + ' · ' + esc(c.hq) + ' · Founded ' + esc(c.founded) + '</p>' +
+        ((c.website && c.website !== '—') ? '<a class="btn btn--blue" href="' + esc(c.website) + '" target="_blank" rel="noopener" style="margin-top:16px">Visit website →</a>' : '') +
       '</div></header>' +
       '<section class="section wrap"><div class="rp" style="margin-bottom:22px">' +
         '<div class="rp__body">' +
@@ -169,14 +170,13 @@
         '</div>' +
         // people + supply chain as readable sections (not grid — text is long)
         (((c.founders && c.founders !== '—') || (c.ceo && c.ceo !== '—')) ?
-          '<div class="rp__section"><h3>Leadership</h3><div class="rp__use">' +
+          '<div class="rp__section"' + (supplies.length || suppliedBy.length ? '' : ' style="border-bottom:0"') + '><h3>Leadership</h3><div class="rp__use">' +
           ((c.founders && c.founders !== '—') ? '<b>Founders:</b> ' + esc(c.founders) + '<br>' : '') +
           ((c.ceo && c.ceo !== '—') ? '<b>CEO:</b> ' + esc(c.ceo) : '') + '</div></div>' : '') +
         ((supplies.length || suppliedBy.length) ?
-          '<div class="rp__section"' + (c.website ? '' : ' style="border-bottom:0"') + '><h3>Supply chain</h3><div class="rp__use">' +
+          '<div class="rp__section" style="border-bottom:0"><h3>Supply chain</h3><div class="rp__use">' +
           (supplies.length ? '<b>Supplies:</b> ' + supplies.join(', ') + '<br>' : '') +
           (suppliedBy.length ? '<b>Key suppliers:</b> ' + suppliedBy.map(function (s) { return coLink(s.id); }).join(', ') : '') + '</div></div>' : '') +
-        (c.website ? '<div class="rp__section" style="border-bottom:0"><a class="btn btn--blue" href="' + c.website + '" target="_blank" rel="noopener" style="text-align:center">Visit website →</a></div>' : '') +
       '</div>' +
       '<div>' +
           (madeRobots.length ? '<div class="card" style="padding:26px;margin-bottom:18px">' +

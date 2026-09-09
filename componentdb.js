@@ -72,7 +72,7 @@
       el.className = '';
       el.innerHTML = '<div style="overflow-x:auto"><table class="tbl"><thead><tr><th style="width:76px"></th><th>Component</th><th>Maker</th><th>Category</th><th>Origin</th><th>Spec</th><th>Used in</th></tr></thead><tbody>' +
         rows.map(function (k) {
-          var th = k.img ? '<img src="' + esc(k.img) + '" loading="lazy" style="width:64px;height:64px;object-fit:contain;background:#eef1f5;border-radius:8px" onerror="this.style.visibility=\'hidden\'">' : '<div style="width:64px;height:64px;background:#eef1f5;border-radius:8px"></div>';
+          var th = k.img ? '<img src="' + esc(k.img) + '" loading="lazy" style="width:64px;height:64px;object-fit:cover;background:#eef1f5;border-radius:8px" onerror="this.style.visibility=\'hidden\'">' : '<div style="width:64px;height:64px;background:#eef1f5;border-radius:8px"></div>';
           var usedN = (k.used_in || []).length;
           return '<tr data-s="' + esc(k.id) + '" style="cursor:pointer"><td>' + th + '</td><td><b>' + esc(k.name) + '</b></td><td>' + esc(makerName(k.maker)) + '</td><td style="white-space:nowrap">' + esc(k.category) + '</td><td style="white-space:nowrap">' + esc(k.flag) + ' ' + esc(k.country) + '</td><td style="font-size:12.5px;color:var(--ink-2)">' + esc(k.spec || '—') + '</td><td style="white-space:nowrap">' + (usedN ? usedN + ' robot' + (usedN > 1 ? 's' : '') : '—') + '</td></tr>';
         }).join('') + '</tbody></table></div>';
