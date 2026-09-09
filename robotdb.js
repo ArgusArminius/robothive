@@ -9,6 +9,7 @@
     var p = new URLSearchParams(location.search);
     var c = p.get('cat'); if (c) c.split(',').forEach(function (v) { F.vertical.add(v); });
     var s = p.get('status'); if (s) s.split(',').forEach(function (v) { F.status.add(v); });
+    var co = p.get('country'); if (co) co.split(',').forEach(function (v) { F.country.add(v); });
   })();
 
   function esc(s) { return String(s == null ? '' : s).replace(/[<>&"]/g, function (c) { return { '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' }[c]; }); }
@@ -87,9 +88,9 @@
       }).join('') || '<p style="color:var(--ink-3)">No platforms match these filters.</p>';
     } else {
       el.className = '';
-      el.innerHTML = '<table class="tbl"><thead><tr><th style="width:52px"></th><th>Robot</th><th>Maker</th><th>Category</th><th>Status</th><th>Origin</th><th>Price</th><th>Height</th></tr></thead><tbody>' +
-        rows.map(function (r) { var th = r.img ? '<img src="' + esc(r.img) + '" loading="lazy" style="width:40px;height:40px;object-fit:contain;background:#eef1f5;border-radius:6px" onerror="this.style.visibility=\'hidden\'">' : '<div style="width:40px;height:40px;background:#eef1f5;border-radius:6px"></div>';
-          return '<tr data-s="' + esc(r.slug) + '" style="cursor:pointer"><td>' + th + '</td><td><b>' + esc(r.name) + '</b></td><td>' + esc(r.maker) + '</td><td>' + esc(r.vertical) + '</td><td>' + esc(r.bucket) + '</td><td>' + r.flag + ' ' + esc(r.country) + '</td><td>' + esc(r.price || '—') + '</td><td>' + (r.h ? r.h + ' cm' : '—') + '</td></tr>'; }).join('') + '</tbody></table>';
+      el.innerHTML = '<div style="overflow-x:auto"><table class="tbl rtbl"><thead><tr><th style="width:76px"></th><th>Robot</th><th>Maker</th><th>Category</th><th>Status</th><th>Origin</th><th>Price</th><th>Height</th></tr></thead><tbody>' +
+        rows.map(function (r) { var th = r.img ? '<img src="' + esc(r.img) + '" loading="lazy" style="width:64px;height:64px;object-fit:contain;background:#eef1f5;border-radius:8px" onerror="this.style.visibility=\'hidden\'">' : '<div style="width:64px;height:64px;background:#eef1f5;border-radius:8px"></div>';
+          return '<tr data-s="' + esc(r.slug) + '" style="cursor:pointer"><td>' + th + '</td><td><b>' + esc(r.name) + '</b></td><td>' + esc(r.maker) + '</td><td>' + esc(r.vertical) + '</td><td style="white-space:nowrap">' + esc(r.bucket) + '</td><td style="white-space:nowrap">' + r.flag + ' ' + esc(r.country) + '</td><td style="white-space:nowrap">' + esc(r.price || '—') + '</td><td style="white-space:nowrap">' + (r.h ? r.h + ' cm' : '—') + '</td></tr>'; }).join('') + '</tbody></table></div>';
     }
     el.querySelectorAll('[data-s]').forEach(function (t) { t.onclick = function () { openModal(t.dataset.s); }; });
     buildSide();

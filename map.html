@@ -161,6 +161,12 @@ h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;letter-spacing:-.01em;font-we
 @media(max-width:960px){
   .foot__in{grid-template-columns:1fr 1fr}
   .nav__links{display:none}
+  .nav__in{padding:0 14px}
+  .brand{gap:8px;margin-right:10px}
+  .hive-logo{width:34px;height:34px}
+  .brand__name{font-size:14.5px}
+  .nav__right{gap:6px}
+  .nav__cta{font-size:11px;padding:6px 9px;border-radius:6px}
 }
 @media(max-width:600px){
   .foot__in{grid-template-columns:1fr}
@@ -237,7 +243,7 @@ h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;letter-spacing:-.01em;font-we
 @media(max-width:960px){.hub-grid{grid-template-columns:1fr}}
 
 /* ---------- MOBILE COLLAPSIBLE NAV ---------- */
-.burger{display:none;background:none;border:none;cursor:pointer;padding:8px;margin-left:auto}
+.burger{display:none;background:none;border:none;cursor:pointer;padding:12px;margin:-12px -6px -12px 0}
 .burger span{display:block;width:22px;height:2px;background:#fff;margin:4px 0;transition:.2s}
 .mobile-panel{position:fixed;top:0;right:0;width:82%;max-width:320px;height:100vh;background:var(--nav);z-index:300;transform:translateX(100%);transition:transform .25s ease;overflow-y:auto;box-shadow:-8px 0 30px rgba(0,0,0,.3)}
 .mobile-panel.open{transform:none}
@@ -536,7 +542,8 @@ a.rp__chip:hover{border-color:var(--blue);color:var(--blue)}
   <a class="sub" href="industry-agriculture.html">Agriculture</a>
   <a class="sub" href="industry-defense.html">Defense</a>
   <div class="mgroup">Data</div>
-  <a class="sub" href="companies.html">Companies</a><a href="database.html">Full database</a>
+  <a class="sub" href="map.html">Database map</a>
+  <a class="sub" href="companies.html">Companies</a>
   <a class="sub" href="robots.html">Robot Comparison</a>
   <a class="sub" href="investment.html">Investment</a>
   <a class="sub" href="suppliers.html">Suppliers</a>
@@ -555,61 +562,119 @@ a.rp__chip:hover{border-color:var(--blue);color:var(--blue)}
 </div></header>
 
 <section class="section wrap" style="max-width:1400px">
-  <div class="maptop">
-    <div class="layers" id="layers"></div>
-    <div class="mapstats mono" id="mapstats"></div>
+  <div class="mapstatrow" id="mapstatrow"></div>
+
+  <div class="sup-grid">
+    <div class="card mapcard">
+      <div class="mapcard__head">
+        <div>
+          <h3 class="mapcard__title">Global entity map</h3>
+          <p class="mapcard__sub">Entity concentration by selected layer — toggle below, click a country to drill in.</p>
+        </div>
+        <button class="resetlink" id="resetfilters" type="button">Reset filters</button>
+      </div>
+      <div class="layers" id="layers"></div>
+      <div class="scrub" id="scrub" style="display:none"></div>
+      <div class="mapwrap">
+        <svg id="worldmap" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet"></svg>
+        <div class="maptip" id="maptip"></div>
+      </div>
+      <div class="mapfoot mono" id="mapfoot"></div>
+    </div>
+    <div class="card sidecard" id="sidecard"></div>
   </div>
-  <div class="scrub" id="scrub" style="display:none"></div>
-  <div class="mapwrap">
-    <svg id="worldmap" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet"></svg>
-    <div class="maplegend mono" id="legend"></div>
+
+  <div class="rankshead">
+    <h3 class="mapcard__title">Leaderboards</h3>
+    <div class="seg" id="rankspivot"></div>
   </div>
-  <div id="drill"></div>
   <div class="ranks" id="ranks"></div>
 </section>
 
 <style>
-.maptop{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:16px}
-.layers{display:flex;gap:8px;flex-wrap:wrap}
-.lbtn{font-family:'IBM Plex Mono',monospace;font-size:12px;padding:8px 14px;border-radius:20px;cursor:pointer;border:1px solid var(--line);background:transparent;color:var(--ink-2);transition:.15s;display:flex;align-items:center;gap:7px}
+.mapstatrow{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:18px}
+@media(max-width:1100px){.mapstatrow{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:640px){.mapstatrow{grid-template-columns:repeat(2,1fr)}}
+.statcard{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;box-shadow:var(--shadow)}
+.statcard .k{font-family:'IBM Plex Mono',monospace;font-size:9.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3);margin-bottom:6px}
+.statcard .v{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;line-height:1.15}
+.statcard .s{font-size:11px;color:var(--ink-3);margin-top:4px;line-height:1.3}
+.mapcard{padding:20px 22px}
+.mapcard__head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:14px;flex-wrap:wrap}
+.mapcard__title{font-family:'Space Grotesk',sans-serif;font-size:16px;margin-bottom:3px}
+.mapcard__sub{font-size:12.5px;color:var(--ink-3)}
+.resetlink{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--blue);white-space:nowrap;padding-top:3px}
+.resetlink:hover{text-decoration:underline}
+.layers{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.lbtn{font-family:'IBM Plex Mono',monospace;font-size:12px;padding:8px 14px;border-radius:20px;cursor:pointer;border:1px solid var(--line-2);background:transparent;color:var(--ink-2);transition:.15s;display:flex;align-items:center;gap:7px}
 .lbtn .dot{width:9px;height:9px;border-radius:50%}
 .lbtn.on{color:#fff;border-color:transparent}
 .lbtn.on.l-companies{background:#1f6feb}.lbtn.on.l-robots{background:#7c3aed}
 .lbtn.on.l-components{background:#0891b2}.lbtn.on.l-events{background:#d97706}
 .lbtn.on.l-regulations{background:#059669}.lbtn.on.l-capital{background:#ca8a04}.lbtn.on.l-arcs{background:#be123c}
-.mapstats{font-size:12.5px;color:var(--ink-3)}
+.lbtn.heat{margin-left:6px}
+.lbtn.heat.on{background:#1f6feb;border-color:transparent}
 .scrub{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
 .ybtn{font-family:'IBM Plex Mono',monospace;font-size:11.5px;padding:5px 11px;border-radius:16px;cursor:pointer;border:1px solid var(--line);background:transparent;color:var(--ink-2)}
 .ybtn.on{background:#eab308;border-color:#eab308;color:#3d2f04;font-weight:600}
-.captext{font-family:'IBM Plex Mono',monospace;font-size:9.5px;fill:#fde68a;pointer-events:none;font-weight:600}
+.captext{font-family:'IBM Plex Mono',monospace;font-size:9.5px;fill:#7c5a06;pointer-events:none;font-weight:600}
 .caprows{display:flex;flex-direction:column;gap:5px;margin-top:4px}
 .caprow{display:flex;justify-content:space-between;gap:12px;font-size:13px;color:var(--ink-2);border-bottom:1px solid var(--line);padding-bottom:4px}
-.mapwrap{position:relative;background:linear-gradient(180deg,#0c1526,#0d1622);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.mapwrap{position:relative;background:#eef2f6;border:1px solid var(--line);border-radius:12px;overflow:hidden}
 #worldmap{width:100%;height:auto;display:block}
-.land{fill:#16233c;stroke:#22324e;stroke-width:.6}
+.land{fill:#e4e9ee;stroke:#c9d2db;stroke-width:.6;transition:fill .2s}
+.land[data-c]{cursor:pointer}
+.land[data-c]:hover{stroke:#1f6feb;stroke-width:1.2}
+.maptip{position:absolute;z-index:20;pointer-events:none;background:#101826;color:#fff;border-radius:9px;padding:10px 13px;font-size:12.5px;line-height:1.5;box-shadow:0 8px 24px rgba(16,24,38,.25);opacity:0;transform:translate(-50%,calc(-100% - 12px));transition:opacity .1s;max-width:220px;white-space:nowrap}
+.maptip.show{opacity:1}
+.maptip b{display:block;font-size:13.5px;margin-bottom:3px}
+.maptip .tr{display:flex;justify-content:space-between;gap:14px;color:#aeb9c6}
+.maptip .tr b{display:inline;font-size:12.5px;color:#fff;margin:0}
 .node{cursor:pointer;transition:opacity .2s}
 .node:hover{opacity:.85}
-.nlabel{font-family:'IBM Plex Mono',monospace;font-size:9px;fill:#93a4bd;pointer-events:none}
-.arc{fill:none;stroke:#be123c;stroke-width:1.4;opacity:.75;stroke-dasharray:5 4}
-.maplegend{position:absolute;left:14px;bottom:12px;color:#93a4bd;font-size:10.5px;background:rgba(10,16,30,.72);border:1px solid #22324e;border-radius:9px;padding:9px 12px}
+.nlabel{font-family:'IBM Plex Mono',monospace;font-size:9px;fill:var(--ink-2);pointer-events:none}
+.arc{fill:none;stroke:#be123c;stroke-width:1.5;opacity:.8;stroke-dasharray:5 4}
+.mapfoot{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:12px;font-size:11px;color:var(--ink-3)}
+.mapfoot .fdot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:5px}
+.heatlegend{display:flex;align-items:center;gap:5px}
+.heatlegend .sw{width:16px;height:9px;display:inline-block;border-radius:2px}
 .ranks{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-top:22px}
-.rankcard{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:16px}
+.rankcard{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:16px;box-shadow:var(--shadow)}
 .rankcard h4{font-family:'IBM Plex Mono',monospace;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3);margin-bottom:11px}
 .rrow{display:grid;grid-template-columns:22px 1fr auto;gap:9px;align-items:center;font-size:13px;padding:4px 0;cursor:pointer}
 .rrow:hover{color:var(--blue)}
 .rrow .rk{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--ink-3)}
 .rrow .bar{height:5px;background:#eef1f5;border-radius:3px;overflow:hidden;margin-top:3px}
 .rrow .bf{height:100%;background:var(--blue);border-radius:3px}
-.drillbox{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin-top:20px}
-.drillbox h3{font-family:'Space Grotesk',sans-serif;font-size:20px;margin-bottom:4px}
-.dstats{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;margin:14px 0}
+.sidecard{padding:20px 22px;align-self:start;position:sticky;top:78px}
+.sidecard__eyebrow{font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3);margin-bottom:6px}
+.sidecard__title{font-family:'Space Grotesk',sans-serif;font-size:20px;margin-bottom:4px}
+.dstats{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:10px;margin:14px 0}
 .dstat{background:var(--bg-2,#f6f8fa);border:1px solid var(--line);border-radius:9px;padding:10px 12px}
 .dstat .k{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--ink-3);text-transform:uppercase}
 .dstat .v{font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:700;margin-top:2px}
 .dlist{font-size:12.8px;color:var(--ink-2);line-height:1.7}
+@media(max-width:900px){.sidecard{position:static}}
+.sidecard__mixhead{font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3);margin:16px 0 8px}
+.mixlist{display:flex;flex-direction:column;gap:7px}
+.mixrow{display:grid;grid-template-columns:96px 1fr 24px;gap:9px;align-items:center;font-size:12.3px;color:var(--ink-2)}
+.mixrow:hover .mixname{color:var(--blue)}
+.mixname{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mixbar{height:6px;background:#eef1f5;border-radius:3px;overflow:hidden}
+.mixfill{display:block;height:100%;background:var(--blue);border-radius:3px}
+.mixn{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-3);text-align:right}
+.sidecard__cta{display:block;margin-top:18px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--blue)}
+.sidecard__cta:hover{text-decoration:underline}
+.rankshead{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-top:26px;flex-wrap:wrap}
+.seg{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--card)}
+.seg button{background:none;border:0;padding:8px 14px;font-size:12.5px;cursor:pointer;color:var(--ink-2);font-family:'IBM Plex Mono',monospace}
+.seg button.on{background:var(--blue);color:#fff}
+.rankcard a{color:inherit}
+.rankcard a:hover{color:var(--blue)}
 </style>
 
-<footer class="foot"><div class="foot__in"><div class="foot__brand"></div></div></footer>
+<footer class="foot"><div class="foot__in"><div class="foot__brand"><a class="brand" href="index.html"><span class="hive-logo" onclick="this.classList.toggle('active')"><svg class="mark" viewBox="50 40 140 160" xmlns="http://www.w3.org/2000/svg"><defs><clipPath id="lclip"><polygon points="120,97 140,108.5 140,131.5 120,143 100,131.5 100,108.5"/></clipPath></defs><g class="hive"><polygon points="120,97 140,108.5 140,131.5 120,143 100,131.5 100,108.5" fill="#2563eb"/><g clip-path="url(#lclip)"><path d="M116 120 V97" stroke="#0d1622" stroke-width="1.1" fill="none" stroke-linecap="square"/><path d="M122 112 H140" stroke="#0d1622" stroke-width="1.1" fill="none" stroke-linecap="square"/><path d="M126 128 H140" stroke="#0d1622" stroke-width="1.1" fill="none" stroke-linecap="square"/><path d="M124 130 V143" stroke="#0d1622" stroke-width="1.1" fill="none" stroke-linecap="square"/><path d="M118 128 H100" stroke="#0d1622" stroke-width="1.1" fill="none" stroke-linecap="square"/><path d="M112 112 H100" stroke="#0d1622" stroke-width="1.1" fill="none" stroke-linecap="square"/><path d="M116 120 H122 V112" stroke="#0d1622" stroke-width="1.1" fill="none" stroke-linecap="square"/><path d="M118 128 V121 H126" stroke="#0d1622" stroke-width="1.1" fill="none" stroke-linecap="square"/><path d="M132 118 V125" stroke="#0d1622" stroke-width="1.1" fill="none" stroke-linecap="square"/><path d="M108 118 V133 H114" stroke="#0d1622" stroke-width="1.1" fill="none" stroke-linecap="square"/><rect x="114.5" y="118.5" width="2.6" height="2.6" fill="#0d1622"/><rect x="124.5" y="124.5" width="2.6" height="2.6" fill="#0d1622"/><rect x="130.5" y="123.5" width="2.6" height="2.6" fill="#0d1622"/><rect x="112.5" y="131.5" width="2.6" height="2.6" fill="#0d1622"/><rect x="120.5" y="110.5" width="2.6" height="2.6" fill="#0d1622"/></g><polygon points="120,57 140,68.5 140,91.5 120,103 100,91.5 100,68.5" fill="#2563eb" stroke="#0d1622" stroke-width="4" stroke-linejoin="round"/><polygon points="156,77 176,88.5 176,111.5 156,123 136,111.5 136,88.5" fill="#2563eb" stroke="#0d1622" stroke-width="4" stroke-linejoin="round"/><polygon points="156,117 176,128.5 176,151.5 156,163 136,151.5 136,128.5" fill="#2563eb" stroke="#0d1622" stroke-width="4" stroke-linejoin="round"/><polygon points="120,137 140,148.5 140,171.5 120,183 100,171.5 100,148.5" fill="#2563eb" stroke="#0d1622" stroke-width="4" stroke-linejoin="round"/><polygon points="84,117 104,128.5 104,151.5 84,163 64,151.5 64,128.5" fill="#2563eb" stroke="#0d1622" stroke-width="4" stroke-linejoin="round"/><polygon points="84,77 104,88.5 104,111.5 84,123 64,111.5 64,88.5" fill="#2563eb" stroke="#0d1622" stroke-width="4" stroke-linejoin="round"/></g><g class="ext"><path d="M116 97 V70 H126" stroke="#0d1622" stroke-width="1.1" fill="none" stroke-linecap="square"/><path d="M140 112 H160 V95" stroke="#0d1622" stroke-width="1.1" fill="none" stroke-linecap="square"/><path d="M140 128 H158 V145" stroke="#0d1622" stroke-width="1.1" fill="none" stroke-linecap="square"/><path d="M124 143 V168 H112" stroke="#0d1622" stroke-width="1.1" fill="none" stroke-linecap="square"/><path d="M100 128 H82 V148" stroke="#0d1622" stroke-width="1.1" fill="none" stroke-linecap="square"/><path d="M100 112 H80 V92" stroke="#0d1622" stroke-width="1.1" fill="none" stroke-linecap="square"/><rect x="124.5" y="68.5" width="2.6" height="2.6" fill="#0d1622"/><rect x="158.5" y="93.5" width="2.6" height="2.6" fill="#0d1622"/><rect x="156.5" y="143.5" width="2.6" height="2.6" fill="#0d1622"/><rect x="110.5" y="166.5" width="2.6" height="2.6" fill="#0d1622"/><rect x="80.5" y="146.5" width="2.6" height="2.6" fill="#0d1622"/><rect x="78.5" y="90.5" width="2.6" height="2.6" fill="#0d1622"/></g></svg></span><span class="brand__name"><span class="wm-a">behind</span><b class="wm-b">robotics</b><span class="wm-dot">.com</span></span></a><p class="foot__tag">The robotics industry, mapped — companies, robots, capital, regulation and our own editorial cut.</p><div class="socials"><a class="soc" href="https://youtube.com/@behindrobotics" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.8-.5-5.6c-.3-1-1-1.8-2-2C18.7 4 12 4 12 4s-6.7 0-8.5.4c-1 .2-1.7 1-2 2C1 8.2 1 12 1 12s0 3.8.5 5.6c.3 1 1 1.8 2 2C5.3 20 12 20 12 20s6.7 0 8.5-.4c1-.2 1.7-1 2-2C23 15.8 23 12 23 12zM10 15.5v-7l6 3.5-6 3.5z"/></svg></a><a class="soc" href="https://x.com/behindrobotics" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-7.4 8.5L23.3 22h-6.8l-5.3-7-6.1 7H2l7.9-9L1.1 2H8l4.8 6.4L18.9 2zm-2.4 18h1.9L7.6 4H5.6l10.9 16z"/></svg></a></div></div><div><h4>Data</h4><a href="map.html">Database map</a><a href="companies.html">Companies</a><a href="robots.html">Robot Comparison</a><a href="investment.html">Investment</a><a href="suppliers.html">Suppliers</a><a href="components.html">Components</a><a href="markets.html">Markets</a><a href="regulation.html">Regulation</a></div><div><h4>Industries</h4><a href="industry-civil.html">Civil</a><a href="industry-agriculture.html">Agriculture</a><a href="industry-defense.html">Defense</a><a href="drones.html">Drones</a></div><div><h4>More</h4><a href="news.html">News</a><a href="events.html">Events</a><a href="subscribe.html">Subscribe</a><a href="contact.html">Contact us</a></div></div><div class="foot__bar">™ 2026 behindrobotics.com · All rights reserved</div></footer>
 <script src="data.js"></script>
+<script src="geo-land.js"></script>
 <script src="mapdb.js"></script>
 </body></html>
