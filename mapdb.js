@@ -118,7 +118,7 @@
           var dx = x2 - x1, dy = y2 - y1, dist = Math.sqrt(dx * dx + dy * dy) || 1;
           var nx = -dy / dist, ny = dx / dist;
           var bow = dist * 0.22;
-          var spread = (idx - (arr.length - 1) / 2) * 16;
+          var spread = (idx - (arr.length - 1) / 2) * 40;
           var mx = (x1 + x2) / 2 + nx * (bow + spread), my = (y1 + y2) / 2 + ny * (bow + spread);
           out += '<path class="arc" d="M' + x1.toFixed(1) + ',' + y1.toFixed(1) + ' Q' + mx.toFixed(1) + ',' + my.toFixed(1) + ' ' + x2.toFixed(1) + ',' + y2.toFixed(1) + '"><title>' + esc(a.fromName + ' → ' + a.toName + ' (' + a.type + ')') + '</title></path>';
         });
@@ -202,7 +202,7 @@
       var sw = [0.08, 0.3, 0.5, 0.7, 0.92].map(function (t) { return '<span class="sw" style="background:' + heatColor(t) + '"></span>'; }).join('');
       mapfoot += '<span class="heatlegend">Lower' + sw + 'Higher</span>';
     }
-    if (on.arcs && arcList.length) mapfoot += '<span class="fdot" style="background:#be123c"></span>Confirmed supply relationships';
+    if (on.arcs && arcList.length) mapfoot += '<span class="fdot" style="background:#be123c"></span>' + arcList.length + ' confirmed supply relationship' + (arcList.length === 1 ? '' : 's') + ' tracked (domestic, same-country links aren’t shown as routes)';
     if (on.capital) mapfoot += '<span class="fdot" style="background:#eab308"></span>Capital raised';
     document.getElementById('mapfoot').innerHTML = mapfoot;
 
@@ -236,7 +236,7 @@
     ((D.capital && D.capital.rounds) || []).forEach(function (r) {
       byCo[r.company] = (byCo[r.company] || 0) + r.usdM;
     });
-    var top = Object.keys(byCo).map(function (name) { return { name: name, v: byCo[name] }; }).sort(function (a, b) { return b.v - a.v; }).slice(0, 10);
+    var top = Object.keys(byCo).map(function (name) { return { name: name, v: byCo[name] }; }).sort(function (a, b) { return b.v - a.v; }).slice(0, 15);
     var cards = '';
     if (top.length) {
       var mx = top[0].v;
@@ -249,7 +249,7 @@
     }
     var byVert = {};
     COMPANIES.forEach(function (c) { if (c.vertical) byVert[c.vertical] = (byVert[c.vertical] || 0) + 1; });
-    var topVert = Object.keys(byVert).map(function (v) { return { v: v, n: byVert[v] }; }).sort(function (a, b) { return b.n - a.n; }).slice(0, 8);
+    var topVert = Object.keys(byVert).map(function (v) { return { v: v, n: byVert[v] }; }).sort(function (a, b) { return b.n - a.n; }).slice(0, 15);
     if (topVert.length) {
       var mv = topVert[0].n;
       cards += '<div class="rankcard"><h4>Companies by segment (global)</h4>' + topVert.map(function (x, i) {
@@ -266,7 +266,7 @@
     var keys = activeKeys();
     var capCard = '';
     if (on.capital && D.capital) {
-      var cr = M.nodes.map(function (n) { return { country: n.country, v: capFor(n) }; }).filter(function (x) { return x.v; }).sort(function (a, b) { return b.v - a.v; }).slice(0, 8);
+      var cr = M.nodes.map(function (n) { return { country: n.country, v: capFor(n) }; }).filter(function (x) { return x.v; }).sort(function (a, b) { return b.v - a.v; }).slice(0, 15);
       if (cr.length) {
         var cm = cr[0].v;
         capCard = '<div class="rankcard"><h4>Capital raised by country' + (yearFilter ? ' — ' + yearFilter : '') + '</h4>' + cr.map(function (n, i) {
@@ -278,7 +278,7 @@
     if (!keys.length && !capCard) { document.getElementById('ranks').innerHTML = ''; return; }
     document.getElementById('ranks').innerHTML = capCard + keys.map(function (k) {
       var l = LAYERS.filter(function (z) { return z.k === k; })[0];
-      var top = M.nodes.slice().sort(function (a, b) { return (b[k] || 0) - (a[k] || 0); }).filter(function (n) { return n[k]; }).slice(0, 8);
+      var top = M.nodes.slice().sort(function (a, b) { return (b[k] || 0) - (a[k] || 0); }).filter(function (n) { return n[k]; }).slice(0, 15);
       if (!top.length) return '';
       var mx = top[0][k];
       var href = COUNTRY_HREF[k];
@@ -302,6 +302,8 @@
     var cap = n.capitalUsdM || 0;
     var mix = segmentMix(country).slice(0, 6);
     var qc = encodeURIComponent(country);
+    var keyLabels = keys.map(function (k) { return (LAYERS.filter(function (l) { return l.k === k; })[0] || {}).label || k; }).join(' + ') || 'tracked entities';
+    var shareTip = esc(country) + '’s share of ' + esc(keyLabels) + ' among all countries currently shown — based on your active layer filters above, not the full database.';
     document.getElementById('sidecard').innerHTML =
       '<h5 class="sidecard__eyebrow">Geography snapshot</h5>' +
       '<h3 class="sidecard__title">' + n.flag + ' ' + esc(country) + '</h3>' +
@@ -309,7 +311,7 @@
         '<div class="dstat"><div class="k">Companies</div><div class="v" style="color:#1f6feb">' + (n.companies || 0) + '</div></div>' +
         '<div class="dstat"><div class="k">Robots</div><div class="v" style="color:#7c3aed">' + (n.robots || 0) + '</div></div>' +
         '<div class="dstat"><div class="k">Capital raised</div><div class="v" style="color:#ca8a04">' + (cap ? fmtM(cap) : '—') + '</div></div>' +
-        '<div class="dstat"><div class="k">Share of view</div><div class="v">' + share.toFixed(1) + '%</div></div>' +
+        '<div class="dstat" title="' + esc(shareTip) + '"><div class="k">Share of filtered view <span style="opacity:.55;font-weight:400">ⓘ</span></div><div class="v">' + share.toFixed(1) + '%</div></div>' +
       '</div>' +
       (mix.length ? '<div class="sidecard__mixhead">Segment mix' + (keys.length ? '' : '') + '</div><div class="mixlist">' + mix.map(function (m) {
         var pct = mix[0].n ? (m.n / mix[0].n * 100) : 0;
@@ -328,6 +330,80 @@
       drawLayers(); draw();
     }
   });
+
+  /* ---------- map zoom (scroll wheel) + drag-to-pan ---------- */
+  (function () {
+    var svg = document.getElementById('worldmap');
+    var wrap = svg && svg.parentNode;
+    if (!svg || !wrap || !wrap.classList.contains('mapwrap')) return;
+    var VB = { x: 0, y: 0, w: 1000, h: 500 };
+    var MINW = 1000 / 8, MINH = 500 / 8; // 8x max zoom-in
+    function setVB() { svg.setAttribute('viewBox', VB.x.toFixed(2) + ' ' + VB.y.toFixed(2) + ' ' + VB.w.toFixed(2) + ' ' + VB.h.toFixed(2)); }
+    function clampVB() {
+      VB.w = Math.min(1000, Math.max(MINW, VB.w));
+      VB.h = Math.min(500, Math.max(MINH, VB.h));
+      VB.x = Math.min(1000 - VB.w, Math.max(0, VB.x));
+      VB.y = Math.min(500 - VB.h, Math.max(0, VB.y));
+    }
+    function toSvgPoint(clientX, clientY) {
+      var r = svg.getBoundingClientRect();
+      return { x: VB.x + ((clientX - r.left) / r.width) * VB.w, y: VB.y + ((clientY - r.top) / r.height) * VB.h };
+    }
+    function zoomAt(clientX, clientY, factor) {
+      var p = toSvgPoint(clientX, clientY);
+      var newW = Math.min(1000, Math.max(MINW, VB.w / factor));
+      var newH = Math.min(500, Math.max(MINH, VB.h / factor));
+      VB.x = p.x - (p.x - VB.x) * (newW / VB.w);
+      VB.y = p.y - (p.y - VB.y) * (newH / VB.h);
+      VB.w = newW; VB.h = newH;
+      clampVB(); setVB();
+    }
+    wrap.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      zoomAt(e.clientX, e.clientY, Math.pow(1.0016, -e.deltaY));
+    }, { passive: false });
+
+    var dragging = false, moved = false, lastX = 0, lastY = 0;
+    wrap.addEventListener('pointerdown', function (e) {
+      if (e.button !== 0) return;
+      dragging = true; moved = false; lastX = e.clientX; lastY = e.clientY;
+      if (wrap.setPointerCapture) { try { wrap.setPointerCapture(e.pointerId); } catch (err) {} }
+    });
+    wrap.addEventListener('pointermove', function (e) {
+      if (!dragging) return;
+      var dx = e.clientX - lastX, dy = e.clientY - lastY;
+      if (!moved && Math.abs(dx) < 3 && Math.abs(dy) < 3) return;
+      moved = true;
+      var r = svg.getBoundingClientRect();
+      VB.x -= dx * (VB.w / r.width);
+      VB.y -= dy * (VB.h / r.height);
+      clampVB(); setVB();
+      lastX = e.clientX; lastY = e.clientY;
+      wrap.classList.add('panning');
+    });
+    function endDrag() {
+      if (dragging && moved) {
+        var swallow = function (ev) { ev.stopPropagation(); wrap.removeEventListener('click', swallow, true); };
+        wrap.addEventListener('click', swallow, true);
+      }
+      dragging = false; moved = false;
+      wrap.classList.remove('panning');
+    }
+    wrap.addEventListener('pointerup', endDrag);
+    wrap.addEventListener('pointerleave', endDrag);
+
+    var ctrl = document.createElement('div');
+    ctrl.className = 'mapzoom';
+    ctrl.innerHTML = '<button type="button" data-z="in" aria-label="Zoom in">+</button><button type="button" data-z="out" aria-label="Zoom out">−</button><button type="button" data-z="reset" aria-label="Reset zoom">↺</button>';
+    wrap.appendChild(ctrl);
+    ctrl.addEventListener('click', function (e) {
+      var b = e.target.closest('button'); if (!b) return;
+      var r = svg.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+      if (b.dataset.z === 'in') zoomAt(cx, cy, 1.6);
+      else if (b.dataset.z === 'out') zoomAt(cx, cy, 1 / 1.6);
+      else { VB = { x: 0, y: 0, w: 1000, h: 500 }; setVB(); }
+    });
+  })();
 
   drawLayers(); draw();
   // default the sidebar to the top-ranked country so it's never empty on load
