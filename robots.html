@@ -624,10 +624,11 @@ a.rp__chip:hover{border-color:var(--blue);color:var(--blue)}
 .rov{display:none;position:fixed;inset:0;background:rgba(10,16,30,.62);z-index:200;padding:20px;overflow:auto}
 .rov.show{display:block}
 .rmodal{background:var(--card);border-radius:18px;max-width:660px;margin:32px auto;overflow:hidden}
-.rmodal .mh{padding:19px 23px;border-bottom:1px solid var(--line);display:flex;gap:13px;align-items:flex-start}
+.rmodal .mh{padding:19px 23px;border-bottom:1px solid var(--line);display:flex;gap:13px;align-items:flex-start;flex-wrap:wrap}
 .rmodal .mh h2{font-family:'Space Grotesk',sans-serif;font-size:22px;line-height:1.15}
 .rmodal .crumb{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--ink-3);margin-top:5px}
-.rmodal .acts{margin-left:auto;display:flex;gap:7px}
+.rmodal .acts{margin-left:auto;display:flex;gap:7px;flex-wrap:wrap}
+@media(max-width:600px){.rmodal .mh{flex-direction:column;align-items:stretch}.rmodal .acts{margin-left:0;margin-top:4px}}
 .mhero{aspect-ratio:2/1;background:#f2f5f8;display:grid;place-items:center;overflow:hidden}
 .mhero img{width:100%;height:100%;object-fit:cover}
 .mb{padding:19px 23px}

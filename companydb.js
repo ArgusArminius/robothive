@@ -13,7 +13,7 @@
   function esc(s) { return String(s == null ? '' : s).replace(/[<>&"]/g, function (c) { return { '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' }[c]; }); }
   function ok(v) { return v && v !== '—' && v !== 'Undisclosed' && v !== '0'; }
   function matches(r, skip) {
-    if (q) { var t = (r.name + ' ' + (r.sector||'') + ' ' + (r.country||'') + ' ' + (r.hq||'')).toLowerCase(); if (t.indexOf(q.toLowerCase()) < 0) return false; }
+    if (q) { var t = (r.name + ' ' + (r.sector||'') + ' ' + (r.country||'') + ' ' + (r.hq||'')).toLowerCase(); var words = q.toLowerCase().split(/\s+/).filter(Boolean); if (!words.every(function (w) { return t.indexOf(w) >= 0; })) return false; }
     if (skip !== 'vertical' && F.vertical.size && !F.vertical.has(r.vertical)) return false;
     if (skip !== 'country' && F.country.size && !F.country.has(r.country)) return false;
     if (skip !== 'type' && F.type.size && !F.type.has(r.type)) return false;
@@ -129,8 +129,8 @@
     document.getElementById('listView').style.display = 'none';
     var pv = document.getElementById('profView'); pv.classList.add('show');
     pv.innerHTML = '<div class="ptop"><div class="back" id="pback">← Back to companies</div><h1>' + esc(r.name) + '</h1>' +
-      '<div class="crumb">' + r.flag + ' ' + esc(r.country) + ' · ' + esc(r.sector || r.vertical) + ' · ' + esc(r.status) +
-      (ok(r.website) ? ' &nbsp;·&nbsp; <a href="' + esc(r.website) + '" target="_blank" rel="noopener" style="color:#8fb6f5">Visit website →</a>' : '') + '</div></div>' +
+      '<div class="crumb">' + r.flag + ' ' + esc(r.country) + ' · ' + esc(r.sector || r.vertical) + ' · ' + esc(r.status) + '</div>' +
+      (ok(r.website) ? '<a class="btn btn--blue" href="' + esc(r.website) + '" target="_blank" rel="noopener" style="margin-top:14px">Visit website →</a>' : '') + '</div>' +
       '<div class="rtabs" id="ptabs">' + tabs.map(function (t, i) { return '<button data-t="' + t + '"' + (i === 0 ? ' class="on"' : '') + '>' + TABS[t] + '</button>'; }).join('') + '</div><div class="pbody" id="pbody"></div>';
     document.getElementById('pback').onclick = function () { pv.classList.remove('show'); document.getElementById('listView').style.display = ''; window.scrollTo(0, 0); };
     document.querySelectorAll('#ptabs button').forEach(function (b) { b.onclick = function () { document.querySelectorAll('#ptabs button').forEach(function (x) { x.classList.remove('on'); }); b.classList.add('on'); drawTab(r, b.dataset.t); }; });
@@ -213,7 +213,7 @@
     }
     b.innerHTML = h || '<p style="color:var(--ink-3)">No records yet.</p>';
     b.querySelectorAll('[data-c]').forEach(function (el) { el.onclick = function () { openCoProfile(el.dataset.c); }; });
-    b.querySelectorAll('[data-r]').forEach(function (el) { el.onclick = function () { location.href = 'robots.html'; }; });
+    b.querySelectorAll('[data-r]').forEach(function (el) { el.onclick = function () { location.href = 'robot-profile.html?id=' + el.dataset.r; }; });
   }
 
   var qEl = document.getElementById('q'); if (qEl) qEl.oninput = function (e) { q = e.target.value; render(); };

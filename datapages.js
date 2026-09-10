@@ -138,8 +138,8 @@
     if (!c) { mount.innerHTML = '<div class="wrap section">Company not found. <a class="link" href="companies.html">All companies →</a></div>'; return; }
     document.title = c.name + ' — behindrobotics.com';
 
-    // robots made by this company
-    var madeRobots = D.robots.filter(function (r) { return r.maker === c.id; });
+    // robots made by this company (robotsX is the current, complete robot dataset — matched via makerId)
+    var madeRobots = (D.robotsX || []).filter(function (r) { return r.makerId === c.id; });
     // components made by this company
     var madeComponents = D.components.filter(function (k) { return k.maker === c.id; });
     // who they supply to
@@ -183,10 +183,10 @@
             '<h2 style="font-size:18px;margin-bottom:14px">Robots &amp; products</h2>' +
             '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px">' +
             madeRobots.map(function (r) {
-              return '<a class="card" href="robot-profile.html?id=' + r.id + '" style="padding:14px;display:block">' +
-                '<div style="font-weight:600;margin-bottom:4px;font-family:Space Grotesk">' + r.name + '</div>' +
-                '<div class="mono" style="font-size:11px;color:var(--ink-3);margin-bottom:6px">' + esc(r.type) + ' · ' + esc(r.year) + '</div>' +
-                '<div style="font-size:12.5px;color:var(--ink-2)">' + esc(r.price) + '</div></a>';
+              return '<a class="card" href="robot-profile.html?id=' + esc(r.slug) + '" style="padding:14px;display:block">' +
+                '<div style="font-weight:600;margin-bottom:4px;font-family:Space Grotesk">' + esc(r.name) + '</div>' +
+                '<div class="mono" style="font-size:11px;color:var(--ink-3);margin-bottom:6px">' + esc(r.type || r.vertical || '') + (r.bucket ? ' · ' + esc(r.bucket) : (r.status ? ' · ' + esc(r.status) : '')) + '</div>' +
+                (r.price ? '<div style="font-size:12.5px;color:var(--ink-2)">' + esc(r.price) + '</div>' : '') + '</a>';
             }).join('') + '</div></div>' : '') +
           (madeComponents.length ? '<div class="card" style="padding:26px;margin-bottom:18px">' +
             '<h2 style="font-size:18px;margin-bottom:14px">Components supplied</h2>' +
@@ -494,36 +494,45 @@
   function renderRobotProfile() {
     var mount = document.querySelector('[data-rh="robot-profile"]');
     if (!mount) return;
-    var r = D.robots.find(function (x) { return x.id === qs('id'); }) || D.robots[0];
+    var RX = D.robotsX || [];
+    var r = RX.find(function (x) { return x.slug === qs('id'); }) || RX[0];
     if (!r) { mount.innerHTML = '<div style="padding:60px;text-align:center">Robot not found.</div>'; return; }
-    var maker = company(r.maker);
-    // adaptive specs: only cells that have real data
-    var specs = [
-      ['Price', r.price], ['Height', r.height], ['Payload', r.payload],
-      ['Degrees of freedom', r.dof], ['Battery', r.battery], ['Type', r.type],
-      ['Origin', (r.flag || '') + ' ' + (r.country || '')], ['Year', r.year]
-    ].filter(function (s) { return s[1] && s[1] !== '—' && s[1] !== 'Undisclosed' && String(s[1]).trim() !== ''; });
+    var maker = r.makerId ? company(r.makerId) : null;
+    // adaptive specs: only cells that have real data — from r.sp when present, else the h/w/pay/dof numeric fields
+    var specs = (r.sp ? Object.keys(r.sp).map(function (k) { return [k, r.sp[k]]; }) : [
+      ['Height', r.h ? r.h + ' cm' : null], ['Weight', r.w ? r.w + ' kg' : null],
+      ['Payload', r.pay ? r.pay + ' kg' : null], ['Degrees of freedom', r.dof],
+      ['Price', r.price], ['Status', r.status], ['Origin', (r.flag || '') + ' ' + (r.country || '')]
+    ]).filter(function (s) { return s[1] && s[1] !== '—' && s[1] !== 'Undisclosed' && String(s[1]).trim() !== ''; });
     var specCells = specs.map(function (s) {
-      return '<div class="rp__spec"><div class="k">' + s[0] + '</div><div class="v">' + esc(String(s[1])) + '</div></div>';
+      return '<div class="rp__spec"><div class="k">' + esc(s[0]) + '</div><div class="v">' + esc(String(s[1])) + '</div></div>';
     }).join('');
 
     var sections = '';
-    if (r.compute) sections += '<div class="rp__section"><h3>Onboard compute</h3><div class="rp__use">' + esc(r.compute) + '</div></div>';
-    if (r.useCases) {
-      var chips = r.useCases.split(',').map(function (u) { return '<span class="rp__chip">' + esc(u.trim()) + '</span>'; }).join('');
-      sections += '<div class="rp__section"><h3>Key use cases</h3><div class="rp__chips">' + chips + '</div></div>';
+    if (r.img) sections += '<div class="rp__section" style="border-bottom:0"><img src="' + esc(r.img) + '" alt="' + esc(r.name) + '" loading="lazy" style="max-width:100%;border-radius:12px;border:1px solid var(--line)" onerror="this.style.display=\'none\'"></div>';
+    // rich tabc content (capabilities, context, deployments, timeline, etc.) when present
+    if (r.tabc) {
+      ['capabilities', 'deployments', 'operations', 'timeline', 'context', 'resources'].forEach(function (t) {
+        var items = r.tabc[t];
+        if (items && items.length) {
+          var label = t.charAt(0).toUpperCase() + t.slice(1);
+          sections += '<div class="rp__section"><h3>' + label + '</h3><div class="rp__use">' +
+            items.map(function (c) { return esc(String(c)); }).join('<br><br>') + '</div></div>';
+        }
+      });
     }
+    if (r.yt) sections += '<div class="rp__section"><h3>Video</h3><iframe width="100%" height="330" style="border-radius:12px;border:1px solid var(--line)" src="' + esc(r.yt) + '" frameborder="0" allowfullscreen></iframe></div>';
     if (maker) {
       sections += '<div class="rp__section" style="border-bottom:0"><h3>Maker</h3><div class="rp__use">' +
         esc(maker.name) + (maker.summary ? ' — ' + esc(maker.summary) : '') +
-        ' <a href="company-profile.html?id=' + maker.id + '" style="color:var(--blue);text-decoration:none">View company profile →</a></div></div>';
+        ' <a href="company-profile.html?id=' + esc(maker.id) + '" style="color:var(--blue);text-decoration:none">View company profile →</a></div></div>';
     }
 
     mount.innerHTML =
       '<header class="phead"><div class="phead__in">' +
         '<div class="phead__crumb"><a href="index.html">Main</a> / <a href="robots.html">Robots</a> / ' + esc(r.name) + '</div>' +
         '<h1 class="phead__title">' + esc(r.name) + '</h1>' +
-        '<p class="phead__sub">' + esc(r.type || '') + (maker ? ' · ' + esc(maker.name) : '') + ' · ' + esc(r.country || '') + '</p>' +
+        '<p class="phead__sub">' + esc(r.type || r.vertical || '') + (maker ? ' · ' + esc(maker.name) : (r.maker ? ' · ' + esc(r.maker) : '')) + ' · ' + esc(r.country || '') + '</p>' +
       '</div></header>' +
       '<section class="section wrap"><div class="rp">' +
         '<div class="rp__body" style="padding:26px 28px">' +
@@ -550,8 +559,8 @@
     }).join('');
     // robots that use this component
     var usedIn = (k.used_in || []).map(function (rid) {
-      var r = D.robots.find(function (x) { return x.id === rid; });
-      return r ? '<a class="rp__chip" href="robot-profile.html?id=' + r.id + '" style="text-decoration:none">' + esc(r.name) + '</a>' : '';
+      var r = (D.robotsX || []).find(function (x) { return x.slug === rid; });
+      return r ? '<a class="rp__chip" href="robot-profile.html?id=' + esc(r.slug) + '" style="text-decoration:none">' + esc(r.name) + '</a>' : '';
     }).filter(Boolean).join('');
 
     var sections = '';

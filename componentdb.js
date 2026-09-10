@@ -17,7 +17,7 @@
   function makerObj(id) { return D.companies.find(function (x) { return x.id === id; }); }
 
   function matches(k, skip) {
-    if (q) { var t = (k.name + ' ' + makerName(k.maker) + ' ' + k.category + ' ' + k.country).toLowerCase(); if (t.indexOf(q.toLowerCase()) < 0) return false; }
+    if (q) { var t = (k.name + ' ' + makerName(k.maker) + ' ' + k.category + ' ' + k.country).toLowerCase(); var words = q.toLowerCase().split(/\s+/).filter(Boolean); if (!words.every(function (w) { return t.indexOf(w) >= 0; })) return false; }
     if (skip !== 'category' && F.category.size && !F.category.has(k.category)) return false;
     if (skip !== 'country' && F.country.size && !F.country.has(k.country)) return false;
     if (skip !== 'maker' && F.maker.size && !F.maker.has(k.maker)) return false;
@@ -72,7 +72,7 @@
       el.className = '';
       el.innerHTML = '<div style="overflow-x:auto"><table class="tbl"><thead><tr><th style="width:76px"></th><th>Component</th><th>Maker</th><th>Category</th><th>Origin</th><th>Spec</th><th>Used in</th></tr></thead><tbody>' +
         rows.map(function (k) {
-          var th = k.img ? '<img src="' + esc(k.img) + '" loading="lazy" style="width:64px;height:64px;object-fit:cover;background:#eef1f5;border-radius:8px" onerror="this.style.visibility=\'hidden\'">' : '<div style="width:64px;height:64px;background:#eef1f5;border-radius:8px"></div>';
+          var th = k.img ? '<img src="' + esc(k.img) + '" loading="lazy" style="width:64px;height:64px;object-fit:contain;background:#eef1f5;border-radius:8px" onerror="this.style.visibility=\'hidden\'">' : '<div style="width:64px;height:64px;background:#eef1f5;border-radius:8px"></div>';
           var usedN = (k.used_in || []).length;
           return '<tr data-s="' + esc(k.id) + '" style="cursor:pointer"><td>' + th + '</td><td><b>' + esc(k.name) + '</b></td><td>' + esc(makerName(k.maker)) + '</td><td style="white-space:nowrap">' + esc(k.category) + '</td><td style="white-space:nowrap">' + esc(k.flag) + ' ' + esc(k.country) + '</td><td style="font-size:12.5px;color:var(--ink-2)">' + esc(k.spec || '—') + '</td><td style="white-space:nowrap">' + (usedN ? usedN + ' robot' + (usedN > 1 ? 's' : '') : '—') + '</td></tr>';
         }).join('') + '</tbody></table></div>';
@@ -90,8 +90,8 @@
       return '<div class="spec"><div class="k">' + s[0] + '</div><div class="v">' + esc(String(s[1])) + '</div></div>';
     }).join('') + '</div></div>';
     var usedIn = (k.used_in || []).map(function (rid) {
-      var r = (D.robots || []).find(function (x) { return x.id === rid; });
-      return r ? '<a class="rbadge" href="robot-profile.html?id=' + r.id + '" style="text-decoration:none">' + esc(r.name) + '</a>' : '';
+      var r = (D.robotsX || []).find(function (x) { return x.slug === rid; });
+      return r ? '<a class="rbadge" href="robot-profile.html?id=' + esc(r.slug) + '" style="text-decoration:none">' + esc(r.name) + '</a>' : '';
     }).filter(Boolean).join(' ');
     document.getElementById('cmodal').innerHTML =
       '<div class="mh"><div><h2>' + esc(k.name) + '</h2><div class="crumb">' + esc(makerName(k.maker)) + ' · ' + esc(k.category || '') + ' · ' + esc(k.flag) + ' ' + esc(k.country) + '</div></div>' +

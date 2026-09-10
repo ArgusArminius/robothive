@@ -17,7 +17,7 @@
 
   function esc(s) { return String(s == null ? '' : s).replace(/[<>&"]/g, function (c) { return { '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' }[c]; }); }
   function matches(r, skip) {
-    if (q) { var t = (r.name + ' ' + r.maker + ' ' + r.country).toLowerCase(); if (t.indexOf(q.toLowerCase()) < 0) return false; }
+    if (q) { var t = (r.name + ' ' + r.maker + ' ' + r.country).toLowerCase(); var words = q.toLowerCase().split(/\s+/).filter(Boolean); if (!words.every(function (w) { return t.indexOf(w) >= 0; })) return false; }
     if (skip !== 'vertical' && F.vertical.size && !F.vertical.has(r.vertical)) return false;
     if (skip !== 'country' && F.country.size && !F.country.has(r.country)) return false;
     if (skip !== 'maker' && F.maker.size && !F.maker.has(r.maker)) return false;
