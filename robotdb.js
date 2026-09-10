@@ -4,7 +4,7 @@
   var R = D.robotsX || [];
   var CO = D.companies || [];
   function makerCo(r) { return r.makerId ? (CO.find(function (c) { return c.id === r.makerId; }) || null) : null; }
-  function makerCrumb(r) { var mc = makerCo(r); return mc ? '<a href="company-profile.html?id=' + esc(mc.id) + '" style="color:var(--blue);text-decoration:none">' + esc(r.maker) + '</a>' : esc(r.maker); }
+  function makerCrumb(r) { var mc = makerCo(r); return mc ? '<a href="companies.html?id=' + esc(mc.id) + '" style="color:var(--blue);text-decoration:none">' + esc(r.maker) + '</a>' : esc(r.maker); }
   var F = { vertical: new Set(), country: new Set(), maker: new Set(), status: new Set(), band: new Set() };
   var q = '', view = 'cards', SL = { h: null, w: null };
   // Pre-filter from URL, e.g. robots.html?cat=Drones
@@ -122,7 +122,7 @@
       '<div class="mb"><div class="sect"><h4>Overview</h4><p style="font-size:14.5px;color:var(--ink-2)">' + esc(r.summary || 'No description recorded yet.') + '</p></div>' + specHtml(r) + '</div>';
     document.getElementById('mprof').onclick = function () { openProfile(r.slug); };
     document.getElementById('mclose').onclick = closeModal;
-    if (mc) document.getElementById('mcogo').onclick = function () { window.location.href = 'company-profile.html?id=' + mc.id; };
+    if (mc) document.getElementById('mcogo').onclick = function () { window.location.href = 'companies.html?id=' + mc.id; };
     document.getElementById('ov').classList.add('show');
   };
   function closeModal() { document.getElementById('ov').classList.remove('show'); }
@@ -134,13 +134,15 @@
     closeModal();
     var tabs = ['overview'].concat(Object.keys(TABS).filter(function (t) { return t !== 'overview' && ((t === 'context') || (r.tabc && r.tabc[t] && r.tabc[t].length)); }));
     var mc = makerCo(r);
+    document.title = r.name + ' — behindrobotics.com';
+    try { history.replaceState(null, '', 'robots.html?id=' + encodeURIComponent(r.slug)); } catch (e) {}
     document.getElementById('listView').style.display = 'none';
     var pv = document.getElementById('profView'); pv.classList.add('show');
     pv.innerHTML = '<div class="ptop"><div class="back" id="pback">← Back to database</div><h1>' + esc(r.name) + '</h1>' +
       '<div class="crumb">' + makerCrumb(r) + ' · ' + r.flag + ' ' + esc(r.country) + ' · ' + esc(r.status) +
-      (mc ? ' &nbsp;·&nbsp; <a href="company-profile.html?id=' + esc(mc.id) + '" style="color:#8fb6f5">Visit ' + esc(mc.name) + '’s company profile →</a>' : '') + '</div></div>' +
+      (mc ? ' &nbsp;·&nbsp; <a href="companies.html?id=' + esc(mc.id) + '" style="color:#8fb6f5">Visit ' + esc(mc.name) + '’s company profile →</a>' : '') + '</div></div>' +
       '<div class="rtabs" id="ptabs">' + tabs.map(function (t, i) { return '<button data-t="' + t + '"' + (i === 0 ? ' class="on"' : '') + '>' + TABS[t] + '</button>'; }).join('') + '</div><div class="pbody" id="pbody"></div>';
-    document.getElementById('pback').onclick = function () { pv.classList.remove('show'); document.getElementById('listView').style.display = ''; window.scrollTo(0, 0); };
+    document.getElementById('pback').onclick = function () { pv.classList.remove('show'); document.getElementById('listView').style.display = ''; window.scrollTo(0, 0); document.title = 'Robot Database — Companies — behindrobotics.com'; try { history.replaceState(null, '', 'robots.html'); } catch (e) {} };
     document.querySelectorAll('#ptabs button').forEach(function (b) {
       b.onclick = function () { document.querySelectorAll('#ptabs button').forEach(function (x) { x.classList.remove('on'); }); b.classList.add('on'); drawTab(r, b.dataset.t); };
     });
@@ -201,4 +203,12 @@
   if (vc) vc.onclick = function () { view = 'cards'; vc.classList.add('on'); vt.classList.remove('on'); render(); };
   if (vt) vt.onclick = function () { view = 'table'; vt.classList.add('on'); vc.classList.remove('on'); render(); };
   if (R.length) render();
+
+  // Deep-link: robots.html?id=<slug> opens straight to that platform's full tabbed profile.
+  (function () {
+    try {
+      var pid = new URLSearchParams(location.search).get('id');
+      if (pid && R.some(function (x) { return x.slug === pid; })) openProfile(pid);
+    } catch (e) {}
+  })();
 })();

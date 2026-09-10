@@ -119,6 +119,8 @@
   window.openCoProfile = function (id) {
     var r = C.find(function (x) { return x.id === id; }); if (!r) return;
     closeModal();
+    document.title = r.name + ' — behindrobotics.com';
+    try { history.replaceState(null, '', 'companies.html?id=' + encodeURIComponent(r.id)); } catch (e) {}
     var tabs = ['overview'];
     if (r.nRobots || r.nComponents) tabs.push('products');
     if (r.nComponents || (r.suppliers && r.suppliers.length)) tabs.push('supply');
@@ -132,7 +134,7 @@
       '<div class="crumb">' + r.flag + ' ' + esc(r.country) + ' · ' + esc(r.sector || r.vertical) + ' · ' + esc(r.status) + '</div>' +
       (ok(r.website) ? '<a class="btn btn--blue" href="' + esc(r.website) + '" target="_blank" rel="noopener" style="margin-top:14px">Visit website →</a>' : '') + '</div>' +
       '<div class="rtabs" id="ptabs">' + tabs.map(function (t, i) { return '<button data-t="' + t + '"' + (i === 0 ? ' class="on"' : '') + '>' + TABS[t] + '</button>'; }).join('') + '</div><div class="pbody" id="pbody"></div>';
-    document.getElementById('pback').onclick = function () { pv.classList.remove('show'); document.getElementById('listView').style.display = ''; window.scrollTo(0, 0); };
+    document.getElementById('pback').onclick = function () { pv.classList.remove('show'); document.getElementById('listView').style.display = ''; window.scrollTo(0, 0); document.title = 'Company Database — Companies — behindrobotics.com'; try { history.replaceState(null, '', 'companies.html'); } catch (e) {} };
     document.querySelectorAll('#ptabs button').forEach(function (b) { b.onclick = function () { document.querySelectorAll('#ptabs button').forEach(function (x) { x.classList.remove('on'); }); b.classList.add('on'); drawTab(r, b.dataset.t); }; });
     drawTab(r, 'overview'); window.scrollTo(0, 0);
   };
@@ -165,7 +167,7 @@
       var kc = K.filter(function (x) { return x.maker === r.id; });
       if (kc.length) h += '<div class="sect"><h4>Components (' + kc.length + ')</h4><div class="cmp">' + kc.slice(0, 24).map(function (p) {
         var im = p.img ? '<img src="' + esc(p.img) + '" loading="lazy" class="cmpimg" onerror="this.style.display=\'none\'">' : '';
-        return '<div class="cmpc"><a href="component-profile.html?id=' + esc(p.id) + '">' + im + '<div class="n">' + esc(p.name) + '</div><div style="font-size:11.5px;color:var(--ink-3)">' + esc(p.category) + '</div></a></div>'; }).join('') + '</div>' +
+        return '<div class="cmpc"><a href="components.html?id=' + esc(p.id) + '">' + im + '<div class="n">' + esc(p.name) + '</div><div style="font-size:11.5px;color:var(--ink-3)">' + esc(p.category) + '</div></a></div>'; }).join('') + '</div>' +
         (kc.length > 24 ? '<p style="font-size:13px;color:var(--ink-3);margin-top:8px">+' + (kc.length - 24) + ' more</p>' : '') + '</div>';
     } else if (t === 'supply') {
       var kc2 = K.filter(function (x) { return x.maker === r.id; });
@@ -213,7 +215,7 @@
     }
     b.innerHTML = h || '<p style="color:var(--ink-3)">No records yet.</p>';
     b.querySelectorAll('[data-c]').forEach(function (el) { el.onclick = function () { openCoProfile(el.dataset.c); }; });
-    b.querySelectorAll('[data-r]').forEach(function (el) { el.onclick = function () { location.href = 'robot-profile.html?id=' + el.dataset.r; }; });
+    b.querySelectorAll('[data-r]').forEach(function (el) { el.onclick = function () { location.href = 'robots.html?id=' + el.dataset.r; }; });
   }
 
   var qEl = document.getElementById('q'); if (qEl) qEl.oninput = function (e) { q = e.target.value; render(); };
@@ -221,4 +223,13 @@
   if (vc) vc.onclick = function () { view = 'cards'; vc.classList.add('on'); vt.classList.remove('on'); render(); };
   if (vt) vt.onclick = function () { view = 'table'; vt.classList.add('on'); vc.classList.remove('on'); render(); };
   if (C.length) render();
+
+  // Deep-link: companies.html?id=<id> opens straight to that company's full tabbed profile —
+  // this is what makes a shared/bookmarked/emailed link land on the right view instead of the grid.
+  (function () {
+    try {
+      var pid = new URLSearchParams(location.search).get('id');
+      if (pid && C.some(function (x) { return x.id === pid; })) openCoProfile(pid);
+    } catch (e) {}
+  })();
 })();

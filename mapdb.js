@@ -242,7 +242,7 @@
       var mx = top[0].v;
       cards += '<div class="rankcard"><h4>Leading companies — capital raised' + (yearFilter ? ' — ' + yearFilter : '') + '</h4>' + top.map(function (c, i) {
         var co = COMPANIES.find(function (x) { return x.name === c.name; });
-        var nameHtml = co ? '<a href="company-profile.html?id=' + co.id + '">' + esc(c.name) + '</a>' : esc(c.name);
+        var nameHtml = co ? '<a href="companies.html?id=' + co.id + '">' + esc(c.name) + '</a>' : esc(c.name);
         return '<div class="rrow"><span class="rk">' + (i + 1) + '</span><span>' + nameHtml +
           '<div class="bar"><div class="bf" style="width:' + (c.v / mx * 100).toFixed(0) + '%;background:#eab308"></div></div></span><b>' + fmtM(c.v) + '</b></div>';
       }).join('') + '</div>';
