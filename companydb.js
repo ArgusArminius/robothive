@@ -115,6 +115,36 @@
   function closeModal() { document.getElementById('ov').classList.remove('show'); }
   window.closeModal = closeModal;
 
+  // Investor / cap-table data — deliberately small and hand-researched, not derived from any
+  // competitor's compiled dataset (see DATA-GUIDE.md editorial standard). Populated only where
+  // we have a genuine, dated, primary-source fact; every entry names its own source and date so
+  // it reads as a specific disclosure, not a current-state claim. Every other company gets an
+  // honest "not yet researched" state in the same tab — the roadmap for expanding this lives in
+  // claude/investor-research-roadmap.md.
+  var INVESTOR_DATA = {
+    'figure-ai': {
+      asOf: 'Series B, announced Feb 29 2024',
+      round: '$675M Series B',
+      investors: ['Microsoft', 'OpenAI Startup Fund', 'NVIDIA', 'Jeff Bezos (Bezos Expeditions)', 'Intel Capital', 'LG Innotek', 'Samsung', 'Parkway Venture Capital', 'Align Ventures', 'ARK Invest'],
+      note: 'Figure has raised further, larger rounds since (see Funding above); this list reflects only the Feb 2024 Series B, the most recent round with a fully confirmed public investor list.',
+      source: 'Figure AI company announcement, Feb 29 2024'
+    },
+    'boston-dynamics': {
+      asOf: 'Ownership as of the Hyundai acquisition, June 2021',
+      round: 'Majority acquisition',
+      investors: ['Hyundai Motor Group — majority owner (~80%), acquired June 2021', 'SoftBank Group — minority stake (~20%), retained from its 2017 acquisition of Boston Dynamics from Alphabet/Google'],
+      note: 'Boston Dynamics is privately held; ownership is concentrated in these two corporate parents rather than a venture cap table.',
+      source: 'Hyundai Motor Group acquisition announcement, June 2021'
+    },
+    'tesla': {
+      asOf: 'Public company — ownership is continuously disclosed, not a fixed cap table',
+      round: null,
+      investors: ['Elon Musk — the largest single shareholder, and CEO', 'Institutional holders typically led by the large index managers (Vanguard, BlackRock, State Street) common to any S&P 500 constituent'],
+      note: 'As a public company, Tesla’s real-time ownership is best tracked via its SEC filings and live share price, not a static list — see Markets for pricing.',
+      source: 'SEC beneficial-ownership filings (Schedule 13D/G, Form 4)'
+    }
+  };
+
   var TABS = { overview: 'Overview', products: 'Products', supply: 'Supply chain', relations: 'Relations', context: 'Context', capital: 'Capital' };
   window.openCoProfile = function (id) {
     var r = C.find(function (x) { return x.id === id; }); if (!r) return;
@@ -211,6 +241,18 @@
         [['Funding', r.funding], ['Valuation', r.valuation], ['Status', r.status], ['Ticker', r.ticker], ['Employees', r.employees]]
         .filter(function (x) { return ok(x[1]); }).map(function (f) { return '<div class="spec"><div class="k">' + esc(f[0]) + '</div><div class="v">' + esc(f[1]) + '</div></div>'; }).join('') + '</div></div>';
       if (ok(r.ticker)) h += '<div class="sect"><p style="font-size:14px;color:var(--ink-2)">Publicly listed — see <a href="markets.html">Markets</a> for live pricing where covered.</p></div>';
+      var inv = INVESTOR_DATA[r.id];
+      if (inv) {
+        h += '<div class="sect"><h4>Investors' + (inv.round ? ' — ' + esc(inv.round) : '') + '</h4>' +
+          '<p style="font-size:12px;color:var(--ink-3);margin-bottom:10px">' + esc(inv.asOf) + '</p>' +
+          '<div class="rp__chips">' + inv.investors.map(function (name) { return '<span class="rp__chip">' + esc(name) + '</span>'; }).join('') + '</div>' +
+          (inv.note ? '<p style="font-size:13px;color:var(--ink-2);margin-top:12px">' + esc(inv.note) + '</p>' : '') +
+          '<p style="font-size:11.5px;color:var(--ink-3);margin-top:10px">Source: ' + esc(inv.source) + '</p></div>';
+      } else {
+        h += '<div class="sect"><h4>Investors</h4><p style="font-size:13.5px;color:var(--ink-3)">' +
+          'We haven\'t published primary-source investor research for ' + esc(r.name) + ' yet — this is a large undertaking we\'re rolling out gradually across the database rather than guessing. ' +
+          'Check back as we expand coverage, or see our published examples on companies like Figure AI, Boston Dynamics and Tesla.</p></div>';
+      }
       h += '<div class="sect"><p style="font-size:13px;color:var(--ink-3)">Figures as recorded by behindrobotics.com from company announcements, filings and market reporting. Verify before citing.</p></div>';
     }
     b.innerHTML = h || '<p style="color:var(--ink-3)">No records yet.</p>';
