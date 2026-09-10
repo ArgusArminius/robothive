@@ -363,16 +363,21 @@
       zoomAt(e.clientX, e.clientY, Math.pow(1.0016, -e.deltaY));
     }, { passive: false });
 
-    var dragging = false, moved = false, lastX = 0, lastY = 0;
+    var dragging = false, moved = false, captured = false, lastX = 0, lastY = 0, pid = null;
     wrap.addEventListener('pointerdown', function (e) {
       if (e.button !== 0) return;
-      dragging = true; moved = false; lastX = e.clientX; lastY = e.clientY;
-      if (wrap.setPointerCapture) { try { wrap.setPointerCapture(e.pointerId); } catch (err) {} }
+      dragging = true; moved = false; captured = false; lastX = e.clientX; lastY = e.clientY; pid = e.pointerId;
+      // NOTE: pointer capture is intentionally NOT set here. Capturing immediately on every
+      // pointerdown — even a plain click with no movement — retargets the resulting click event
+      // to `wrap` in some browsers, so it never reaches the country node/land element underneath
+      // and openCoProfile-style drill() clicks silently do nothing. Capture is only acquired once
+      // an actual drag is confirmed (see pointermove below), so ordinary clicks pass through untouched.
     });
     wrap.addEventListener('pointermove', function (e) {
       if (!dragging) return;
       var dx = e.clientX - lastX, dy = e.clientY - lastY;
       if (!moved && Math.abs(dx) < 3 && Math.abs(dy) < 3) return;
+      if (!moved && wrap.setPointerCapture) { try { wrap.setPointerCapture(e.pointerId); captured = true; } catch (err) {} }
       moved = true;
       var r = svg.getBoundingClientRect();
       VB.x -= dx * (VB.w / r.width);
@@ -381,12 +386,13 @@
       lastX = e.clientX; lastY = e.clientY;
       wrap.classList.add('panning');
     });
-    function endDrag() {
+    function endDrag(e) {
       if (dragging && moved) {
         var swallow = function (ev) { ev.stopPropagation(); wrap.removeEventListener('click', swallow, true); };
         wrap.addEventListener('click', swallow, true);
       }
-      dragging = false; moved = false;
+      if (captured && wrap.releasePointerCapture) { try { wrap.releasePointerCapture((e && e.pointerId != null) ? e.pointerId : pid); } catch (err) {} }
+      dragging = false; moved = false; captured = false;
       wrap.classList.remove('panning');
     }
     wrap.addEventListener('pointerup', endDrag);
