@@ -174,7 +174,8 @@
       h += specHtml(r);
       if (r.yt) h += '<div class="sect"><h4>Video</h4><iframe width="100%" height="330" style="border-radius:12px;border:1px solid var(--line)" src="' + esc(r.yt) + '" frameborder="0" allowfullscreen></iframe></div>';
     } else if (t === 'context') {
-      h += chart(r, 'h', 'Height', 'cm') + chart(r, 'w', 'Weight', 'kg') + chart(r, 'pay', 'Payload', 'kg') + chart(r, 'dof', 'Degrees of freedom', 'DoF');
+      var isHand = r.vertical === 'Hands & Grippers';
+      h += chart(r, 'h', isHand ? 'Size (hand length)' : 'Height', 'cm') + chart(r, 'w', 'Weight', 'kg') + chart(r, 'pay', isHand ? 'Payload / grip capacity' : 'Payload', 'kg') + chart(r, 'dof', 'Degrees of freedom', 'DoF') + chart(r, 'torque', 'Max joint torque', 'Nm') + chart(r, 'force', 'Grip / fingertip force', 'N');
       var peers = R.filter(function (x) { return x.slug !== r.slug && x.bucket === r.bucket && x.vertical === r.vertical; }).slice(0, 6);
       var same = R.filter(function (x) { return x.slug !== r.slug && x.maker === r.maker; });
       if (peers.length) h += '<div class="sect"><h4>Comparable systems — same status tier</h4><div class="cmp">' + peers.map(function (p) { var ci = p.img ? '<img src="' + esc(p.img) + '" loading="lazy" class="cmpimg" onerror="this.style.display=\'none\'">' : '';
