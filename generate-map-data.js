@@ -42,7 +42,31 @@ var GEO = {};
 (D.map.nodes || []).forEach(function (n) { GEO[n.country] = { lat: n.lat, lng: n.lng, flag: n.flag }; });
 // Manual fallback coordinates for countries not yet present in D.map.nodes (add here, then re-run).
 var FALLBACK_GEO = {
-  'United Arab Emirates': { lat: 23.42, lng: 53.85, flag: '🇦🇪' }
+  'United Arab Emirates': { lat: 23.42, lng: 53.85, flag: '🇦🇪' },
+  'Netherlands': { lat: 52.13, lng: 5.29, flag: '🇳🇱' },
+  'Japan': { lat: 36.20, lng: 138.25, flag: '🇯🇵' },
+  'Ireland': { lat: 53.14, lng: -7.69, flag: '🇮🇪' },
+  'Italy': { lat: 41.87, lng: 12.57, flag: '🇮🇹' },
+  'Switzerland': { lat: 46.82, lng: 8.23, flag: '🇨🇭' },
+  'Sweden': { lat: 60.13, lng: 18.64, flag: '🇸🇪' },
+  'Norway': { lat: 60.47, lng: 8.47, flag: '🇳🇴' },
+  'Denmark': { lat: 56.26, lng: 9.50, flag: '🇩🇰' },
+  'Finland': { lat: 61.92, lng: 25.75, flag: '🇫🇮' },
+  'Australia': { lat: -25.27, lng: 133.78, flag: '🇦🇺' },
+  'Singapore': { lat: 1.35, lng: 103.82, flag: '🇸🇬' },
+  'India': { lat: 20.59, lng: 78.96, flag: '🇮🇳' },
+  'Austria': { lat: 47.52, lng: 14.55, flag: '🇦🇹' },
+  'Belgium': { lat: 50.50, lng: 4.47, flag: '🇧🇪' },
+  'Poland': { lat: 51.92, lng: 19.15, flag: '🇵🇱' },
+  'Estonia': { lat: 58.60, lng: 25.01, flag: '🇪🇪' },
+  'New Zealand': { lat: -40.90, lng: 174.89, flag: '🇳🇿' },
+  'Hong Kong': { lat: 22.32, lng: 114.17, flag: '🇭🇰' },
+  'Luxembourg': { lat: 49.82, lng: 6.13, flag: '🇱🇺' },
+  'Ukraine': { lat: 48.38, lng: 31.17, flag: '🇺🇦' },
+  'Hungary': { lat: 47.16, lng: 19.50, flag: '🇭🇺' },
+  'Nigeria': { lat: 9.08, lng: 8.68, flag: '🇳🇬' },
+  'Thailand': { lat: 15.87, lng: 100.99, flag: '🇹🇭' },
+  'Uruguay': { lat: -32.52, lng: -55.77, flag: '🇺🇾' }
 };
 Object.keys(FALLBACK_GEO).forEach(function (c) { if (!GEO[c]) GEO[c] = FALLBACK_GEO[c]; });
 
