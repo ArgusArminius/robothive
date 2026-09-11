@@ -46,6 +46,19 @@
     return m[2].toLowerCase()[0] === 'b' ? parseFloat(m[1]) * 1000 : parseFloat(m[1]);
   }
 
+  var companyById = {};
+  COMPANIES.forEach(function (c) { companyById[c.id] = c; });
+  function roundVisibility(r) {
+    var co = companyById[r.id];
+    return co ? co.status : null; // 'public' | 'private' | 'ipo-filed' | ... | null if unmatched
+  }
+  function matchesVisibility(status, want) {
+    if (!want) return true;
+    if (want === 'public') return status === 'public';
+    // 'private' bucket also covers pre-public states (ipo-filed etc.) — anything not confirmed public
+    return status !== 'public';
+  }
+
   var roundsAll = ROUNDS.map(function (r) { return Object.assign({}, r, { stage: classifyStage(r.raw) }); });
   var valued = COMPANIES.map(function (c) {
     var v = parseValuationUsdM(c.valuation);
@@ -54,12 +67,13 @@
 
   // ---- filter state, synced to the URL so any view is shareable ----
   var qs = new URLSearchParams(location.search);
-  var state = { vertical: qs.get('vertical') || '', country: qs.get('country') || '', stage: qs.get('stage') || '' };
+  var state = { vertical: qs.get('vertical') || '', country: qs.get('country') || '', stage: qs.get('stage') || '', visibility: qs.get('visibility') || '' };
   function syncUrl() {
     var p = new URLSearchParams();
     if (state.vertical) p.set('vertical', state.vertical);
     if (state.country) p.set('country', state.country);
     if (state.stage) p.set('stage', state.stage);
+    if (state.visibility) p.set('visibility', state.visibility);
     var qstr = p.toString();
     try { history.replaceState(null, '', location.pathname + (qstr ? '?' + qstr : '')); } catch (e) {}
   }
@@ -67,7 +81,8 @@
     return roundsAll.filter(function (r) {
       return (!state.vertical || r.vertical === state.vertical) &&
              (!state.country || r.country === state.country) &&
-             (!state.stage || r.stage === state.stage);
+             (!state.stage || r.stage === state.stage) &&
+             matchesVisibility(roundVisibility(r), state.visibility);
     });
   }
 
@@ -78,16 +93,23 @@
   function renderFilters() {
     var el = mount.querySelector('[data-inv-filters]');
     function opts(list, cur) { return '<option value="">All</option>' + list.map(function (v) { return '<option value="' + esc(v) + '"' + (v === cur ? ' selected' : '') + '>' + esc(v) + '</option>'; }).join(''); }
+    var visBtns = [['', 'All'], ['private', 'Private'], ['public', 'Public']].map(function (v) {
+      return '<button type="button" class="btn ' + (state.visibility === v[0] ? 'btn--active' : 'btn--ghost') + '" data-vis="' + v[0] + '" style="padding:8px 14px;font-size:13px">' + v[1] + '</button>';
+    }).join('');
     el.innerHTML =
       '<label class="select"><span class="cap">Segment</span><select data-f="vertical">' + opts(allVerticals, state.vertical) + '</select></label>' +
       '<label class="select"><span class="cap">Country</span><select data-f="country">' + opts(allCountries, state.country) + '</select></label>' +
       '<label class="select"><span class="cap">Stage</span><select data-f="stage">' + opts(STAGE_ORDER, state.stage) + '</select></label>' +
-      (state.vertical || state.country || state.stage ? '<button class="btn btn--ghost" data-inv-reset style="padding:8px 14px;font-size:13px">Reset filters</button>' : '');
+      '<div class="visgroup" role="group" aria-label="Public or private"><span class="cap" style="display:block;margin-bottom:4px">Visibility</span>' + visBtns + '</div>' +
+      (state.vertical || state.country || state.stage || state.visibility ? '<button class="btn btn--ghost" data-inv-reset style="padding:8px 14px;font-size:13px">Reset filters</button>' : '');
     el.querySelectorAll('select').forEach(function (s) {
       s.onchange = function () { state[s.dataset.f] = s.value; syncUrl(); renderAll(); };
     });
+    el.querySelectorAll('[data-vis]').forEach(function (btn) {
+      btn.onclick = function () { state.visibility = btn.dataset.vis; syncUrl(); renderAll(); };
+    });
     var reset = el.querySelector('[data-inv-reset]');
-    if (reset) reset.onclick = function () { state = { vertical: '', country: '', stage: '' }; syncUrl(); renderAll(); };
+    if (reset) reset.onclick = function () { state = { vertical: '', country: '', stage: '', visibility: '' }; syncUrl(); renderAll(); };
   }
 
   function renderStats() {
@@ -149,6 +171,7 @@
     var pool = valued;
     if (state.vertical) pool = pool.filter(function (c) { return (c.vertical || c.sector) === state.vertical; });
     if (state.country) pool = pool.filter(function (c) { return c.country === state.country; });
+    if (state.visibility) pool = pool.filter(function (c) { return matchesVisibility(c.status, state.visibility); });
     pool = pool.slice().sort(function (a, b) { return b.valUsdM - a.valUsdM; });
     var max = pool.length ? pool[0].valUsdM : 1;
     var html = pool.slice(0, 60).map(function (c) {

@@ -40,6 +40,11 @@ function countriesOf(c) {
 // Preserve existing geo constants (lat/lng/flag) keyed by country name.
 var GEO = {};
 (D.map.nodes || []).forEach(function (n) { GEO[n.country] = { lat: n.lat, lng: n.lng, flag: n.flag }; });
+// Manual fallback coordinates for countries not yet present in D.map.nodes (add here, then re-run).
+var FALLBACK_GEO = {
+  'United Arab Emirates': { lat: 23.42, lng: 53.85, flag: '🇦🇪' }
+};
+Object.keys(FALLBACK_GEO).forEach(function (c) { if (!GEO[c]) GEO[c] = FALLBACK_GEO[c]; });
 
 var agg = {}; // country -> { companies:[], robots:[], components:[], events:[], regulations:[] }
 function bucket(country) {
