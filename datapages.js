@@ -177,6 +177,12 @@
     var c = company(qs('id') || 'figure-ai');
     if (!c) { mount.innerHTML = '<div class="wrap section">Company not found. <a class="link" href="companies.html">All companies →</a></div>'; return; }
     document.title = c.name + ' — behindrobotics.com';
+    try {
+      var descTxt = (c.name + ' — ' + (c.sector || c.vertical || 'robotics') + ' company' + (c.hq ? ' based in ' + c.hq : '') + '. ' + (c.summary || '')).slice(0, 300);
+      var dTag = document.querySelector('meta[name="description"]'); if (dTag) dTag.setAttribute('content', descTxt);
+      var ogT = document.querySelector('meta[property="og:title"]'); if (ogT) ogT.setAttribute('content', c.name + ' — behindrobotics.com');
+      var ogD = document.querySelector('meta[property="og:description"]'); if (ogD) ogD.setAttribute('content', descTxt);
+    } catch (e) {}
 
     // robots made by this company (robotsX is the current, complete robot dataset — matched via makerId)
     var madeRobots = (D.robotsX || []).filter(function (r) { return r.makerId === c.id; });
@@ -325,6 +331,120 @@
         return '<div style="margin-bottom:14px"><div style="font-weight:600;font-size:14px;margin-bottom:4px">' + p.title + '</div>' +
           '<div style="font-size:13.5px;color:var(--ink-2);line-height:1.55">' + p.body + '</div></div>';
       }).join('') + '</div>';
+  }
+
+  // -------- SUPPLY CHAIN MAP (Phase 1 — country level) ---------------------
+  var scState = { category: '', country: null };
+  function renderSupplyMap() {
+    var mount = document.querySelector('[data-rh="supply-map"]');
+    if (!mount) return;
+    var LAND = window.RH_LAND || [];
+    if (!LAND.length) { mount.innerHTML = ''; return; }
+    var nodeByCountry = {};
+    (D.map && D.map.nodes || []).forEach(function (n) { nodeByCountry[n.country] = n; });
+    function px(lng) { return (lng + 180) / 360 * 1000; }
+    function py(lat) { return (90 - lat) / 180 * 500; }
+
+    var allSuppliers = D.companies.filter(function (c) { return c.type === 'supplier' || c.type === 'both'; });
+    var compById = {}; D.components.forEach(function (k) { compById[k.id] = k; });
+    // The reliable link is component.maker -> company id (populated for every component);
+    // company.components is a sparser reverse array (only ~6% of suppliers have it), so build
+    // the maker->components index from the components list itself rather than relying on it.
+    var compsByMaker = {};
+    D.components.forEach(function (k) {
+      if (!k.maker) return;
+      (compsByMaker[k.maker] = compsByMaker[k.maker] || []).push(k);
+    });
+    function componentsOf(c) {
+      var out = (compsByMaker[c.id] || []).slice();
+      (c.components || []).forEach(function (cid) {
+        var k = compById[cid];
+        if (k && out.indexOf(k) === -1) out.push(k);
+      });
+      return out;
+    }
+    var categories = {};
+    D.components.forEach(function (k) { if (k.category) categories[k.category] = (categories[k.category] || 0) + 1; });
+    var catList = Object.keys(categories).sort(function (a, b) { return categories[b] - categories[a]; });
+
+    function supplierMatchesCategory(c) {
+      if (!scState.category) return true;
+      return componentsOf(c).some(function (k) { return k.category === scState.category; });
+    }
+
+    function suppliesToNames(c) {
+      var out = (c.supplies_to || []).map(function (id) { var t = company(id); return t ? t.name : null; }).filter(Boolean);
+      if (!out.length) {
+        out = (D.relations || []).filter(function (e) { return e.from === c.id && e.type === 'supplier'; })
+          .map(function (e) { var t = company(e.to); return t ? t.name : e.to; });
+      }
+      return out;
+    }
+
+    function renderPanel() {
+      if (!scState.country) {
+        return '<h5>Select a country</h5><p class="scmap-empty">Click a bubble on the map to see the suppliers based there' +
+          (scState.category ? ' making ' + esc(scState.category) + ' components' : '') +
+          ', the components they make, and who they supply.</p>';
+      }
+      var rows = allSuppliers.filter(supplierMatchesCategory).filter(function (c) { return c.country === scState.country; });
+      var n = nodeByCountry[scState.country];
+      var flag = (rows[0] && rows[0].flag) || (n ? n.flag : '');
+      return '<h5>' + esc(flag) + ' ' + esc(scState.country) + ' — ' + rows.length + ' supplier' + (rows.length === 1 ? '' : 's') + '</h5>' +
+        rows.map(function (c) {
+          var comps = componentsOf(c);
+          if (scState.category) comps = comps.filter(function (k) { return k.category === scState.category; });
+          var compNames = comps.map(function (k) { return k.name; });
+          var suppliesTo = suppliesToNames(c);
+          return '<div class="scmap-sup"><b><a class="a" href="companies.html?id=' + esc(c.id) + '">' + esc(c.name) + '</a></b>' +
+            (compNames.length ? '<div class="scmap-meta">Makes: ' + compNames.slice(0, 4).map(esc).join(', ') + (compNames.length > 4 ? ' +' + (compNames.length - 4) + ' more' : '') + '</div>' : '') +
+            (suppliesTo.length ? '<div class="scmap-meta">Supplies: ' + suppliesTo.slice(0, 4).map(esc).join(', ') + (suppliesTo.length > 4 ? ' +' + (suppliesTo.length - 4) + ' more' : '') + '</div>' : '') +
+            '</div>';
+        }).join('') +
+        '<div style="margin-top:10px"><a class="link" style="font-size:12px" href="companies.html?country=' + encodeURIComponent(scState.country) + '">View in Companies database →</a></div>';
+    }
+
+    function draw() {
+      var rows = allSuppliers.filter(supplierMatchesCategory);
+      var byCountry = {};
+      rows.forEach(function (c) {
+        var n = nodeByCountry[c.country];
+        if (!n) return;
+        byCountry[c.country] = byCountry[c.country] || { country: c.country, lat: n.lat, lng: n.lng, n: 0 };
+        byCountry[c.country].n++;
+      });
+      var list = Object.keys(byCountry).map(function (k) { return byCountry[k]; });
+      var max = list.reduce(function (m, x) { return x.n > m ? x.n : m; }, 1);
+      var landSvg = LAND.map(function (c) { return '<path class="scmap-land" d="' + c.d + '"><title>' + esc(c.n) + '</title></path>'; }).join('');
+      var bubSvg = list.map(function (x) {
+        var r = 5 + Math.sqrt(x.n / max) * 30;
+        var cx = px(x.lng), cy = py(x.lat);
+        var on = scState.country === x.country ? ' on' : '';
+        return '<g data-country="' + esc(x.country) + '" style="cursor:pointer"><circle class="scmap-bub' + on + '" cx="' + cx.toFixed(1) + '" cy="' + cy.toFixed(1) + '" r="' + r.toFixed(1) + '"><title>' + esc(x.country) + ' — ' + x.n + ' supplier' + (x.n > 1 ? 's' : '') + '</title></circle>' +
+          (r > 11 ? '<text class="scmap-txt" x="' + cx.toFixed(1) + '" y="' + (cy + 3).toFixed(1) + '">' + x.n + '</text>' : '') + '</g>';
+      }).join('');
+
+      var catOpts = '<option value="">All categories (' + allSuppliers.length + ' suppliers)</option>' +
+        catList.map(function (k) { return '<option value="' + esc(k) + '"' + (scState.category === k ? ' selected' : '') + '>' + esc(k) + ' (' + categories[k] + ')</option>'; }).join('');
+
+      mount.innerHTML =
+        '<div class="card scmap-card">' +
+        '<h4>Supply chain map — where the suppliers are</h4>' +
+        '<p class="scmap-card__sub">Country-level view of ' + rows.length + ' supplier' + (rows.length === 1 ? '' : 's') +
+        (scState.category ? ' making ' + esc(scState.category) + ' components' : ' across all component categories') +
+        '. Bubble size = supplier count in view. Click a country for the detail — city-level pins are next, pending a geocoding pass (~31% of suppliers have a usable HQ city today).</p>' +
+        '<div class="scmap-controls"><select id="scCat">' + catOpts + '</select></div>' +
+        '<div class="scmap-body"><div class="scmap-wrap"><svg class="scmap-svg" viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg"><g>' + landSvg + '</g><g>' + bubSvg + '</g></svg></div>' +
+        '<div class="scmap-panel" id="scPanel">' + renderPanel() + '</div></div>' +
+        '</div>';
+
+      mount.querySelector('#scCat').onchange = function (e) { scState.category = e.target.value; scState.country = null; draw(); };
+      mount.querySelectorAll('[data-country]').forEach(function (g) {
+        g.onclick = function () { scState.country = g.getAttribute('data-country'); draw(); };
+      });
+    }
+
+    draw();
   }
 
   // -------- homepage counters ---------------------------------------------
@@ -760,7 +880,7 @@
 
   function run() {
     renderCompanies(); renderProfile(); renderRobots();
-    renderSuppliers(); renderComponents(); renderSupplyContext(); renderCounts();
+    renderSuppliers(); renderComponents(); renderSupplyContext(); renderSupplyMap(); renderCounts();
     renderHomeEvents();
     renderInvestTotal();
     renderRegulation();

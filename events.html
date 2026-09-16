@@ -1,12 +1,13 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Events Calendar — Companies — behindrobotics.com</title>
-<meta name="description" content="A tracked database of robotics and embodied-AI companies - builders and suppliers, with founders, funding and supply-chain links.">
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Events Calendar — behindrobotics.com</title>
+<meta name="description" content="A tracked calendar of robotics, drone and embodied-AI industry events — expos, conferences and competitions, worldwide.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="behindrobotics.com">
-<meta property="og:title" content="Companies — behindrobotics.com">
-<meta property="og:description" content="A tracked database of robotics and embodied-AI companies - builders and suppliers, with founders, funding and supply-chain links.">
+<meta property="og:title" content="Events Calendar — behindrobotics.com">
+<meta property="og:description" content="A tracked calendar of robotics, drone and embodied-AI industry events — expos, conferences and competitions, worldwide.">
 <meta property="og:image" content="https://behindrobotics.com/og-cover.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://behindrobotics.com/og-cover.png">
+<link rel="canonical" href="https://behindrobotics.com/events.html"><meta property="og:url" content="https://behindrobotics.com/events.html">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"><style>/* ==========================================================================
    behindrobotics.com — shared styles.  Palette: black / grey / white / blue.
@@ -664,6 +665,27 @@ a.rp__chip:hover{border-color:var(--blue);color:var(--blue)}
     document.getElementById('ev-pop').style.display='flex';
   }
   drawFilters();draw();
+
+  // JSON-LD structured data for search engines (Event rich results)
+  try {
+    var ld = events.map(function(e){
+      return {
+        '@type':'Event',
+        'name':e.name,
+        'startDate':e.start,
+        'endDate':e.end||e.start,
+        'eventAttendanceMode':'https://schema.org/OfflineEventAttendanceMode',
+        'eventStatus':'https://schema.org/EventScheduled',
+        'location':{'@type':'Place','name':e.venue||e.city,'address':{'@type':'PostalAddress','addressLocality':e.city,'addressCountry':e.country}},
+        'url':e.url||('https://behindrobotics.com/events.html'),
+        'description':e.summary||''
+      };
+    });
+    var script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.text = JSON.stringify({'@context':'https://schema.org','@graph':ld});
+    document.head.appendChild(script);
+  } catch(err) {}
 })();
 </script>
 </body></html>

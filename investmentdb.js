@@ -93,20 +93,17 @@
   function renderFilters() {
     var el = mount.querySelector('[data-inv-filters]');
     function opts(list, cur) { return '<option value="">All</option>' + list.map(function (v) { return '<option value="' + esc(v) + '"' + (v === cur ? ' selected' : '') + '>' + esc(v) + '</option>'; }).join(''); }
-    var visBtns = [['', 'All'], ['private', 'Private'], ['public', 'Public']].map(function (v) {
-      return '<button type="button" class="btn ' + (state.visibility === v[0] ? 'btn--active' : 'btn--ghost') + '" data-vis="' + v[0] + '" style="padding:8px 14px;font-size:13px">' + v[1] + '</button>';
-    }).join('');
+    var coParams = new URLSearchParams();
+    if (state.vertical) coParams.set('vertical', state.vertical);
+    if (state.country) coParams.set('country', state.country);
     el.innerHTML =
       '<label class="select"><span class="cap">Segment</span><select data-f="vertical">' + opts(allVerticals, state.vertical) + '</select></label>' +
       '<label class="select"><span class="cap">Country</span><select data-f="country">' + opts(allCountries, state.country) + '</select></label>' +
       '<label class="select"><span class="cap">Stage</span><select data-f="stage">' + opts(STAGE_ORDER, state.stage) + '</select></label>' +
-      '<div class="visgroup" role="group" aria-label="Public or private"><span class="cap" style="display:block;margin-bottom:4px">Visibility</span>' + visBtns + '</div>' +
-      (state.vertical || state.country || state.stage || state.visibility ? '<button class="btn btn--ghost" data-inv-reset style="padding:8px 14px;font-size:13px">Reset filters</button>' : '');
+      (state.vertical || state.country || state.stage || state.visibility ? '<button class="btn btn--ghost" data-inv-reset style="padding:8px 14px;font-size:13px">Reset filters</button>' : '') +
+      '<a class="btn btn--ghost" href="companies.html' + (coParams.toString() ? '?' + coParams.toString() : '') + '" style="padding:8px 14px;font-size:13px;margin-left:auto">View these companies in the database →</a>';
     el.querySelectorAll('select').forEach(function (s) {
       s.onchange = function () { state[s.dataset.f] = s.value; syncUrl(); renderAll(); };
-    });
-    el.querySelectorAll('[data-vis]').forEach(function (btn) {
-      btn.onclick = function () { state.visibility = btn.dataset.vis; syncUrl(); renderAll(); };
     });
     var reset = el.querySelector('[data-inv-reset]');
     if (reset) reset.onclick = function () { state = { vertical: '', country: '', stage: '', visibility: '' }; syncUrl(); renderAll(); };
@@ -182,11 +179,66 @@
         '<span class="heattile__n">' + esc(c.name) + '</span><span class="heattile__v">' + fmtM(c.valUsdM) + '</span>' +
         (isPub ? '<span class="heattile__tag">PUBLIC</span>' : '') + '</a>';
     }).join('');
+    var tabs = [['', 'All'], ['private', 'Private'], ['public', 'Public']].map(function (v) {
+      return '<button type="button" class="' + (state.visibility === v[0] ? 'on' : '') + '" data-vis="' + v[0] + '">' + v[1] + '</button>';
+    }).join('');
     mount.querySelector('[data-inv-heatmap]').innerHTML =
-      '<div class="invcard"><h4>Valuation heatmap — public &amp; private</h4>' +
+      '<div class="invcard"><div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px"><h4 style="margin:0">Valuation heatmap — public &amp; private</h4><div class="invtabs" role="group" aria-label="Public or private">' + tabs + '</div></div>' +
       '<p class="invcard__sub">Tile size = disclosed valuation or market cap. ' + pool.length + ' of ' + COMPANIES.length + ' tracked companies have a usable disclosed figure on file — most private companies don’t publish one, so this is a partial picture, not a full market map. ' +
       '<a href="markets.html" style="color:var(--blue)">See live public-market tickers →</a></p>' +
       (pool.length ? '<div class="heatgrid">' + html + '</div>' : '<p style="color:var(--ink-3);padding:20px 0">No valued companies match the current filters.</p>') +
+      '</div>';
+    mount.querySelectorAll('[data-inv-heatmap] [data-vis]').forEach(function (btn) {
+      btn.onclick = function () { state.visibility = btn.dataset.vis; syncUrl(); renderAll(); };
+    });
+  }
+
+  function renderIndustryChart() {
+    var rows = filteredRounds();
+    var by = {};
+    rows.forEach(function (r) {
+      var co = companyById[r.id];
+      var hubs = (co && co.hubs && co.hubs.length) ? co.hubs : ['Unclassified'];
+      hubs.forEach(function (h) { by[h] = by[h] || { k: h, n: 0, v: 0 }; by[h].n++; by[h].v += r.usdM; });
+    });
+    var items = Object.keys(by).map(function (k) { return by[k]; }).sort(function (a, b) { return b.v - a.v; });
+    var HUB_COLOR = { Civil: '#1f6feb', Agriculture: '#059669', Defense: '#d97706', Unclassified: '#94a3b8' };
+    mount.querySelector('[data-inv-industry]').innerHTML = items.length
+      ? barBlock('Funding by industry hub', 'Disclosed capital by the company\'s industry hub(s) — Civil, Agriculture, Defense. A company tagged with more than one hub counts in each; totals may exceed the sector chart above.', items, function (k) { return HUB_COLOR[k] || '#94a3b8'; }, false)
+      : '<div class="invcard"><h4>Funding by industry hub</h4><p class="invcard__sub">No rounds match the current filters.</p></div>';
+  }
+
+  // ---- embedded capital map (reuses mapdb.js's projection + landmass data, filtered to the
+  // current page state so it stays wired to the same visibility/segment/country/stage tabs) ----
+  var LAND = window.RH_LAND || [];
+  var nodeByCountry = {};
+  (D.map && D.map.nodes || []).forEach(function (n) { nodeByCountry[n.country] = n; });
+  function px(lng) { return (lng + 180) / 360 * 1000; }
+  function py(lat) { return (90 - lat) / 180 * 500; }
+  function renderCapitalMap() {
+    var rows = filteredRounds();
+    var byCountry = {};
+    rows.forEach(function (r) {
+      var n = nodeByCountry[r.country];
+      if (!n) return;
+      byCountry[r.country] = byCountry[r.country] || { country: r.country, v: 0, lat: n.lat, lng: n.lng };
+      byCountry[r.country].v += r.usdM;
+    });
+    var list = Object.keys(byCountry).map(function (k) { return byCountry[k]; });
+    var max = list.reduce(function (m, x) { return x.v > m ? x.v : m; }, 1);
+    var landSvg = LAND.map(function (c) { return '<path class="invmap-land" d="' + c.d + '"><title>' + esc(c.n) + '</title></path>'; }).join('');
+    var bubSvg = list.map(function (x) {
+      var r = 5 + Math.sqrt(x.v / max) * 34;
+      var cx = px(x.lng), cy = py(x.lat);
+      return '<a href="map.html?country=' + encodeURIComponent(x.country) + '"><circle class="invmap-bub" cx="' + cx.toFixed(1) + '" cy="' + cy.toFixed(1) + '" r="' + r.toFixed(1) + '"><title>' + esc(x.country) + ' — ' + fmtM(x.v) + ' in view</title></circle>' +
+        (r > 12 ? '<text class="invmap-txt" x="' + cx.toFixed(1) + '" y="' + (cy + 3).toFixed(1) + '">' + fmtM(x.v) + '</text>' : '') + '</a>';
+    }).join('');
+    mount.querySelector('[data-inv-map]').innerHTML =
+      '<div class="invcard"><h4>Capital raised, by country — filtered to the view above</h4>' +
+      '<p class="invcard__sub">Bubble size = disclosed capital in the currently filtered view. Click a country to open the full database map. <a href="map.html" style="color:var(--blue)">Open the full map →</a></p>' +
+      (list.length
+        ? '<div class="invmap-wrap"><svg class="invmap-svg" viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg"><g>' + landSvg + '</g><g>' + bubSvg + '</g></svg></div>'
+        : '<p style="color:var(--ink-3);padding:20px 0">No rounds with a mapped country match the current filters.</p>') +
       '</div>';
   }
 
@@ -224,7 +276,9 @@
     renderStats();
     renderStageChart();
     renderSectorChart();
+    renderIndustryChart();
     renderHeatmap();
+    renderCapitalMap();
     renderGeo();
     renderTopRounds();
   }

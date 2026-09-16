@@ -24,6 +24,12 @@
   }
   function filtered() { return C.filter(function (r) { return matches(r); }); }
   function uniq(k) { var m = {}; C.forEach(function (r) { if (r[k]) m[r[k]] = (m[r[k]] || 0) + 1; }); return Object.keys(m).sort(function (a, b) { return m[b] - m[a]; }); }
+  function syncFilterUrl() {
+    var p = new URLSearchParams();
+    ['vertical','country','type','status','hub'].forEach(function (k) { if (F[k].size) p.set(k, Array.from(F[k]).join(',')); });
+    var qstr = p.toString();
+    try { history.replaceState(null, '', location.pathname + (qstr ? '?' + qstr : '')); } catch (e) {}
+  }
 
   function buildSide() {
     function facet(title, key, vals, open) {
@@ -47,16 +53,25 @@
       facet('Status', 'status', uniq('status').slice(0, 10), false) +
       facet('Country', 'country', uniq('country'), false);
     document.querySelectorAll('.facet .ft').forEach(function (f) { f.onclick = function () { f.parentNode.classList.toggle('open'); }; });
-    document.querySelectorAll('.opt input').forEach(function (i) { i.onchange = function () { var k = i.dataset.k, v = i.dataset.v; if (i.checked) F[k].add(v); else F[k].delete(v); render(); }; });
-    document.getElementById('clr').onclick = function () { F = { vertical: new Set(), country: new Set(), type: new Set(), status: new Set(), hub: new Set(), tier: new Set() }; q = ''; var e = document.getElementById('q'); if (e) e.value = ''; render(); };
+    document.querySelectorAll('.opt input').forEach(function (i) { i.onchange = function () { var k = i.dataset.k, v = i.dataset.v; if (i.checked) F[k].add(v); else F[k].delete(v); syncFilterUrl(); render(); }; });
+    document.getElementById('clr').onclick = function () { F = { vertical: new Set(), country: new Set(), type: new Set(), status: new Set(), hub: new Set(), tier: new Set() }; q = ''; var e = document.getElementById('q'); if (e) e.value = ''; syncFilterUrl(); render(); };
   }
 
   function render() {
     var rows = filtered(), ch = [];
     ['hub','vertical','type','tier','status','country'].forEach(function (k) { F[k].forEach(function (v) { ch.push('<span class="rchip" data-k="' + k + '" data-v="' + esc(v) + '">' + esc(v) + ' ×</span>'); }); });
     document.getElementById('chips').innerHTML = ch.join('');
-    document.querySelectorAll('.rchip').forEach(function (c2) { c2.onclick = function () { F[c2.dataset.k].delete(c2.dataset.v); render(); }; });
+    document.querySelectorAll('.rchip').forEach(function (c2) { c2.onclick = function () { F[c2.dataset.k].delete(c2.dataset.v); syncFilterUrl(); render(); }; });
     document.getElementById('cnt').textContent = rows.length + ' of ' + C.length + ' companies';
+    var invEl = document.getElementById('invlink');
+    if (invEl) {
+      if (F.vertical.size || F.country.size) {
+        var ip = new URLSearchParams();
+        if (F.vertical.size) ip.set('vertical', Array.from(F.vertical)[0]);
+        if (F.country.size) ip.set('country', Array.from(F.country)[0]);
+        invEl.innerHTML = '<a class="link" href="investment.html?' + ip.toString() + '" style="font-size:12.5px">View funding for this filter in Investment Monitor →</a>';
+      } else { invEl.innerHTML = ''; }
+    }
     var el = document.getElementById('results');
     if (view === 'cards') {
       el.className = 'cgrid';
@@ -151,6 +166,12 @@
     closeModal();
     document.title = r.name + ' — behindrobotics.com';
     try { history.replaceState(null, '', 'companies.html?id=' + encodeURIComponent(r.id)); } catch (e) {}
+    try {
+      var descTxt = (r.name + ' — ' + (r.sector || r.vertical || 'robotics') + ' company' + (r.country ? ' based in ' + r.country : '') + '. ' + (r.summary || '')).slice(0, 300);
+      var dTag = document.querySelector('meta[name="description"]'); if (dTag) dTag.setAttribute('content', descTxt);
+      var ogT = document.querySelector('meta[property="og:title"]'); if (ogT) ogT.setAttribute('content', r.name + ' — behindrobotics.com');
+      var ogD = document.querySelector('meta[property="og:description"]'); if (ogD) ogD.setAttribute('content', descTxt);
+    } catch (e) {}
     var tabs = ['overview'];
     if (r.nRobots || r.nComponents) tabs.push('products');
     if (r.nComponents || (r.suppliers && r.suppliers.length)) tabs.push('supply');
@@ -164,7 +185,14 @@
       '<div class="crumb">' + r.flag + ' ' + esc(r.country) + ' · ' + esc(r.sector || r.vertical) + ' · ' + esc(r.status) + '</div>' +
       (ok(r.website) ? '<a class="btn btn--blue" href="' + esc(r.website) + '" target="_blank" rel="noopener" style="margin-top:14px">Visit website →</a>' : '') + '</div>' +
       '<div class="rtabs" id="ptabs">' + tabs.map(function (t, i) { return '<button data-t="' + t + '"' + (i === 0 ? ' class="on"' : '') + '>' + TABS[t] + '</button>'; }).join('') + '</div><div class="pbody" id="pbody"></div>';
-    document.getElementById('pback').onclick = function () { pv.classList.remove('show'); document.getElementById('listView').style.display = ''; window.scrollTo(0, 0); document.title = 'Company Database — Companies — behindrobotics.com'; try { history.replaceState(null, '', 'companies.html'); } catch (e) {} };
+    document.getElementById('pback').onclick = function () { pv.classList.remove('show'); document.getElementById('listView').style.display = ''; window.scrollTo(0, 0); document.title = 'Company Database — behindrobotics.com'; try { history.replaceState(null, '', 'companies.html'); } catch (e) {}
+      try {
+        var d0 = 'A tracked database of robotics and embodied-AI companies - builders and suppliers, with founders, funding and supply-chain links.';
+        var dTag2 = document.querySelector('meta[name="description"]'); if (dTag2) dTag2.setAttribute('content', d0);
+        var ogT2 = document.querySelector('meta[property="og:title"]'); if (ogT2) ogT2.setAttribute('content', 'Company Database — behindrobotics.com');
+        var ogD2 = document.querySelector('meta[property="og:description"]'); if (ogD2) ogD2.setAttribute('content', d0);
+      } catch (e) {}
+    };
     document.querySelectorAll('#ptabs button').forEach(function (b) { b.onclick = function () { document.querySelectorAll('#ptabs button').forEach(function (x) { x.classList.remove('on'); }); b.classList.add('on'); drawTab(r, b.dataset.t); }; });
     drawTab(r, 'overview'); window.scrollTo(0, 0);
   };
